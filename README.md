@@ -27,9 +27,9 @@ Each **controller** is a Arduino Uno powered by 9v DC adapter connected to a wal
  - Sending out commands to its units
 
 Each **unit** is a Arduino Nano and a RGB LED with appropriate resistors powered by a 9v battery. It is responsible for three things:
- - Recieve serial commands from the previous Arduino 
+ - Recieve serial commands from the previous unit (or controller)
  - Parse the commands
- - Transmit the command to the next Arduino
+ - Transmit the command to the next unit
 
 
 ### Commands and Macros
