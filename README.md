@@ -96,6 +96,8 @@ The regex is read by the individual arduino and match their own id to the
 regex. If it matches, it means they are selected and they will execute the 
 command. 
 
+This implementation of regex uses the lua regex standard. Specification found [here](http://www.gammon.com.au/scripts/doc.php?lua=string.find)
+
 The mathematical equations are hard-coded boolean equations which will be told 
 to run with certain parameters and if it equals the id of the arduino, it will 
 be selected. These are a lot less flexible and are essentially included to 
@@ -103,9 +105,10 @@ allow for curves and circles without massive regexs.
 
 **Example:**
 
-> `/([ACEGI][\d][02468]|[BDFHJ][\d][13579])/` will select alternating lights in a checkers-style pattern.
+> `/([ACEGI][%d][02468]|[BDFHJ][%d][13579])/` will select alternating lights in a checkers-style pattern.
+// NOTE: it seems the lua regex library doens't allow for OR-operators. 
 
->`/((E|F)\d{2}|\w(09|10))/` will select a two-pixel-line-width cross in the middle 
+>`/((E|F)%d{2}|%w(09|10))/` will select a two-pixel-line-width cross in the middle 
 
 >`sin180` will use the column as a x value as degrees in a circle proportional to the number of columns with an offset of 180 degrees, matching lights in a sine wave. 
 // TODO: not yet implemented
