@@ -63,3 +63,14 @@ void doCommand() {
       break;
   }
 }
+
+Command stringToCommand(String string_to_convert) {
+  string_to_convert.toUpperCase();
+  if(string_to_convert == "NULL_COMMAND") {return NULL_COMMAND;}
+  if(string_to_convert == "STOP") {return STOP;}
+  if(string_to_convert == "SETCOLOR") {return SETCOLOR;}
+  if(string_to_convert == "SETBRIGHTNESS") {return SETBRIGHTNESS;}
+  if(string_to_convert == "BLINK") {return BLINK;}
+
+  return NULL_COMMAND;
+}
