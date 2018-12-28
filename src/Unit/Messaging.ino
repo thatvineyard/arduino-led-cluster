@@ -11,12 +11,17 @@
 
 #define MAX_PARAMETERS 10
 
-// Global parameters used to collect a regex selector and command parameters.
+// Parameters used to collect the message.
 String selector = "";
 String command = "";
 String parameters[MAX_PARAMETERS];
 int parameter_index = 0;
 
+// Parsed message
+bool selector_match = false;
+Command parsed_command = NULL_COMMAND;
+
+// State handlers
 MessageState message_state;
 MatchState match_state;
 
@@ -30,7 +35,9 @@ void parseMessage() {
     Serial.println("Matching on selector");
     Serial.println(selector);
 
-    char res = match_state.Match(const_cast<char*>(selector.c_str()), 0);
+    parseSelector();
+
+
 
     if (res > 0) {
       String parameter_list = "";
@@ -56,8 +63,8 @@ void parseMessage() {
   }
 }
 
-void parseSelector() {
-
+bool parseSelector() {
+    char res = match_state.Match(const_cast<char*>(selector.c_str()), 0);
 }
 
 void parseCommand() {
@@ -117,11 +124,13 @@ void readSerial() {
 void parseChar(char inChar) {
 
   // Whenever we see a '>' we reset, otherwise we check the state 
-  // and act accordingly.
+  // and then look at the character and either record into the right
+  // spot or change state.
   if (inChar == DELIM_MESSAGE_START) {
     message_state = START;
     reset();
   } else {
+
     switch(message_state) {
       case NO_MESSAGE:
       break;
