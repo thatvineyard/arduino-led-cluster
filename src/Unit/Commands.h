@@ -15,14 +15,17 @@ void initCommand();
 void doCommand();
 
 
-namespace setColor
-{
+namespace setColor {
     void init(int red_value, int green_value, int blue_value); 
     void tick();
 } // setColor
 
-namespace blink
-{
+namespace setBrightness {
+    void tick() {}
+    void init(int brightness_value);
+} // setBrightness
+
+namespace blink {
     void init(int red_value, int green_value, int blue_value, int blink_delay); 
     void tick();
 } // blink

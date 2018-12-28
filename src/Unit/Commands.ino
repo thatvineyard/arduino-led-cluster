@@ -50,6 +50,9 @@ void doCommand() {
     case SETCOLOR:
       setColor::tick();
     break;
+    case SETBRIGHTNESS:
+      setBrightness::tick();
+    break;
     case BLINK:
       blink::tick();
       break;
