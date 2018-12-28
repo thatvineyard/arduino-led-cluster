@@ -5,6 +5,7 @@ enum Command {
     NULL_COMMAND = -1, 
     STOP,
     SETCOLOR,
+    SETBRIGHTNESS,
     BLINK
 };
 
@@ -21,8 +22,8 @@ namespace setColor {
 } // setColor
 
 namespace setBrightness {
-    void tick() {}
     void init(int brightness_value);
+    void tick();
 } // setBrightness
 
 namespace blink {

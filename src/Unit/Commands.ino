@@ -33,6 +33,9 @@ void initCommand() {
     case SETCOLOR:
       setColor::init(255, 255, 255);
     break;
+    case SETBRIGHTNESS:
+      setBrightness::init(255);
+    break;
     case BLINK:
       blink::init(255, 255, 255, 1000);
       break;
