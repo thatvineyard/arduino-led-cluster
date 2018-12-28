@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Regexp.h>
-#include "LedControl/LedControl.cpp"
-// For some reason including the .h file didn't work. I have to look into this.
+#include "Messaging.h"
+
 
 // Global parameters used to collect a regex selector and command parameters.
 String selector = "";
@@ -9,51 +9,10 @@ bool selectorRead = false;
 String parameters = "";
 bool parametersRead = false;
 
-// Identification
-String id = "A01";
-
-// Commands
-String currentCommand = "";
-int currentCommandId = -1;
-bool newCommand = false;
-
 MatchState match_state;
 
-void setup() {
-  match_state.Target(const_cast<char*>(id.c_str()));
-  // Open serial connection at 9600 Bd.
-  Serial.begin(9600);
-
-  pinMode(LED_BUILTIN, OUTPUT);
-}
-
-void loop() {
-  parseMessage();
-  if (newCommand) {
-    initCommand();
-    newCommand = false;
-  }
-  doCommand();
-}
-
-void initCommand() {
-  switch (currentCommandId) {
-    case 1:
-      init_blink();
-      break;
-    default:
-      break;
-  }
-}
-
-void doCommand() {
-  switch (currentCommandId) {
-    case 1:
-      blink();
-      break;
-    default:
-      break;
-  }
+void setRegexp(String newRegexp) {
+    match_state.Target(const_cast<char*>(newRegexp.c_str()));
 }
 
 // MESSAGE PARSING
@@ -65,11 +24,11 @@ void parseMessage() {
     char res = match_state.Match(const_cast<char*>(selector.c_str()), 0);
     if (res > 0) {
       Serial.println("Should execute command: " + parameters);
-      currentCommand = parameters;
-      if (currentCommand == "blink") {
-        currentCommandId = 1;
-      }
-      newCommand = true;
+      // currentCommand = parameters;
+      // if (currentCommand == "blink") {
+      //   currentCommandId = 1;
+      // }
+      // newCommand = true;
       reset();
     } else if (res == 0) {
       Serial.println("Should not execute command");
@@ -111,13 +70,10 @@ void addToParameters(char inChar) {
   routine is run between each time loop() runs, so using delay inside loop can
   delay response. Multiple bytes of data may be available.
 */
-void serialEvent() {
+void readSerial() {
   while (Serial.available()) {
     // get the new byte:
     char inChar = (char)Serial.read();
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(10);
-    digitalWrite(LED_BUILTIN, LOW);
 
     if (!selectorRead) {
       addToCommandRegex(inChar);

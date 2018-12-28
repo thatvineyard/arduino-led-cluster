@@ -1,12 +1,10 @@
-#include "LedControl.h"
 #include <Arduino.h>
+#include "LedControl.h"
+#include "Commands.h"
 
 #define LED_RED_PIN 9
 #define LED_GREEN_PIN 10
 #define LED_BLUE_PIN 11
-
-long timer;
-long timer_delay = 1000;
 
 int brightness_procent = 5;
 int fade_time_bpm = 60;
@@ -14,10 +12,6 @@ int fade_time_bpm = 60;
 int current_red_value;
 int current_green_value;
 int current_blue_value;
-
-int timerLapsed() { return millis() - timer > timer_delay; }
-
-void resetTimer() { timer = millis(); }
 
 int invert8BitValue(int value) { return 255 - value; }
 

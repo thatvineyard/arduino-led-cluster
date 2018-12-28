@@ -1,15 +1,25 @@
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "Arduino",
             "includePath": [
-                "C:\\Users\\cawin\\OneDrive\\Documents\\Arduino\\libraries\\Regexp",
+                "C:\\Users\\dkj347\\OneDrive - Telia Company\\Arduino\\libraries\\Regexp\\src",
                 "C:\\Program Files (x86)\\Arduino\\tools\\**",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\**"
             ],
             "forcedInclude": [
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
             ],
+            "browse": {
+                "path": [
+                    "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
+                    "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include",
+                    "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\lib\\gcc\\avr\\4.9.2\\include",
+                    "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\variants\\mega"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
             "intelliSenseMode": "msvc-x64"
         }
     ],
