@@ -2,6 +2,7 @@
 #include <Regexp.h>
 #include "Commands.h"
 #include "Led.h"
+#include "Messaging.h"
 
 
 // Identification
