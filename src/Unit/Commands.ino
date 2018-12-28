@@ -1,49 +1,40 @@
 #include <Arduino.h>
-
-
-#define NULL_COMMAND "NULL_COMMAND"
-
-enum Commands { Null = -1, Blink };
+#include "Commands.h"
 
 long timer;
 long timer_delay = 1000;
 
+Command currentCommand = NULL_COMMAND;
+bool isNewCommand = false;
 
-// Commands
-String currentCommand = "";
-int currentCommandId = -1;
-bool newCommand = false;
-
-String getCommandFromId(int id) {
-  switch (id) {
-    case 1:
-      return "blink";
-    default:
-      return NULL_COMMAND;
-  }
+int timerLapsed() { 
+  return millis() - timer > timer_delay; 
 }
 
-int getIdFromCommand(String command) {
-  if (command == NULL_COMMAND) {
-    return -1;
-  }
-  if (command == "blink") {
-    return 1;
-  }
+void setTimer(long delay) {
+  timer_delay = delay;
 }
 
-int timerLapsed() { return millis() - timer > timer_delay; }
+void resetTimer() { 
+  timer = millis(); 
+}
 
-void resetTimer() { timer = millis(); }
-
-void setCommand() {
-  // currentCommandId = newCommandId;
+void setCommand(Command newCommand) {
+  currentCommand = newCommand;
+  isNewCommand = true;
 }
 
 void initCommand() {
-  switch (currentCommandId) {
-    case 1:
-      init_blink();
+  switch (currentCommand) {
+    case NULL_COMMAND:
+    break;
+    case STOP: 
+    break;
+    case SETCOLOR:
+      setColor::init(255, 255, 255);
+    break;
+    case BLINK:
+      blink::init(255, 255, 255, 1000);
       break;
     default:
       break;
@@ -51,9 +42,16 @@ void initCommand() {
 }
 
 void doCommand() {
-  switch (currentCommandId) {
-    case 1:
-      blink();
+  switch (currentCommand) {
+    case NULL_COMMAND:
+    break;
+    case STOP:
+    break;
+    case SETCOLOR:
+      setColor::tick();
+    break;
+    case BLINK:
+      blink::tick();
       break;
     default:
       break;
