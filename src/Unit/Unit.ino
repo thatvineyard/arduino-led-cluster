@@ -2,7 +2,7 @@
 #include "Commands.h"
 #include "Led.h"
 #include "Messaging.h"
-
+#include "Globals.h"
 
 // Identification
 String id = "A01";
@@ -18,10 +18,10 @@ void setup() {
 
 void loop() {
   parseMessage();
-  // if (newCommand) {
-  //   initCommand();
-  //   newCommand = false;
-  // }
+  if (newCommand) {
+    initCommand();
+    newCommand = false;
+  }
   doCommand();
 }
 

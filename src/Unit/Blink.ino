@@ -1,12 +1,15 @@
 #include <Arduino.h>
 #include "Led.h"
 
-int red_value, green_value, blue_value;
-int toggle_flag = 0;
+
+
 
 
 namespace blink
 {
+    int red_value, green_value, blue_value;
+    int toggle_flag = 0;
+
     void toggle() {
         if (toggle_flag == 0) {
             led::setColor(red_value, green_value, blue_value);
@@ -25,15 +28,18 @@ namespace blink
         }  
     }
 
-    void init(int new_red_value, int new_green_value, int new_blue_value, int new_blink_delay) {
+    void init(String new_red_value, String new_green_value, String new_blue_value, String new_blink_delay) {        
         led::initLed();
         
-        setTimer(new_blink_delay);
-        red_value = new_red_value;
-        green_value = new_green_value;
-        blue_value = new_blue_value;
+        Serial.println(new_red_value + ", " + new_green_value + ", " + new_blue_value  );
+
+        setTimer(new_blink_delay.toInt());
+        red_value =   new_red_value.toInt();
+        green_value = new_green_value.toInt();
+        blue_value =  new_blue_value.toInt();
         resetTimer();
-        led::setColor(255, 0, 0);
+        led::setColor(red_value, green_value, blue_value);
+        toggle_flag = 1;
     }
 
 

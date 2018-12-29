@@ -1,11 +1,9 @@
 {
     "configurations": [
         {
-            "name": "Arduino",
+            "name": "Win32",
             "includePath": [
-                "C:\\Users\\dkj347\\OneDrive - Telia Company\\Arduino\\libraries\\Regexp\\src",
-                "C:\\Program Files (x86)\\Arduino\\tools\\**",
-                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\**"
+                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\Regexp"
             ],
             "forcedInclude": [
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"

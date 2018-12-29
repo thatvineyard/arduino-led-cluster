@@ -5,6 +5,7 @@ long timer;
 long timer_delay = 1000;
 
 Command currentCommand = NULL_COMMAND;
+String currentParameters[MAX_PARAMETERS]; 
 bool isNewCommand = false;
 
 int timerLapsed() { 
@@ -24,6 +25,12 @@ void setCommand(Command newCommand) {
   isNewCommand = true;
 }
 
+void setParameters(String newParameters[]) {
+  for(int i = 0; i < MAX_PARAMETERS; i++) {
+    currentParameters[i] = newParameters[i];
+  }
+}
+
 void initCommand() {
   switch (currentCommand) {
     case NULL_COMMAND:
@@ -37,7 +44,7 @@ void initCommand() {
       setBrightness::init(255);
     break;
     case BLINK:
-      blink::init(255, 255, 255, 1000);
+      blink::init(currentParameters[0], currentParameters[1], currentParameters[2], currentParameters[3]);
       break;
     default:
       break;

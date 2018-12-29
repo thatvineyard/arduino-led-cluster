@@ -8,11 +8,11 @@
 
 namespace led {
 
-    int brightness_value = 5;
+    int brightness_value = 200;
 
-    int current_red_value;
-    int current_green_value;
-    int current_blue_value;
+    int current_red_value = 0;
+    int current_green_value = 0;
+    int current_blue_value = 0;
     
     void initLed() {
         // Turn on LED_PIN
@@ -30,14 +30,15 @@ namespace led {
 
     int adjustLedValue(int value) {
         int result = value;
-        result = constrain8BitValue(result);
         result = applyBrightness(result);
+        result = constrain8BitValue(result);
         result = invert8BitValue(result);
-
+        Serial.println("Result: " + String(result));
         return result;
     }
     
     void commitPinValues() {
+        Serial.println("commitPinValues: " + String(current_red_value) + ", " + String(current_green_value) + ", " + String(current_blue_value));
         analogWrite(LED_RED_PIN, adjustLedValue(current_red_value));
         analogWrite(LED_GREEN_PIN, adjustLedValue(current_green_value));
         analogWrite(LED_BLUE_PIN, adjustLedValue(current_blue_value));
@@ -48,7 +49,6 @@ namespace led {
         current_red_value = red_value;
         current_green_value = green_value;
         current_blue_value = blue_value;
-
         commitPinValues();
     }
 

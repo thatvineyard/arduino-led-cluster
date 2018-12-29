@@ -9,7 +9,7 @@
 #define DELIM_PARAMETERS_END    ')'
 #define DELIM_MESSAGE_END       '!'
 
-#define MAX_PARAMETERS 10
+
 
 // Parameters used to collect the message.
 String selector = "";
@@ -47,11 +47,11 @@ void parseMessage() {
         }
       }
       Serial.println("Should execute command: " + command + "with parameters: " + parameter_list);
-      // currentCommand = parameters;
-      // if (currentCommand == "blink") {
-      //   currentCommandId = 1;
-      // }
-      // newCommand = true;
+
+      setCommand(stringToCommand(command));
+      setParameters(parameters);
+      newCommand = true;
+
       reset();
     } else {
       Serial.println("Should not execute command");
