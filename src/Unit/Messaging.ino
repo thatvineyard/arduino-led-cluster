@@ -35,11 +35,11 @@ void parseMessage() {
     Serial.println("Matching on selector");
     Serial.println(selector);
 
-    parseSelector();
+    bool match = parseSelector();
 
 
 
-    if (res > 0) {
+    if (match) {
       String parameter_list = "";
       for(int i = 0; i < MAX_PARAMETERS; i++) {
         if(parameters[i] != "") {
@@ -53,18 +53,22 @@ void parseMessage() {
       // }
       // newCommand = true;
       reset();
-    } else if (res == 0) {
+    } else {
       Serial.println("Should not execute command");
       reset();
-    } else {
-      Serial.println("Error while matching regex");
-      reset();
     }
+
+    message_state = NO_MESSAGE;
   }
 }
 
 bool parseSelector() {
     char res = match_state.Match(const_cast<char*>(selector.c_str()), 0);
+    if(res > 0) {
+      return true;
+    } else {
+      return false;
+    }
 }
 
 void parseCommand() {
