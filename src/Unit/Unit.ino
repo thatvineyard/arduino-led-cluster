@@ -5,6 +5,8 @@
 #include "Globals.h"
 
 // Identification
+int row = 2;
+int column = 1;
 String id = "A02";
 
 void setup() {
