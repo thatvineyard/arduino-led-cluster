@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
     "sketch": "src\\Unit\\Unit.ino",
-    "port": "COM3",
+    "port": "COM5",
     "output": "out/"
 }

@@ -5,7 +5,7 @@
 #include "Globals.h"
 
 // Identification
-String id = "A01";
+String id = "A02";
 
 void setup() {
   // Set the regex match state to the id.
