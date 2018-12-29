@@ -1,2 +1,4 @@
 *.blend1
 out/
+.vscode/c_cpp_properties.json
+.vscode/arduino.json
