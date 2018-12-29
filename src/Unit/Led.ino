@@ -51,6 +51,10 @@ namespace led {
 
 
     void setColor(int red_value, int green_value, int blue_value) {
+        if(DEBUG_MODE) {
+            //Serial.println("Color set to " + String(red_value) + " " + String(green_value) + ", " + String(blue_value) + ".");
+        }
+
         current_red_value = red_value;
         current_green_value = green_value;
         current_blue_value = blue_value;
@@ -58,6 +62,10 @@ namespace led {
     }
 
     void setBrightness(int new_brightness_value) {
+        if(DEBUG_MODE) {
+            Serial.println("Brightness set to " + String(new_brightness_value));
+        }
+
         brightness_value = new_brightness_value;
 
         commitPinValues();

@@ -13,7 +13,6 @@
 
 namespace messaging
 {
-  
 
 
   // Parameters used to collect the message.
@@ -60,16 +59,20 @@ namespace messaging
 
 
       if (match) {
-        String parameter_list = "";
-        for(int i = 0; i < MAX_PARAMETERS; i++) {
-          if(parameters[i] != "") {
-            parameter_list += parameters[i] + " ";
-          }
-        }
         
         setCommand(stringToCommand(command));
         setParameters(parameters);
         newCommand = true;
+
+        if(DEBUG_MODE) {
+          String parameter_list = "";
+          for(int i = 0; i < MAX_PARAMETERS; i++) {
+            if(parameters[i] != "") {
+              parameter_list += parameters[i] + " ";
+            }
+          }
+          Serial.println("Matched selector: excecuting command: " + command + " with parameters: " + parameter_list + ".");
+        }
 
         reset();
       } else {

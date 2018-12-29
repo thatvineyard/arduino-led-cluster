@@ -1,10 +1,6 @@
 #include <Arduino.h>
 #include "Led.h"
 
-
-
-
-
 namespace blink
 {
     int red_value, green_value, blue_value;

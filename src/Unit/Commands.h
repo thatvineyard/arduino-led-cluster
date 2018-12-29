@@ -6,7 +6,8 @@ enum Command {
     STOP,
     SETCOLOR,
     SETBRIGHTNESS,
-    BLINK
+    BLINK,
+    FLICKER
 };
 
 void setCommand(Command newCommand);
@@ -27,9 +28,14 @@ namespace setBrightness {
 } // setBrightness
 
 namespace blink {
-    void init(int red_value, int green_value, int blue_value, int blink_delay); 
+    void init(String red_value, String green_value, String blue_value, String blink_delay); 
     void tick();
 } // blink
+
+namespace flicker {
+    void init(String brightness, String delay); 
+    void tick();
+} // flicker
 
 
 
