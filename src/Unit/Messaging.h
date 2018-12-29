@@ -11,16 +11,22 @@ enum MessageState {
   AWAITING_PARSING
 };
 
-void setRegexp(String id);
 
-void parseMessage();
+namespace messaging
+{
 
-void reset();
+  void setRegexp(String id);
 
-void addToCommandRegex(char inChar);
+  void parseMessage();
 
-void addToParameters(char inChar);
+  void reset();
 
-void readSerial();
+  void addToCommandRegex(char inChar);
+
+  void addToParameters(char inChar);
+
+  void readSerial();
+    
+} // Messaging
 
 #endif

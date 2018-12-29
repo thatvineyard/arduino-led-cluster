@@ -10,5 +10,7 @@ namespace led
 
     void setBrightness(int brightness_value);
 
+    void reset();
+
 } 
 #endif

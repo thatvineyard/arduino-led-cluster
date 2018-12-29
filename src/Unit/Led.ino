@@ -24,21 +24,26 @@ namespace led {
     // LED Value manipulation
     int constrain8BitValue(int value) { return constrain(value, 0, 255); }
 
-    int applyBrightness(int value) { return (value * brightness_value) / 255; }
+    int applyBrightness(int value) { 
+        long val = ((long) value * (long) brightness_value) / 255;
+        return (int) val;
+    }
 
     int invert8BitValue(int value) { return 255 - value; }
 
     int adjustLedValue(int value) {
         int result = value;
-        result = applyBrightness(result);
+       
         result = constrain8BitValue(result);
-        result = invert8BitValue(result);
-        Serial.println("Result: " + String(result));
+       
+        result = applyBrightness(result);
+        
+        //result = invert8BitValue(result);
+        
         return result;
     }
     
     void commitPinValues() {
-        Serial.println("commitPinValues: " + String(current_red_value) + ", " + String(current_green_value) + ", " + String(current_blue_value));
         analogWrite(LED_RED_PIN, adjustLedValue(current_red_value));
         analogWrite(LED_GREEN_PIN, adjustLedValue(current_green_value));
         analogWrite(LED_BLUE_PIN, adjustLedValue(current_blue_value));
@@ -58,7 +63,12 @@ namespace led {
         commitPinValues();
     }
 
-
+    void reset() {
+        current_red_value = 0;
+        current_green_value = 0;
+        current_blue_value = 0;
+        commitPinValues();
+    }
 
 
 } // led

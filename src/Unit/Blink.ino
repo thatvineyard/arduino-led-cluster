@@ -31,7 +31,6 @@ namespace blink
     void init(String new_red_value, String new_green_value, String new_blue_value, String new_blink_delay) {        
         led::initLed();
         
-        Serial.println(new_red_value + ", " + new_green_value + ", " + new_blue_value  );
 
         setTimer(new_blink_delay.toInt());
         red_value =   new_red_value.toInt();

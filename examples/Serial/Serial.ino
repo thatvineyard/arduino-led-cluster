@@ -19,17 +19,12 @@ void setup()
 void loop()
 {
     if (selectorRead && parametersRead) {
-      Serial.println("Matching on selector");
-      Serial.println(selector);
       char res = ms.Match(const_cast<char*>(selector.c_str()), 0);
       if (res > 0) {
-        Serial.println("Should execute command: " + parameters);
         reset();
       } else if (res == 0) {
-        Serial.println("Should not execute command");
         reset();
       } else {
-        Serial.println("Error while matching regex");
         reset();
       }
     }

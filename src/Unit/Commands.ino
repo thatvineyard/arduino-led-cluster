@@ -35,7 +35,8 @@ void initCommand() {
   switch (currentCommand) {
     case NULL_COMMAND:
     break;
-    case STOP: 
+    case STOP:
+      led::reset(); 
     break;
     case SETCOLOR:
       setColor::init(255, 255, 255);

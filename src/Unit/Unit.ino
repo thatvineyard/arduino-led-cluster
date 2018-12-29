@@ -5,11 +5,11 @@
 #include "Globals.h"
 
 // Identification
-String id = "A01";
+String id = "A03";
 
 void setup() {
   // Set the regex match state to the id.
-  setRegexp(id);
+  messaging::setRegexp(id);
   // Open serial connection at 9600 Bd.
   Serial.begin(9600);
 
@@ -17,7 +17,7 @@ void setup() {
 }
 
 void loop() {
-  parseMessage();
+  messaging::parseMessage();
   if (newCommand) {
     initCommand();
     newCommand = false;
@@ -31,5 +31,5 @@ void loop() {
   delay response. Multiple bytes of data may be available.
 */
 void serialEvent() {
-  readSerial();
+  messaging::readSerial();
 }

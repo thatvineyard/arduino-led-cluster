@@ -18,12 +18,9 @@ void setRegexp(String newRegexp) {
 // MESSAGE PARSING
 void parseMessage() {
   if (selectorRead && parametersRead) {
-    Serial.println("Matching on selector");
-    Serial.println(selector);
 
     char res = match_state.Match(const_cast<char*>(selector.c_str()), 0);
     if (res > 0) {
-      Serial.println("Should execute command: " + parameters);
       // currentCommand = parameters;
       // if (currentCommand == "blink") {
       //   currentCommandId = 1;
@@ -31,10 +28,8 @@ void parseMessage() {
       // newCommand = true;
       reset();
     } else if (res == 0) {
-      Serial.println("Should not execute command");
       reset();
     } else {
-      Serial.println("Error while matching regex");
       reset();
     }
   }
