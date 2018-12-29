@@ -44,7 +44,6 @@ void initCommand() {
   }
   switch (currentCommand) {
     case NULL_COMMAND:
-    break;
     case STOP:
       led::reset(); 
     break;
