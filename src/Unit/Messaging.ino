@@ -2,13 +2,6 @@
 #include <Regexp.h>
 #include "Messaging.h"
 
-#define DELIM_MESSAGE_START '>'
-#define DELIM_SELECTOR_START '['
-#define DELIM_SELECTOR_END ']'
-#define DELIM_PARAMETERS_START '('
-#define DELIM_PARAMETERS_END ')'
-#define DELIM_MESSAGE_END '!'
-
 namespace messaging {
 
 // Parameters used to collect the message.

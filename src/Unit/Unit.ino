@@ -12,11 +12,11 @@ String id = "A02";
 void setup() {
   // Set the regex match state to the id.
   messaging::setRegexp(id);
-  // Open serial connection at 9600 Bd.
-  Serial.begin(9600);
+  // Open serial connection
+  Serial.begin(BAUD_RATE);
 
   // initialize pins
-  led::initLed(led::COMMON_CATHODE);
+  led::initLed(LED_TYPE);
 
   pinMode(LED_BUILTIN, OUTPUT);
 }

@@ -13,8 +13,6 @@
 #define DELIM_PARAMETERS_END ')'
 #define DELIM_MESSAGE_END '!'
 
-#define LED_TYPE led::COMMON_ANODE
-
 bool newCommand;
 
 #endif
