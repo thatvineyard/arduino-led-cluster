@@ -1,16 +1,17 @@
 #ifndef LEDCONTROL_H_INCLUDED
 #define LEDCONTROL_H_INCLUDED
 
+namespace led {
 
-namespace led
-{
-    void initLed();
+enum LedType { COMMON_CATHODE, COMMON_ANODE };
 
-    void setColor(int red_value, int green_value, int blue_value);
+void initLed(LedType);
 
-    void setBrightness(int brightness_value);
+void setColor(int red_value, int green_value, int blue_value);
 
-    void reset();
+void setBrightness(int brightness_value);
 
-} 
+void reset();
+
+}  // namespace led
 #endif

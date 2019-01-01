@@ -1,13 +1,13 @@
 #ifndef COMMANDS_H_DEFINED
 #define COMMANDS_H_DEFINED
 
-enum Command { 
-    NULL_COMMAND = -1, 
-    STOP,
-    SETCOLOR,
-    SETBRIGHTNESS,
-    BLINK,
-    FLICKER
+enum Command {
+  NULL_COMMAND = -1,
+  STOP,
+  SETCOLOR,
+  SETBRIGHTNESS,
+  BLINK,
+  FLICKER
 };
 
 void setCommand(Command newCommand);
@@ -16,27 +16,25 @@ void initCommand();
 
 void doCommand();
 
-
 namespace setColor {
-    void init(int red_value, int green_value, int blue_value); 
-    void tick();
-} // setColor
+void init(int red_value, int green_value, int blue_value);
+void tick();
+}  // namespace setColor
 
 namespace setBrightness {
-    void init(int brightness_value);
-    void tick();
-} // setBrightness
+void init(int brightness_value);
+void tick();
+}  // namespace setBrightness
 
 namespace blink {
-    void init(String red_value, String green_value, String blue_value, String blink_delay); 
-    void tick();
-} // blink
+void init(String red_value, String green_value, String blue_value,
+          String blink_delay);
+void tick();
+}  // namespace blink
 
 namespace flicker {
-    void init(String brightness, String delay); 
-    void tick();
-} // flicker
-
-
+void init(String delay);
+void tick();
+}  // namespace flicker
 
 #endif

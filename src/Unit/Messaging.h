@@ -5,28 +5,26 @@ enum MessageState {
   NO_MESSAGE,
   START,
   SELECTOR,
-  COMMAND, 
+  COMMAND,
   PARAMETERS,
   END,
   AWAITING_PARSING
 };
 
+namespace messaging {
 
-namespace messaging
-{
+void setRegexp(String id);
 
-  void setRegexp(String id);
+void parseMessage();
 
-  void parseMessage();
+void reset();
 
-  void reset();
+void addToCommandRegex(char inChar);
 
-  void addToCommandRegex(char inChar);
+void addToParameters(char inChar);
 
-  void addToParameters(char inChar);
+void readSerial();
 
-  void readSerial();
-    
-} // Messaging
+}  // namespace messaging
 
 #endif
