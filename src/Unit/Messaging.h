@@ -1,6 +1,8 @@
 #ifndef MESSAGING_H_INCLUDED
 #define MESSAGING_H_INCLUDED
 
+namespace messaging {
+
 enum MessageState {
   NO_MESSAGE,
   START,
@@ -10,8 +12,6 @@ enum MessageState {
   END,
   AWAITING_PARSING
 };
-
-namespace messaging {
 
 /**
  * setRegexp(String)

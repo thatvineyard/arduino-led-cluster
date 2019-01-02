@@ -13,20 +13,21 @@ void setup() {
 
   // initialize pins
   led::initLed(LED_TYPE);
-
-  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop() {
   messaging::parseMessage();
+
   if (isNewSetting) {
     applySetting();
     isNewSetting = false;
   }
+
   if (isNewMacro) {
     initMacro();
     isNewMacro = false;
   }
+
   tickMacro();
 }
 

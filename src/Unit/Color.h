@@ -12,6 +12,11 @@
  * Note: The base values are never actually used in calculating color values,
  * only the aux values are. This means that if you just want to use the base
  * values you have to use setAux[brightness/colors]ToBase().
+ *
+ * displayColor() updates the LED pin values to show the appropriate color, but
+ * you should know that all functions call on this function, so it should not be
+ * used unless you suspect a bug.
+ *
  */
 namespace color {
 

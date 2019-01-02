@@ -13,7 +13,7 @@ int changeColor(int delta) {
 
 void init(String delay) {
   if (delay == "") {
-    setTimerDelay(100);
+    setTimerDelay(30);
   } else {
     setTimerDelay(delay.toInt());
   }

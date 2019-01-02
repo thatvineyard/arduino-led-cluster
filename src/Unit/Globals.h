@@ -29,6 +29,8 @@ bool isNewMacro;
 bool isNewSetting;
 
 // COLOR
+// BASE_BRIGHTNESS_CONSTRAINS - if true the base brightness set will be the
+// maximum allowed brightness
 #define BASE_BRIGHTNESS_CONSTRAINS true
 #define MAX_BRIGHTNESS 255
 #define MAX_RED 255

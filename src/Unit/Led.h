@@ -22,7 +22,7 @@ enum LedType { COMMON_CATHODE, COMMON_ANODE };
  * Initialized the pins based on the LED type and calculates initial auxillary
  * rgb and brightness values.
  */
-void initLed(LedType);
+void initLed(LedType led_type);
 
 void setPinValues(int red_value, int green_value, int blue_value);
 
