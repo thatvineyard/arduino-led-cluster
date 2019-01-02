@@ -28,7 +28,6 @@ void loop() {
     isNewMacro = false;
   }
   tickMacro();
-  color::displayColor();
 }
 
 /*

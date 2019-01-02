@@ -28,4 +28,11 @@
 bool isNewMacro;
 bool isNewSetting;
 
+// COLOR
+#define BASE_BRIGHTNESS_CONSTRAINS true
+#define MAX_BRIGHTNESS 255
+#define MAX_RED 255
+#define MAX_GREEN 255
+#define MAX_BLUE 255
+
 #endif

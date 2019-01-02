@@ -1,6 +1,18 @@
 #ifndef COLOR_H_INCLUDED
 #define COLOR_H_INCLUDED
 
+/**
+ * The module uses a base value and auxillary functions to set the color. By
+ * setting the base color and brightness we can then use functions which
+ * manipulate this value.
+ *
+ * This allows us to create macros which won't have to
+ * handle setting the color, but can still manipulate it.
+ *
+ * Note: The base values are never actually used in calculating color values,
+ * only the aux values are. This means that if you just want to use the base
+ * values you have to use setAux[brightness/colors]ToBase().
+ */
 namespace color {
 
 void displayColor();
@@ -8,8 +20,6 @@ void displayColor();
 void setBaseColor(int red_value, int green_value, int blue_value);
 
 void setBaseBrightness(int brightness_value);
-
-void resetBaseColor();
 
 void setAuxBrightnessToBase();
 

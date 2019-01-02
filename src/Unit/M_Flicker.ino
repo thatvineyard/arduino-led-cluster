@@ -48,8 +48,8 @@ void tick() {
       default:
         break;
     }
+    color::setAuxColorProcent(procent, procent, procent);
   }
-  color::setAuxColorProcent(procent, procent, procent);
 }
 
 }  // namespace m_flicker

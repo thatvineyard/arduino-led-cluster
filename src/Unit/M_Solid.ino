@@ -3,10 +3,7 @@
 
 namespace m_solid {
 
-void tick() {
-  color::setAuxColorToBase();
-  color::setAuxBrightnessToBase();
-}
+void tick() {}
 
 void init() {
   color::setAuxColorToBase();

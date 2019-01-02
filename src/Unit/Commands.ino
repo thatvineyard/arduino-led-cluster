@@ -22,11 +22,14 @@ Command stringToCommand(String string_to_convert) {
   if (string_to_convert == "S_BASEBRIGHTNESS") {
     return S_BASEBRIGHTNESS;
   }
-  if (string_to_convert == "M_BLINK") {
-    return M_BLINK;
+  if (string_to_convert == "M_PULSE") {
+    return M_PULSE;
   }
   if (string_to_convert == "M_FLICKER") {
     return M_FLICKER;
+  }
+  if (string_to_convert == "M_SINGLEFLASH") {
+    return M_SINGLEFLASH;
   }
 
   return NULL_COMMAND;
@@ -45,11 +48,14 @@ String commandToString(Command command_to_convert) {
   if (command_to_convert == S_BASEBRIGHTNESS) {
     return "S_BASEBRIGHTNESS";
   }
-  if (command_to_convert == M_BLINK) {
-    return "M_BLINK";
+  if (command_to_convert == M_PULSE) {
+    return "M_PULSE";
   }
   if (command_to_convert == M_FLICKER) {
     return "M_FLICKER";
+  }
+  if (command_to_convert == M_SINGLEFLASH) {
+    return "M_SINGLEFLASH";
   }
 
   return "NULL_COMMAND";
@@ -61,7 +67,8 @@ bool isSetting(Command command_to_check) {
 }
 
 bool isMacro(Command command_to_check) {
-  return ((command_to_check == M_BLINK) || (command_to_check == M_SOLID) ||
+  return ((command_to_check == M_PULSE) || (command_to_check == M_SOLID) ||
+          (command_to_check == M_SINGLEFLASH) ||
           (command_to_check == M_FLICKER));
 }
 
@@ -108,14 +115,18 @@ void applySetting() {
 void initMacro() {
   log("Initializing macro: " + commandToString(currentMacro) + ".");
   switch (currentMacro) {
-    case M_BLINK:
-      m_blink::init(currentParameters[0]);
+    case M_PULSE:
+      m_pulse::init(currentParameters[0], currentParameters[1],
+                    currentParameters[2], currentParameters[3]);
       break;
     case M_FLICKER:
       m_flicker::init(currentParameters[0]);
       break;
     case M_SOLID:
       m_solid::init();
+      break;
+    case M_SINGLEFLASH:
+      m_singleflash::init(currentParameters[0], currentParameters[1]);
       break;
     case NULL_COMMAND:
     default:
@@ -125,14 +136,17 @@ void initMacro() {
 
 void tickMacro() {
   switch (currentMacro) {
-    case M_BLINK:
-      m_blink::tick();
+    case M_PULSE:
+      m_pulse::tick();
       break;
     case M_FLICKER:
       m_flicker::tick();
       break;
     case M_SOLID:
       m_solid::tick();
+      break;
+    case M_SINGLEFLASH:
+      m_singleflash::tick();
       break;
     case NULL_COMMAND:
     default:
