@@ -150,10 +150,10 @@ allow for curves and circles without massive regexs.
  - [x] Order LED lights
  - [ ] Recieve LED lights
  - [x] Order resistors
- - [ ] Recieve resistors
+ - [x] Recieve resistors
  - [x] Order wire
- - [ ] Recieve wire
- - [ ] Order 9v batteries
+ - [x] Recieve wire
+ - [x] Order 9v batteries
  - [ ] Recieve 9v batteries
  - [x] Order 9v battery connector
  - [ ] Recieve 9v battery connector
