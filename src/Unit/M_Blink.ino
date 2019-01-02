@@ -6,10 +6,8 @@ int toggle_flag = 0;
 
 void toggle() {
   if (toggle_flag == 0) {
-    led::setAuxBrightnessProcent(100);
     toggle_flag = 1;
   } else {
-    led::setAuxBrightnessProcent(0);
     toggle_flag = 0;
   }
 }
@@ -17,9 +15,9 @@ void toggle() {
 void tick() {
   if (timerLapsed()) {
     toggle();
-
     restartTimer();
   }
+  led::setAuxBrightnessProcent(100 * toggle_flag);
 }
 
 void init(String new_blink_delay) {
