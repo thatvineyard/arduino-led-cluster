@@ -13,16 +13,30 @@ enum MessageState {
 
 namespace messaging {
 
-void setRegexp(String id);
+/**
+ * setRegexp(String)
+ *
+ * Sets the regexp which messaging will match the selector on.
+ *
+ */
+void setRegexp(String new_regexp);
 
+/**
+ * parseMessage()
+ *
+ * Checks the message state for the parsing state, then reads the recorded
+ * variables and parses them. First it checks the selector and matches this
+ * unit's id so see if this unit is selected. Then it populates the parameters.
+ * Then it reads the command and depending on if it's a setting or a macro it
+ * sets the isNew[Macro/Setting] flag.
+ */
 void parseMessage();
 
-void reset();
-
-void addToCommandRegex(char inChar);
-
-void addToParameters(char inChar);
-
+/**
+ * readSerial()
+ *
+ * Reads all available bytes, parses them and retransmits them one by one.
+ */
 void readSerial();
 
 }  // namespace messaging

@@ -4,13 +4,9 @@
 #include "Led.h"
 #include "Messaging.h"
 
-// Identification
-char column = 'A';
-int row = 2;
-
 void setup() {
   // Set the regex match state to the id.
-  messaging::setRegexp(createId(column, row));
+  messaging::setRegexp(createId(UNIT_COLUMN, UNIT_ROW));
   // Open serial connection
   Serial.begin(BAUD_RATE);
 
@@ -40,10 +36,4 @@ void loop() {
 */
 void serialEvent() {
   messaging::readSerial();
-}
-
-String createId(char column, int row) {
-  char id_string[3];
-  sprintf(id_string, "%c%03u", column, row);
-  return id_string;
 }

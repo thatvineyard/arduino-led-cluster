@@ -58,7 +58,8 @@ void loop() {
   display();
 }
 
-String createMessage(String selector, String command,
+String createMessage(String selector,
+                     String command,
                      int number_of_parameters) {
   String message = "";
 
@@ -82,7 +83,9 @@ String createMessage(String selector, String command,
   return message;
 }
 
-void sendMessage(String message) { Serial.print(message); }
+void sendMessage(String message) {
+  Serial.print(message);
+}
 
 void sendDimmerCommand() {
   parameters[0] = dimmer;

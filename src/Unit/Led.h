@@ -29,10 +29,9 @@ namespace led {
 enum LedType { COMMON_CATHODE, COMMON_ANODE };
 
 /** initLed(LedType)
- * Initialized the pins based on the LED type.
- * Also calculates initial auxillary rgb and brightness values.
+ * Initialized the pins based on the LED type and calculates initial auxillary
+ * rgb and brightness values.
  */
-
 void initLed(LedType);
 
 void setBaseColor(int red_value, int green_value, int blue_value);

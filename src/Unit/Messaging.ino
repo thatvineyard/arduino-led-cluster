@@ -51,6 +51,7 @@ void addToCommand(char inChar) {
 // MESSAGE PARSING
 
 void setRegexp(String new_regexp) {
+  log("Setting regexp to: " + new_regexp + ".");
   match_state.Target(const_cast<char*>(new_regexp.c_str()));
 }
 
@@ -81,24 +82,21 @@ void parseParameters() {
 void parseMessage() {
   if (message_state == AWAITING_PARSING) {
     if (parseSelector()) {
-      parseCommand();
       parseParameters();
+      parseCommand();
 
-      if (DEBUG_MODE) {
-        String parameter_list = "";
-        for (int i = 0; i < MAX_PARAMETERS; i++) {
-          if (input_parameters[i] != "") {
-            parameter_list += input_parameters[i] + " ";
-          }
+      String parameter_list = "";
+      for (int i = 0; i < MAX_PARAMETERS; i++) {
+        if (input_parameters[i] != "") {
+          parameter_list += input_parameters[i] + " ";
         }
-        Serial.println("Matched input_selector: excecuting input_command: " +
-                       input_command +
-                       " with input_parameters: " + parameter_list + ".");
       }
+      log("Matched input_selector: excecuting input_command: " + input_command +
+          " with input_parameters: " + parameter_list + ".");
     }
     resetMessaging();
   }
-}
+}  // namespace messaging
 
 /**
  * parseChar(char)
@@ -179,9 +177,6 @@ void parseChar(char inChar) {
 
 // MESSAGE RECEIVING
 
-/** readSerial()
- * Reads all available bytes, parses them and retransmits them one by one.
- */
 void readSerial() {
   while (Serial.available()) {
     char inChar = (char)Serial.read();

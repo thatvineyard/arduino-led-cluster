@@ -90,10 +90,7 @@ void setBaseColor(String red_value, String green_value, String blue_value) {
 }
 
 void applySetting() {
-  if (DEBUG_MODE) {
-    Serial.println("Applying setting: " + commandToString(currentSetting) +
-                   ".");
-  }
+  log("Applying setting: " + commandToString(currentSetting) + ".");
   switch (currentSetting) {
     case S_BASEBRIGHTNESS:
       setBaseBrightness(currentParameters[0]);
@@ -109,10 +106,7 @@ void applySetting() {
 }
 
 void initMacro() {
-  if (DEBUG_MODE) {
-    Serial.println("Initializing macro: " + commandToString(currentMacro) +
-                   ".");
-  }
+  log("Initializing macro: " + commandToString(currentMacro) + ".");
   switch (currentMacro) {
     case M_BLINK:
       m_blink::init(currentParameters[0]);

@@ -50,10 +50,8 @@ void commitPinValues() {
 }
 
 void setBaseColor(int red_value, int green_value, int blue_value) {
-  if (DEBUG_MODE) {
-    Serial.println("BaseColor set to " + String(red_value) + " " +
-                   String(green_value) + ", " + String(blue_value) + ".");
-  }
+  log("BaseColor set to " + String(red_value) + " " + String(green_value) +
+      ", " + String(blue_value) + ".");
 
   base_red_value = red_value;
   base_green_value = green_value;
@@ -61,9 +59,7 @@ void setBaseColor(int red_value, int green_value, int blue_value) {
 }
 
 void setBaseBrightness(int new_brightness_value) {
-  if (DEBUG_MODE) {
-    Serial.println("Base brightness set to " + String(new_brightness_value));
-  }
+  log("Base brightness set to " + String(new_brightness_value));
 
   base_brightness_value = new_brightness_value;
 }
