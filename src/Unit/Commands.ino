@@ -82,11 +82,11 @@ void setParameters(String newParameters[]) {
 }
 
 void setBaseBrightness(String new_brightness_value) {
-  led::setBaseBrightness(255);  // TODO
+  color::setBaseBrightness(255);  // TODO
 }
 
 void setBaseColor(String red_value, String green_value, String blue_value) {
-  led::setBaseColor(255, 255, 255);  // TODO
+  color::setBaseColor(255, 255, 255);  // TODO
 }
 
 void applySetting() {

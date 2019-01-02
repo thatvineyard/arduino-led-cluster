@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "Color.h"
 #include "Commands.h"
 #include "Globals.h"
 #include "Led.h"
@@ -27,6 +28,7 @@ void loop() {
     isNewMacro = false;
   }
   tickMacro();
+  color::displayColor();
 }
 
 /*

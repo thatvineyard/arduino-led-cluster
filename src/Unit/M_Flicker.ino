@@ -18,7 +18,7 @@ void init(String delay) {
     setTimerDelay(delay.toInt());
   }
 
-  led::setAuxColorProcent(procent, procent, procent);
+  color::setAuxColorProcent(procent, procent, procent);
   restartTimer();
 }
 
@@ -49,7 +49,7 @@ void tick() {
         break;
     }
   }
-  led::setAuxColorProcent(procent, procent, procent);
+  color::setAuxColorProcent(procent, procent, procent);
 }
 
 }  // namespace m_flicker

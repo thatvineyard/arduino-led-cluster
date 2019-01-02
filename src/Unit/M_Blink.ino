@@ -17,14 +17,14 @@ void tick() {
     toggle();
     restartTimer();
   }
-  led::setAuxBrightnessProcent(100 * toggle_flag);
+  color::setAuxBrightnessProcent(100 * toggle_flag);
 }
 
 void init(String new_blink_delay) {
   setTimerDelay(new_blink_delay.toInt());
   restartTimer();
-  led::setAuxColorToBase();
-  led::setAuxBrightnessToBase();
+  color::setAuxColorToBase();
+  color::setAuxBrightnessToBase();
   toggle_flag = 1;
 }
 
