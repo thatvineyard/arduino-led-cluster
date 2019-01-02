@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include "Commands.h"
 
-long timer;
-long timer_delay = 1000;
-
 Command currentMacro = NULL_COMMAND;
 Command currentSetting = NULL_COMMAND;
 String currentParameters[MAX_PARAMETERS];
@@ -21,6 +18,9 @@ Command stringToCommand(String string_to_convert) {
   }
   if (string_to_convert == "S_BASEBRIGHTNESS") {
     return S_BASEBRIGHTNESS;
+  }
+  if (string_to_convert == "S_BASESPEED") {
+    return S_BASESPEED;
   }
   if (string_to_convert == "M_PULSE") {
     return M_PULSE;
@@ -48,6 +48,9 @@ String commandToString(Command command_to_convert) {
   if (command_to_convert == S_BASEBRIGHTNESS) {
     return "S_BASEBRIGHTNESS";
   }
+  if (command_to_convert == S_BASESPEED) {
+    return "S_BASESPEED";
+  }
   if (command_to_convert == M_PULSE) {
     return "M_PULSE";
   }
@@ -63,7 +66,8 @@ String commandToString(Command command_to_convert) {
 
 bool isSetting(Command command_to_check) {
   return ((command_to_check == S_BASEBRIGHTNESS) ||
-          (command_to_check == S_BASECOLOR));
+          (command_to_check == S_BASECOLOR) ||
+          (command_to_check == S_BASESPEED));
 }
 
 bool isMacro(Command command_to_check) {
@@ -88,12 +92,39 @@ void setParameters(String newParameters[]) {
   }
 }
 
-void setBaseBrightness(String new_brightness_value) {
-  color::setBaseBrightness(255);  // TODO
+void setBaseBrightness(String new_base_brightness_string) {
+  if (new_base_brightness_string == "") {
+    color::setBaseBrightness(255);
+  } else {
+    color::setBaseBrightness(new_base_brightness_string.toInt());
+  }
 }
 
-void setBaseColor(String red_value, String green_value, String blue_value) {
-  color::setBaseColor(255, 255, 255);  // TODO
+void setBaseColor(String new_red_string,
+                  String new_green_string,
+                  String new_blue_string) {
+  int new_red = 255;
+  int new_green = 255;
+  int new_blue = 255;
+
+  if (new_red_string != "") {
+    new_red = new_red_string.toInt();
+  }
+  if (new_green_string != "") {
+    new_green = new_green_string.toInt();
+  }
+  if (new_blue_string != "") {
+    new_blue = new_blue_string.toInt();
+  }
+  color::setBaseColor(new_red, new_green, new_blue);
+}
+
+void setBaseSpeed(String new_base_speed_string) {
+  if (new_base_speed_string == "") {
+    setBaseSpeed(100);
+  } else {
+    setBaseSpeed(new_base_speed_string.toInt());
+  }
 }
 
 void applySetting() {
@@ -105,6 +136,9 @@ void applySetting() {
     case S_BASECOLOR:
       setBaseColor(currentParameters[0], currentParameters[1],
                    currentParameters[2]);
+      break;
+    case S_BASESPEED:
+      setBaseSpeed(currentParameters[0]);
       break;
     case NULL_COMMAND:
     default:

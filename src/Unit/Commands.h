@@ -1,28 +1,7 @@
 #ifndef COMMANDS_H_DEFINED
 #define COMMANDS_H_DEFINED
 
-/**
- *
- * Settings are changes that are made once and don't interrupt macros.
- *
- * Macros are ongoing changes that will keep going until another macro or the
- * STOP command is issued.
- *
- */
-
-enum Command {
-  // SPECIAL COMMANDS
-  NULL_COMMAND = -1,
-  STOP,
-  // SETTINGS
-  S_BASECOLOR,
-  S_BASEBRIGHTNESS,
-  // MACROS
-  M_SOLID,
-  M_PULSE,
-  M_FLICKER,
-  M_SINGLEFLASH
-};
+#include "Globals.h";
 
 /**
  * Sets a new macro. This will flag that a new macro is ready to be initialized.
