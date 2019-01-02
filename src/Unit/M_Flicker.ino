@@ -17,19 +17,19 @@ int changeColor(int delta) {
 
 void init(String delay) {
   if (delay == "") {
-    setTimer(100);
+    setTimerDelay(100);
   } else {
-    setTimer(delay.toInt());
+    setTimerDelay(delay.toInt());
   }
 
-  // led::setColor(red_value, green_value, blue_value);
-  resetTimer();
+  // TODO Set initial color
+  restartTimer();
 }
 
 void tick() {
   if (timerLapsed()) {
-    // led::setColor(red_value, green_value, blue_value);
-    resetTimer();
+    restartTimer();
+    // TODO Set next color
     switch (random(0, 5)) {
       case 0:  // go down big
         changeColor(big_delta * -1);

@@ -18,13 +18,13 @@ void tick() {
   if (timerLapsed()) {
     toggle();
 
-    resetTimer();
+    restartTimer();
   }
 }
 
 void init(String new_blink_delay) {
-  setTimer(new_blink_delay.toInt());
-  resetTimer();
+  setTimerDelay(new_blink_delay.toInt());
+  restartTimer();
   led::setAuxColorToBase();
   led::setAuxBrightnessToBase();
   toggle_flag = 1;

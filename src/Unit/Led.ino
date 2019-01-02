@@ -1,10 +1,6 @@
 #include <Arduino.h>
 #include "Led.h"
 
-#define LED_RED_PIN 9
-#define LED_GREEN_PIN 10
-#define LED_BLUE_PIN 11
-
 namespace led {
 
 LedType current_led_type;

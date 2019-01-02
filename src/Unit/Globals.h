@@ -13,6 +13,9 @@
 #define DELIM_PARAMETERS_END ')'
 #define DELIM_MESSAGE_END '!'
 
+#define LED_RED_PIN 9
+#define LED_GREEN_PIN 10
+#define LED_BLUE_PIN 11
 #define LED_TYPE led::COMMON_ANODE
 
 bool isNewMacro;
