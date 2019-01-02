@@ -8,7 +8,7 @@ int off_duration = 0;
 int fade_in_duration = 0;
 int fade_out_duration = 0;
 
-int start_time = 0;
+long start_time = 0;
 
 int step = 0;
 int fade = 0;
@@ -29,7 +29,8 @@ void tick() {
     case 2:  // FADE OUT
       fade = 100 - calculateFade(fade_out_duration);
       color::setAuxBrightnessProcent(fade);
-      if (fade <= 0) {
+      if (fade <= 0 || fade_out_duration == 0) {
+        color::setAuxBrightnessProcent(0);
         setTimerDelay(off_duration);
         restartTimer();
         step = 3;
@@ -44,7 +45,8 @@ void tick() {
     case 4:  // FADE IN
       fade = calculateFade(fade_in_duration);
       color::setAuxBrightnessProcent(fade);
-      if (fade >= 100) {
+      if (fade >= 100 || fade_in_duration == 0) {
+        color::setAuxBrightnessProcent(100);
         setTimerDelay(on_duration);
         restartTimer();
         step = 1;
@@ -58,10 +60,8 @@ void tick() {
   }
 }
 
-void init(String new_on_duration,
-          String new_fade_in_duration,
-          String new_off_duration,
-          String new_fade_out_duration) {
+void init(String new_on_duration, String new_fade_in_duration,
+          String new_off_duration, String new_fade_out_duration) {
   if (new_on_duration != "") {
     on_duration = new_on_duration.toInt();
   } else {

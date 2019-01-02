@@ -31,6 +31,9 @@ Command stringToCommand(String string_to_convert) {
   if (string_to_convert == "M_SINGLEFLASH") {
     return M_SINGLEFLASH;
   }
+  if (string_to_convert == "M_SOLID") {
+    return M_SOLID;
+  }
 
   return NULL_COMMAND;
 }
@@ -60,6 +63,9 @@ String commandToString(Command command_to_convert) {
   if (command_to_convert == M_SINGLEFLASH) {
     return "M_SINGLEFLASH";
   }
+  if (command_to_convert == M_SOLID) {
+    return "M_SOLID";
+  }
 
   return "NULL_COMMAND";
 }
@@ -73,7 +79,7 @@ bool isSetting(Command command_to_check) {
 bool isMacro(Command command_to_check) {
   return ((command_to_check == M_PULSE) || (command_to_check == M_SOLID) ||
           (command_to_check == M_SINGLEFLASH) ||
-          (command_to_check == M_FLICKER));
+          (command_to_check == M_SOLID) || (command_to_check == M_FLICKER));
 }
 
 void setMacro(Command newMacro) {
@@ -100,8 +106,7 @@ void setBaseBrightness(String new_base_brightness_string) {
   }
 }
 
-void setBaseColor(String new_red_string,
-                  String new_green_string,
+void setBaseColor(String new_red_string, String new_green_string,
                   String new_blue_string) {
   int new_red = 255;
   int new_green = 255;
@@ -154,7 +159,7 @@ void initMacro() {
                     currentParameters[2], currentParameters[3]);
       break;
     case M_FLICKER:
-      m_flicker::init(currentParameters[0]);
+      m_flicker::init(currentParameters[0], currentParameters[1]);
       break;
     case M_SOLID:
       m_solid::init();

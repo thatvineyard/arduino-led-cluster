@@ -26,13 +26,9 @@ void resetMessaging() {
     input_parameters[i] = "";
   }
   input_parameter_index = 0;
-
-  message_state = NO_MESSAGE;
 }
 
-void addToSelector(char inChar) {
-  input_selector += inChar;
-}
+void addToSelector(char inChar) { input_selector += inChar; }
 
 void addToParameters(char inChar) {
   if (inChar != ' ') {
@@ -75,9 +71,7 @@ void parseCommand() {
   }
 }
 
-void parseParameters() {
-  setParameters(input_parameters);
-}
+void parseParameters() { setParameters(input_parameters); }
 
 void parseMessage() {
   if (message_state == AWAITING_PARSING) {
@@ -91,10 +85,20 @@ void parseMessage() {
           parameter_list += input_parameters[i] + " ";
         }
       }
+      String command_type;
+      if (isMacro(stringToCommand(input_command))) {
+        command_type = "macro";
+      } else if (isSetting(stringToCommand(input_command))) {
+        command_type = "setting";
+      } else {
+        command_type = "invalid command";
+      }
       log("Matched input_selector: excecuting input_command: " + input_command +
+          " which is a " + command_type +
           " with input_parameters: " + parameter_list + ".");
     }
     resetMessaging();
+    message_state = NO_MESSAGE;
   }
 }  // namespace messaging
 

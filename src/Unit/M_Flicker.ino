@@ -3,19 +3,25 @@
 
 namespace m_flicker {
 int procent = 100;
+int minimum = 50;
 
 int small_delta = 5;
 int big_delta = 20;
 
 int changeColor(int delta) {
-  procent = constrain(procent + delta, 0, 100);
+  procent = constrain(procent + delta, minimum, 100);
 }
 
-void init(String delay) {
+void init(String delay, String minimum_procent) {
   if (delay == "") {
     setTimerDelay(30);
   } else {
     setTimerDelay(delay.toInt());
+  }
+  if (minimum_procent == "") {
+    minimum = 80;
+  } else {
+    minimum = constrain(minimum_procent.toInt(), 0, 100);
   }
 
   color::setAuxBrightnessProcent(procent);

@@ -5,7 +5,7 @@ namespace m_singleflash {
 
 int fade_duration = 0;
 
-int fade_start = 0;
+long fade_start = 0;
 
 int step = 0;
 
