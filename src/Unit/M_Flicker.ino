@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "Led.h"
 
-namespace flicker {
+namespace m_flicker {
 int red_value = 255;
 int green_value = 50;
 int blue_value = 0;
@@ -22,13 +22,13 @@ void init(String delay) {
     setTimer(delay.toInt());
   }
 
-  led::setColor(red_value, green_value, blue_value);
+  // led::setColor(red_value, green_value, blue_value);
   resetTimer();
 }
 
 void tick() {
   if (timerLapsed()) {
-    led::setColor(red_value, green_value, blue_value);
+    // led::setColor(red_value, green_value, blue_value);
     resetTimer();
     switch (random(0, 5)) {
       case 0:  // go down big
@@ -56,4 +56,4 @@ void tick() {
   }
 }
 
-}  // namespace flicker
+}  // namespace m_flicker

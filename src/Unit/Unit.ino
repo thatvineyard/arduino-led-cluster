@@ -5,13 +5,12 @@
 #include "Messaging.h"
 
 // Identification
+char column = 'A';
 int row = 2;
-int column = 1;
-String id = "A02";
 
 void setup() {
   // Set the regex match state to the id.
-  messaging::setRegexp(id);
+  messaging::setRegexp(createId(column, row));
   // Open serial connection
   Serial.begin(BAUD_RATE);
 
@@ -23,11 +22,15 @@ void setup() {
 
 void loop() {
   messaging::parseMessage();
-  if (newCommand) {
-    initCommand();
-    newCommand = false;
+  if (isNewSetting) {
+    applySetting();
+    isNewSetting = false;
   }
-  doCommand();
+  if (isNewMacro) {
+    initMacro();
+    isNewMacro = false;
+  }
+  tickMacro();
 }
 
 /*
@@ -35,4 +38,12 @@ void loop() {
   routine is run between each time loop() runs, so using delay inside loop can
   delay response. Multiple bytes of data may be available.
 */
-void serialEvent() { messaging::readSerial(); }
+void serialEvent() {
+  messaging::readSerial();
+}
+
+String createId(char column, int row) {
+  char id_string[3];
+  sprintf(id_string, "%c%03u", column, row);
+  return id_string;
+}

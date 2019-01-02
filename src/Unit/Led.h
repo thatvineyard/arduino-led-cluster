@@ -7,9 +7,9 @@ enum LedType { COMMON_CATHODE, COMMON_ANODE };
 
 void initLed(LedType);
 
-void setColor(int red_value, int green_value, int blue_value);
+void setBaseColor(int red_value, int green_value, int blue_value);
 
-void setBrightness(int brightness_value);
+void setBaseBrightness(int brightness_value);
 
 void reset();
 

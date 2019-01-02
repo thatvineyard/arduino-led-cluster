@@ -2,42 +2,91 @@
 #define COMMANDS_H_DEFINED
 
 enum Command {
+  // SPECIAL COMMANDS
   NULL_COMMAND = -1,
   STOP,
-  SETCOLOR,
-  SETBRIGHTNESS,
-  BLINK,
-  FLICKER,
+  // SETTINGS
+  S_BASECOLOR,
+  S_BASEBRIGHTNESS,
+  // MACROS
+  M_SOLID,
+  M_BLINK,
+  M_FLICKER,
 };
 
-void setCommand(Command newCommand);
+Command stringToCommand(String string_to_convert) {
+  string_to_convert.toUpperCase();
+  if (string_to_convert == "NULL_COMMAND") {
+    return NULL_COMMAND;
+  }
+  if (string_to_convert == "STOP") {
+    return STOP;
+  }
+  if (string_to_convert == "S_BASECOLOR") {
+    return S_BASECOLOR;
+  }
+  if (string_to_convert == "S_BASEBRIGHTNESS") {
+    return S_BASEBRIGHTNESS;
+  }
+  if (string_to_convert == "M_BLINK") {
+    return M_BLINK;
+  }
+  if (string_to_convert == "M_FLICKER") {
+    return M_FLICKER;
+  }
 
-void initCommand();
+  return NULL_COMMAND;
+}
 
-void doCommand();
+String commandToString(Command command_to_convert) {
+  if (command_to_convert == NULL_COMMAND) {
+    return "NULL_COMMAND";
+  }
+  if (command_to_convert == STOP) {
+    return "STOP";
+  }
+  if (command_to_convert == S_BASECOLOR) {
+    return "S_BASECOLOR";
+  }
+  if (command_to_convert == S_BASEBRIGHTNESS) {
+    return "S_BASEBRIGHTNESS";
+  }
+  if (command_to_convert == M_BLINK) {
+    return "M_BLINK";
+  }
+  if (command_to_convert == M_FLICKER) {
+    return "M_FLICKER";
+  }
 
-namespace setColor {
-void init(int red_value, int green_value, int blue_value);
+  return "NULL_COMMAND";
+}
+
+bool isSetting(Command command_to_check) {
+  return ((command_to_check == S_BASEBRIGHTNESS) ||
+          (command_to_check == S_BASECOLOR));
+}
+
+bool isMacro(Command command_to_check) {
+  return ((command_to_check == M_BLINK) || (command_to_check == M_SOLID) ||
+          (command_to_check == M_FLICKER));
+}
+
+void setMacro(Command newCommand);
+
+void setSetting();
+
+void initMacro();
+
+void tickMacro();
+
+namespace m_blink {
+void init(String blink_delay);
 void tick();
-}  // namespace setColor
+}  // namespace m_blink
 
-namespace setBrightness {
-int num_params = 1;
-void init(int brightness_value);
+namespace m_flicker {
+void init(String flicker_delay);
 void tick();
-}  // namespace setBrightness
-
-namespace blink {
-int num_params = 4;
-void init(String red_value, String green_value, String blue_value,
-          String blink_delay);
-void tick();
-}  // namespace blink
-
-namespace flicker {
-int num_params = 1;
-void init(String delay);
-void tick();
-}  // namespace flicker
+}  // namespace m_flicker
 
 #endif

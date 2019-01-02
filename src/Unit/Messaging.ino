@@ -5,10 +5,10 @@
 namespace messaging {
 
 // Parameters used to collect the message.
-String selector = "";
-String command = "";
-String parameters[MAX_PARAMETERS];
-int parameter_index = 0;
+String input_selector = "";
+String input_command = "";
+String input_parameters[MAX_PARAMETERS];
+int input_parameter_index = 0;
 
 // Parsed message
 bool selector_match = false;
@@ -19,12 +19,23 @@ MessageState message_state;
 MatchState match_state;
 
 // MESSAGE PARSING
+void resetMessaging() {
+  input_selector = "";
+  input_command = "";
+  for (int i = 0; i < MAX_PARAMETERS; i++) {
+    input_parameters[i] = "";
+  }
+  input_parameter_index = 0;
+
+  message_state = NO_MESSAGE;
+}
+
 void setRegexp(String new_regexp) {
   match_state.Target(const_cast<char*>(new_regexp.c_str()));
 }
 
 bool parseSelector() {
-  char res = match_state.Match(const_cast<char*>(selector.c_str()), 0);
+  char res = match_state.Match(const_cast<char*>(input_selector.c_str()), 0);
   if (res > 0) {
     return true;
   } else {
@@ -32,73 +43,70 @@ bool parseSelector() {
   }
 }
 
-void parseCommand() {}
+void parseCommand() {
+  Command new_command = stringToCommand(input_command);
+  if (isMacro(new_command)) {
+    setMacro(new_command);
+    isNewMacro = true;
+  } else if (isSetting(new_command)) {
+    setSetting(new_command);
+    isNewSetting = true;
+  }
+}
 
-void parseParameters() {}
+void parseParameters() {
+  setParameters(input_parameters);
+}
 
 void parseMessage() {
   if (message_state == AWAITING_PARSING) {
-    bool match = parseSelector();
-
-    if (match) {
-      setCommand(stringToCommand(command));
-      setParameters(parameters);
-      newCommand = true;
+    if (parseSelector()) {
+      parseCommand();
+      parseParameters();
 
       if (DEBUG_MODE) {
         String parameter_list = "";
         for (int i = 0; i < MAX_PARAMETERS; i++) {
-          if (parameters[i] != "") {
-            parameter_list += parameters[i] + " ";
+          if (input_parameters[i] != "") {
+            parameter_list += input_parameters[i] + " ";
           }
         }
-        Serial.println("Matched selector: excecuting command: " + command +
-                       " with parameters: " + parameter_list + ".");
+        Serial.println("Matched input_selector: excecuting input_command: " +
+                       input_command +
+                       " with input_parameters: " + parameter_list + ".");
       }
-
-      reset();
-    } else {
-      reset();
     }
-
-    message_state = NO_MESSAGE;
+    resetMessaging();
   }
 }
 
 // MESSAGE RECIEVING
 
-void reset() {
-  selector = "";
-  command = "";
-  for (int i = 0; i < MAX_PARAMETERS; i++) {
-    parameters[i] = "";
-  }
-  parameter_index = 0;
+void addToSelector(char inChar) {
+  input_selector += inChar;
 }
-
-void addToSelector(char inChar) { selector += inChar; }
 
 void addToParameters(char inChar) {
   if (inChar != ' ') {
-    parameters[parameter_index] += inChar;
+    input_parameters[input_parameter_index] += inChar;
   } else {
-    parameter_index++;
+    input_parameter_index++;
   }
 }
 
 void addToCommand(char inChar) {
   if (inChar != ' ') {
-    command += inChar;
+    input_command += inChar;
   }
 }
 
 void parseChar(char inChar) {
-  // Whenever we see a '>' we reset, otherwise we check the state
+  // Whenever we see a '>' we resetMessaging, otherwise we check the state
   // and then look at the character and either record into the right
   // spot or change state.
   if (inChar == DELIM_MESSAGE_START) {
     message_state = START;
-    reset();
+    resetMessaging();
   } else {
     switch (message_state) {
       case NO_MESSAGE:

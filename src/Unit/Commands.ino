@@ -4,9 +4,9 @@
 long timer;
 long timer_delay = 1000;
 
-Command currentCommand = NULL_COMMAND;
+Command currentMacro = NULL_COMMAND;
+Command currentSetting = NULL_COMMAND;
 String currentParameters[MAX_PARAMETERS];
-bool isNewCommand = false;
 
 int timerLapsed() {
   bool result = millis() - timer > timer_delay;
@@ -23,11 +23,18 @@ void setTimer(long delay) {
   timer_delay = delay;
 }
 
-void resetTimer() { timer = millis(); }
+void resetTimer() {
+  timer = millis();
+}
 
-void setCommand(Command newCommand) {
-  currentCommand = newCommand;
-  isNewCommand = true;
+void setMacro(Command newMacro) {
+  currentMacro = newMacro;
+  isNewMacro = true;
+}
+
+void setSetting(Command newSetting) {
+  currentSetting = newSetting;
+  isNewSetting = true;
 }
 
 void setParameters(String newParameters[]) {
@@ -36,100 +43,61 @@ void setParameters(String newParameters[]) {
   }
 }
 
-void initCommand() {
+void setBaseBrightness(String new_brightness_value) {
+  led::setBaseBrightness(255);  // TODO
+}
+
+void setBaseColor(String red_value, String green_value, String blue_value) {
+  led::setBaseColor(255, 255, 255);  // TODO
+}
+
+void applySetting() {
   if (DEBUG_MODE) {
-    Serial.println("Initializing command: " + commandToString(currentCommand) +
+    Serial.println("Applying setting: " + commandToString(currentSetting) +
                    ".");
   }
-  switch (currentCommand) {
+  switch (currentSetting) {
+    case S_BASEBRIGHTNESS:
+      setBaseBrightness(currentParameters[0]);
+      break;
+    case S_BASECOLOR:
+      setBaseColor(currentParameters[0], currentParameters[1],
+                   currentParameters[2]);
+      break;
     case NULL_COMMAND:
-    case STOP:
-      led::reset();
-      break;
-    case SETCOLOR:
-      setColor::init(255, 255, 255);
-      break;
-    case SETBRIGHTNESS:
-      setBrightness::init(255);
-      break;
-    case BLINK:
-      blink::init(currentParameters[0], currentParameters[1],
-                  currentParameters[2], currentParameters[3]);
-      break;
-    case FLICKER:
-      flicker::init(currentParameters[0]);
-      break;
     default:
       break;
   }
 }
 
-void doCommand() {
-  switch (currentCommand) {
+void initMacro() {
+  if (DEBUG_MODE) {
+    Serial.println("Initializing macro: " + commandToString(currentMacro) +
+                   ".");
+  }
+  switch (currentMacro) {
+    case M_BLINK:
+      m_blink::init(currentParameters[0]);
+      break;
+    case M_FLICKER:
+      m_flicker::init(currentParameters[0]);
+      break;
     case NULL_COMMAND:
-      break;
-    case STOP:
-      break;
-    case SETCOLOR:
-      setColor::tick();
-      break;
-    case SETBRIGHTNESS:
-      setBrightness::tick();
-      break;
-    case BLINK:
-      blink::tick();
-      break;
-    case FLICKER:
-      flicker::tick();
-      break;
     default:
       break;
   }
 }
 
-Command stringToCommand(String string_to_convert) {
-  string_to_convert.toUpperCase();
-  if (string_to_convert == "NULL_COMMAND") {
-    return NULL_COMMAND;
+void tickMacro() {
+  switch (currentMacro) {
+    case M_BLINK:
+      m_blink::tick();
+      break;
+    case M_FLICKER:
+      m_flicker::tick();
+      break;
+    case NULL_COMMAND:
+    default:
+      break;
   }
-  if (string_to_convert == "STOP") {
-    return STOP;
-  }
-  if (string_to_convert == "SETCOLOR") {
-    return SETCOLOR;
-  }
-  if (string_to_convert == "SETBRIGHTNESS") {
-    return SETBRIGHTNESS;
-  }
-  if (string_to_convert == "BLINK") {
-    return BLINK;
-  }
-  if (string_to_convert == "FLICKER") {
-    return FLICKER;
-  }
-
-  return NULL_COMMAND;
-}
-
-String commandToString(Command command_to_convert) {
-  if (command_to_convert == NULL_COMMAND) {
-    return "NULL_COMMAND";
-  }
-  if (command_to_convert == STOP) {
-    return "STOP";
-  }
-  if (command_to_convert == SETCOLOR) {
-    return "SETCOLOR";
-  }
-  if (command_to_convert == SETBRIGHTNESS) {
-    return "SETBRIGHTNESS";
-  }
-  if (command_to_convert == BLINK) {
-    return "BLINK";
-  }
-  if (command_to_convert == FLICKER) {
-    return "FLICKER";
-  }
-
-  return "NULL_COMMAND";
 }
