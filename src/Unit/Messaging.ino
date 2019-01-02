@@ -18,7 +18,7 @@ Command parsed_command = NULL_COMMAND;
 MessageState message_state;
 MatchState match_state;
 
-// MESSAGE PARSING
+// MESSAGE RECORDING
 void resetMessaging() {
   input_selector = "";
   input_command = "";
@@ -29,6 +29,26 @@ void resetMessaging() {
 
   message_state = NO_MESSAGE;
 }
+
+void addToSelector(char inChar) {
+  input_selector += inChar;
+}
+
+void addToParameters(char inChar) {
+  if (inChar != ' ') {
+    input_parameters[input_parameter_index] += inChar;
+  } else {
+    input_parameter_index++;
+  }
+}
+
+void addToCommand(char inChar) {
+  if (inChar != ' ') {
+    input_command += inChar;
+  }
+}
+
+// MESSAGE PARSING
 
 void setRegexp(String new_regexp) {
   match_state.Target(const_cast<char*>(new_regexp.c_str()));
@@ -80,45 +100,33 @@ void parseMessage() {
   }
 }
 
-// MESSAGE RECIEVING
-
-void addToSelector(char inChar) {
-  input_selector += inChar;
-}
-
-void addToParameters(char inChar) {
-  if (inChar != ' ') {
-    input_parameters[input_parameter_index] += inChar;
-  } else {
-    input_parameter_index++;
-  }
-}
-
-void addToCommand(char inChar) {
-  if (inChar != ' ') {
-    input_command += inChar;
-  }
-}
-
+/**
+ * parseChar(char)
+ * Reads the character and matches is against the delimiters defined in
+ * globals.h. Depending on which MessageState the program is in it will record
+ * the char in the appropriate variable or change state.
+ */
 void parseChar(char inChar) {
-  // Whenever we see a '>' we resetMessaging, otherwise we check the state
-  // and then look at the character and either record into the right
-  // spot or change state.
+  // No matter what the state, if we meet a DELIM_MESSAGE_START, we reset.
   if (inChar == DELIM_MESSAGE_START) {
     message_state = START;
     resetMessaging();
   } else {
     switch (message_state) {
-      case NO_MESSAGE:
-        break;
-
       case START:
+        // If we see a DELIM_SELECTOR_START we move to the SELECTOR state. If we
+        // see a DELIM_MESSAGE_END we reset to the NO_MESSAGE state.
         if (inChar == DELIM_SELECTOR_START) {
           message_state = SELECTOR;
+        } else if (inChar == DELIM_MESSAGE_END) {
+          message_state = NO_MESSAGE;
         }
         break;
 
       case SELECTOR:
+        // If we see a DELIM_SELECTOR_END we move to the COMMAND state. If we
+        // see a DELIM_MESSAGE_END we reset to the NO_MESSAGE state. Otherwise
+        // we record the selector.
         if (inChar == DELIM_SELECTOR_END) {
           message_state = COMMAND;
         } else if (inChar == DELIM_MESSAGE_END) {
@@ -129,6 +137,9 @@ void parseChar(char inChar) {
         break;
 
       case COMMAND:
+        // If we see a DELIM_PARAMETERS_START we move to the PARAMETERS state.
+        // If we see a DELIM_MESSAGE_END we move to the AWAITING_PARSING state.
+        // Otherwise we record the command.
         if (inChar == DELIM_PARAMETERS_START) {
           message_state = PARAMETERS;
         } else if (inChar == DELIM_MESSAGE_END) {
@@ -139,6 +150,9 @@ void parseChar(char inChar) {
         break;
 
       case PARAMETERS:
+        // If we see a DELIM_PARAMETERS_END we move to the END state. If we see
+        // a DELIM_MESSAGE_END we reset to the NO_MESSAGE state. Otherwise we
+        // record the parameter.
         if (inChar == DELIM_PARAMETERS_END) {
           message_state = END;
         } else if (inChar == DELIM_MESSAGE_END) {
@@ -149,29 +163,29 @@ void parseChar(char inChar) {
         break;
 
       case END:
-        // If we see a '!' we accept the message, signal that the message is
-        // ready for parsing.
+        // If we see a DELIM_MESSAGE_END we accept the message, signal that the
+        // message is ready for parsing.
         if (inChar == DELIM_MESSAGE_END) {
           message_state = AWAITING_PARSING;  // MESSAGE ACCEPTED
         }
+
+      case NO_MESSAGE:
       default:
+        // In the NO_MESSAGE state and default state we ignore all characters.
         break;
     }
   }
 }
 
-/*
-  SerialEvent occurs whenever a new data comes in the hardware serial RX. This
-  routine is run between each time loop() runs, so using delay inside loop can
-  delay response. Multiple bytes of data may be available.
-*/
+// MESSAGE RECEIVING
+
+/** readSerial()
+ * Reads all available bytes, parses them and retransmits them one by one.
+ */
 void readSerial() {
   while (Serial.available()) {
-    // Read the new byte:
     char inChar = (char)Serial.read();
-    // Record it
     parseChar(inChar);
-
     Serial.write(inChar);
   }
 }
