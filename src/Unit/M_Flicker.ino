@@ -18,7 +18,7 @@ void init(String delay) {
     setTimerDelay(delay.toInt());
   }
 
-  color::setAuxColorProcent(procent, procent, procent);
+  color::setAuxBrightnessProcent(procent);
   restartTimer();
 }
 
@@ -48,7 +48,7 @@ void tick() {
       default:
         break;
     }
-    color::setAuxColorProcent(procent, procent, procent);
+    color::setAuxBrightnessProcent(procent);
   }
 }
 
