@@ -1,0 +1,22 @@
+#ifndef FILTER_H_INCLUDED
+#define FILTER_H_INCLUDED
+
+#define NUMBER_OF_FILTERS 11
+
+enum Filter {
+  NO_FILTER,
+  ODD_COLUMNS,
+  EVEN_COLUMNS,
+  ODD_ROWS,
+  EVEN_ROWS,
+  CHECKERBOARD,
+  LEFT_HALF,
+  RIGHT_HALF,
+  LEFT_THIRD,
+  MIDDLE_THIRD,
+  RIGHT_THIRD
+};
+
+void setAnimationSpeed(int value);
+
+#endif

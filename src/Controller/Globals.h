@@ -5,6 +5,9 @@
 #define UNIT_COLUMN 'A'
 #define UNIT_ROW 1
 
+// CONTROLLER
+#define DMX_MODE false
+
 // PROJECT
 #define NUM_COLUMNS 10
 #define NUM_ROWS 20

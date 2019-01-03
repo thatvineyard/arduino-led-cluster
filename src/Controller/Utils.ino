@@ -32,3 +32,11 @@ void setTimerDelay(long delay) {
 void restartTimer() {
   timer = millis();
 }
+
+String andSelector(String selector_one, String selector_two) {
+  return selector_one + DELIM_SELECTOR_AND + selector_two;
+}
+
+String orSelector(String selector_one, String selector_two) {
+  return selector_one + DELIM_SELECTOR_OR + selector_two;
+}

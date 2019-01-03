@@ -3,61 +3,14 @@
 
 namespace animation {
 
-Command current_command;
-int current_number_of_parameters;
+#define MIN_ANIMATION_DELAY 20
+#define MAX_ANIMATION_DELAY 5000
+
 Animation current_animation;
-Filter current_filter;
-int animation_delay = 20;
+int animation_delay = 100;
 bool first = false;
 
 int step;
-
-String andSelector(String selector_one, String selector_two) {
-  return selector_one + DELIM_SELECTOR_AND + selector_two;
-}
-
-String orSelector(String selector_one, String selector_two) {
-  return selector_one + DELIM_SELECTOR_OR + selector_two;
-}
-
-String filterToSelector(Filter filter) {
-  switch (filter) {
-    case NO_FILTER:
-    default:
-      return ".*";
-      break;
-    case ODD_COLUMNS:
-      return ".*";
-      break;
-    case EVEN_COLUMNS:
-      return ".*";
-      break;
-    case ODD_ROWS:
-      return ".*";
-      break;
-    case EVEN_ROWS:
-      return ".*";
-      break;
-    case CHECKERBOARD:
-      return ".*";
-      break;
-    case LEFT_HALF:
-      return ".*";
-      break;
-    case RIGHT_HALF:
-      return ".*";
-      break;
-    case LEFT_THIRD:
-      return ".*";
-      break;
-    case MIDDLE_THIRD:
-      return ".*";
-      break;
-    case RIGHT_THIRD:
-      return ".*";
-      break;
-  }
-}
 
 String a_random() {
   String result = "";
@@ -223,26 +176,20 @@ String animationToSelector() {
   }
 }
 
-void tick() {
-  if (timerLapsed || first) {
-    sendMessage(createMessage(
-        andSelector(animationToSelector(), filterToSelector(current_filter)),
-        String(current_command), current_number_of_parameters));
-
-    step++;
-    restartTimer();
-  }
+bool nextFrame() {
+  return (timerLapsed() || first);
 }
 
-void init(Command new_command,
-          int new_number_of_parameters,
-          Animation new_animation,
-          Filter new_filter,
-          int new_animation_delay) {
-  current_command = new_command;
-  current_number_of_parameters = new_number_of_parameters;
+String getNextFrame() {
+  String result = animationToSelector();
+  first = false;
+  step++;
+  restartTimer();
+  return result;
+}
+
+void init(Animation new_animation, int new_animation_delay) {
   current_animation = new_animation;
-  current_filter = new_filter;
   animation_delay = new_animation_delay;
 
   setTimerDelay(animation_delay);
@@ -250,8 +197,13 @@ void init(Command new_command,
   first = true;
 
   log("New animation set: " + String(current_animation) + " (" +
-      String(animation_delay) + "ms) with filter: " + String(current_filter) +
-      " executing command: " + String(current_command) + ".");
+      String(animation_delay) + "ms)" + ".");
+}
+
+void setAnimationSpeed(int value) {
+  animation_delay = MIN_ANIMATION_DELAY +
+                    (((long)(MAX_ANIMATION_DELAY - MIN_ANIMATION_DELAY)) *
+                     constrain(value, 0, 255) / 255);
 }
 
 }  // namespace animation

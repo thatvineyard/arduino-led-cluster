@@ -10,6 +10,9 @@ void setup() {
   messaging::setRegexp(createId(UNIT_COLUMN, UNIT_ROW));
   // Open serial connection
   Serial.begin(BAUD_RATE);
+  // while (!Serial) {
+  //   ;
+  // }
 
   // initialize pins
   led::initLed(LED_TYPE);
