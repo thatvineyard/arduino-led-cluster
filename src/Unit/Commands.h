@@ -1,7 +1,7 @@
 #ifndef COMMANDS_H_DEFINED
 #define COMMANDS_H_DEFINED
 
-#include "Globals.h";
+#include "Globals.h"
 
 /**
  * Sets a new macro. This will flag that a new macro is ready to be initialized.
@@ -44,9 +44,7 @@ void applySetting();
  * 500ms.
  */
 namespace m_pulse {
-void init(String on_duration,
-          String fade_in_duration,
-          String off_duration,
+void init(String on_duration, String fade_in_duration, String off_duration,
           String fade_out_duration);
 void tick();
 }  // namespace m_pulse
@@ -59,7 +57,7 @@ void tick();
  * set to something like (255, 50, 0) for the best candle effect.
  */
 namespace m_flicker {
-void init(String flicker_delay);
+void init(String flicker_delay, String minimum_procent);
 void tick();
 }  // namespace m_flicker
 

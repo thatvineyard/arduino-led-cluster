@@ -31,6 +31,7 @@ Command command;
 int command_selector;
 int parameter_selector;
 bool macro_changed;
+bool macro_toggle = false;
 
 void setup() {
   // Open serial connection
@@ -60,8 +61,7 @@ void sendSettings() {
   }
 }
 
-String createMessage(String selector,
-                     String command,
+String createMessage(String selector, String command,
                      int number_of_parameters) {
   String message = "";
 
@@ -74,36 +74,42 @@ String createMessage(String selector,
     message += DELIM_PARAMETERS_START;
     for (int i = 0; i < number_of_parameters; i++) {
       message += parameters[i];
-      if (i + 1 == number_of_parameters) {
+      if (i + 1 != number_of_parameters) {
         message += " ";
       }
     }
-    message += DELIM_MESSAGE_END;
+    message += DELIM_PARAMETERS_END;
   }
   message += DELIM_MESSAGE_END;
 
   return message;
 }
 
-void sendMessage(String message) {
-  Serial.print(message);
-}
+void sendMessage(String message) { Serial.print(message); }
 
 void sendDimmerCommand() {
   parameters[0] = dimmer;
-  createMessage(".*", "S_BASEBRIGHTNESS", 1);
+  sendMessage(createMessage(".*", "S_BASEBRIGHTNESS", 1));
 }
 
 void sendColorCommand() {
   parameters[0] = red;
   parameters[1] = green;
   parameters[2] = blue;
-  createMessage(".*", "S_SETBASECOLOR", 3);
+  sendMessage(createMessage(".*", "S_BASECOLOR", 3));
 }
 
 void sendMacroSpeedCommand() {
   parameters[0] = macro_speed;
-  createMessage(".*", "S_BASESPEED", 1);
+  sendMessage(createMessage(".*", "S_BASESPEED", 1));
 }
 
-void sendMacroCommand() {}
+void sendMacroCommand() {
+  if (macro_toggle) {
+    sendMessage(createMessage(".*", "S_BASECOLOR", 3));
+    macro_toggle = false;
+  } else {
+    sendMessage(createMessage(".*", "M_FLICKER", 2));
+    macro_toggle = true;
+  }
+}

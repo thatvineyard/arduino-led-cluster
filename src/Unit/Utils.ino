@@ -9,14 +9,12 @@ String createId(char column, int row) {
 }
 
 void log(String message) {
-  if (DEBUG_MODE) {
-    Serial.println(message);
-  }
+  // if (DEBUG_MODE) {
+  Serial.println(message);
+  // }
 }
 
-void setBaseSpeed(int new_base_speed) {
-  base_speed = new_base_speed;
-}
+void setBaseSpeed(int new_base_speed) { base_speed = new_base_speed; }
 
 bool timerLapsed() {
   bool result = millis() - timer > timer_delay;
@@ -29,6 +27,4 @@ void setTimerDelay(long delay) {
   timer_delay = (int)((long)delay * (long)base_speed / 100);
 }
 
-void restartTimer() {
-  timer = millis();
-}
+void restartTimer() { timer = millis(); }

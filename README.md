@@ -115,6 +115,12 @@ allow for curves and circles without massive regexs.
 
 >`` will match blah
 
+## Commands
+
+**Examples:**
+>{.*} s_basecolor (-1 -1 -1)! // randomizes color
+>{.*} m_pulse (1000 500 0 5000)! // pulse
+
 ## Todo
 
  - [ ] Build prototype

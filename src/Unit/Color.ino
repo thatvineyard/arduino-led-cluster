@@ -33,7 +33,7 @@ int final_green_value = 0;
 int final_blue_value = 0;
 
 int applyBrightness(int value) {
-  long val = ((long)value * (long)aux_brightness_value) / 255;
+  long val = ((long)value * (long)final_brightness_value) / 255;
   return (int)val;
 }
 
@@ -109,20 +109,37 @@ void displayColor() {
                     applyBrightness(final_blue_value));
 }
 
-void setBaseColor(int red_value, int green_value, int blue_value) {
-  log("BaseColor set to " + String(red_value) + " " + String(green_value) +
-      ", " + String(blue_value) + ".");
-
-  base_red_value = red_value;
-  base_green_value = green_value;
-  base_blue_value = blue_value;
+void setBaseColor(int new_red_value, int new_green_value, int new_blue_value) {
+  randomSeed(millis());
+  if (new_red_value == -1) {
+    base_red_value = random(255);
+  } else {
+    base_red_value = constrain(new_red_value, 0, 255);
+  }
+  if (new_green_value == -1) {
+    base_green_value = random(255);
+  } else {
+    base_green_value = constrain(new_green_value, 0, 255);
+  }
+  if (new_blue_value == -1) {
+    base_blue_value = random(255);
+  } else {
+    base_blue_value = constrain(new_blue_value, 0, 255);
+  }
+  log("BaseColor set to " + String(base_red_value) + " " +
+      String(base_green_value) + ", " + String(base_blue_value) + ".");
 
   displayColor();
 }
 void setBaseBrightness(int new_brightness_value) {
-  log("Base brightness set to " + String(new_brightness_value));
+  randomSeed(millis());
 
-  base_brightness_value = new_brightness_value;
+  if (new_brightness_value == -1) {
+    base_brightness_value = random(255);
+  } else {
+    base_brightness_value = constrain(new_brightness_value, 0, 255);
+  }
+  log("Base brightness set to " + String(base_brightness_value));
 
   displayColor();
 }
@@ -155,8 +172,7 @@ void setAuxColorToBase() {
   displayColor();
 }
 
-void setAuxColorValue(int new_aux_red_value,
-                      int new_aux_green_value,
+void setAuxColorValue(int new_aux_red_value, int new_aux_green_value,
                       int new_aux_blue_value) {
   color_aux_type = VALUE;
   aux_red_value = constrain(new_aux_red_value, 0, 255);
@@ -165,8 +181,7 @@ void setAuxColorValue(int new_aux_red_value,
   displayColor();
 }
 
-void setAuxColorProcent(int new_aux_red_procent,
-                        int new_aux_green_procent,
+void setAuxColorProcent(int new_aux_red_procent, int new_aux_green_procent,
                         int new_aux_blue_procent) {
   color_aux_type = PROCENT;
   aux_red_procent = new_aux_red_procent;
@@ -175,8 +190,7 @@ void setAuxColorProcent(int new_aux_red_procent,
   displayColor();
 }
 
-void setAuxColorDelta(int new_aux_red_delta,
-                      int new_aux_green_delta,
+void setAuxColorDelta(int new_aux_red_delta, int new_aux_green_delta,
                       int new_aux_blue_delta) {
   aux_red_delta = new_aux_red_delta;
   aux_green_delta = new_aux_green_delta;
