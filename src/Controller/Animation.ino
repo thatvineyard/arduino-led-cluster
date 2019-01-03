@@ -12,77 +12,155 @@ bool first = false;
 
 int step;
 
+String andSelector(String selector_one, String selector_two) {
+  return selector_one + DELIM_SELECTOR_AND + selector_two;
+}
+
+String orSelector(String selector_one, String selector_two) {
+  return selector_one + DELIM_SELECTOR_OR + selector_two;
+}
+
 String filterToSelector(Filter filter) {
   switch (filter) {
     case NO_FILTER:
     default:
-      return "";
+      return ".*";
       break;
     case ODD_COLUMNS:
-      return "";
+      return ".*";
       break;
     case EVEN_COLUMNS:
-      return "";
+      return ".*";
       break;
     case ODD_ROWS:
-      return "";
+      return ".*";
       break;
     case EVEN_ROWS:
-      return "";
+      return ".*";
       break;
     case CHECKERBOARD:
-      return "";
+      return ".*";
       break;
     case LEFT_HALF:
-      return "";
+      return ".*";
       break;
     case RIGHT_HALF:
-      return "";
+      return ".*";
       break;
     case LEFT_THIRD:
-      return "";
+      return ".*";
       break;
     case MIDDLE_THIRD:
-      return "";
+      return ".*";
       break;
     case RIGHT_THIRD:
-      return "";
+      return ".*";
       break;
   }
 }
 
-String nextStepFilter() {
+String a_random() {
+  String result = "";
+  String column_regex;
+  char column_character;
+
+  randomSeed(millis());
+
+  for (int i = 0; i < NUM_COLUMNS; i++) {
+    column_character = 'A' + i;
+
+    column_regex = String(column_character) + "[";
+
+    for (int j = 0; j < NUM_ROWS; j++) {
+      if (random(1) == 1) {
+        column_regex += String(j);
+      }
+    }
+
+    column_regex += "]";
+
+    if (i == 0) {
+      result = column_regex;
+    } else {
+      result = orSelector(result, column_regex);
+    }
+  }
+}
+
+String a_horizontal_sweep(bool left_to_right) {
+  String result = "";
+
+  if (step > NUM_COLUMNS) {
+    step = 0;
+  }
+
+  char column_character;
+  if (left_to_right) {
+    column_character = 'A' + step;
+  } else {
+    column_character = 'A' + (NUM_COLUMNS - step);
+  }
+
+  result = String(column_character) + "..";
+
+  step++;
+
+  return result;
+}
+
+String a_vertical_sweep(bool front_to_back) {
+  String result = "";
+
+  if (step > NUM_ROWS) {
+    step = 0;
+  }
+
+  result = ".";
+
+  char row_string[2];
+
+  if (front_to_back) {
+    sprintf(row_string, "%02d", NUM_ROWS - step);
+  } else {
+    sprintf(row_string, "%02d", step);
+  }
+
+  result += row_string;
+
+  step++;
+
+  return result;
+}
+
+String nextStepAnimation() {
   switch (current_animation) {
     case NO_ANIMATION:
     default:
       return ".*";
       break;
     case RANDOM:
-      return ".*";
+      return a_random();
       break;
     case LEFT_TO_RIGHT:
-      return ".*";
+      return a_horizontal_sweep(true);
       break;
     case RIGHT_TO_LEFT:
-      return ".*";
+      return a_horizontal_sweep(false);
       break;
     case BACK_TO_FRONT:
-      return ".*";
+      return a_vertical_sweep(false);
       break;
     case FRONT_TO_BACK:
-      return ".*";
+      return a_vertical_sweep(true);
       break;
   }
 }
 
-String andSelector(String selector_one, String selector_two) {
-  return selector_one + DELIM_SELECTOR_AND + selector_two;
-}
-
 void tick() {
   if (timerLapsed || first) {
-    sendMessage(createMessage(filterToSelector(current_filter), "",
-                              current_number_of_parameters));
+    sendMessage(createMessage(
+        andSelector(nextStepAnimation(), filterToSelector(current_filter)),
+        String(current_command), current_number_of_parameters));
     restartTimer();
   }
 }
@@ -101,6 +179,10 @@ void init(Command new_command,
   setTimerDelay(animation_delay);
   step = 0;
   first = true;
+
+  log("New animation set: " + String(current_animation) + " (" +
+      String(animation_delay) + "ms) with filter: " + String(current_filter) +
+      " executing command: " + String(current_command) + ".");
 }
 
 }  // namespace animation
