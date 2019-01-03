@@ -103,8 +103,6 @@ String a_horizontal_sweep(bool left_to_right) {
 
   result = String(column_character) + "..";
 
-  step++;
-
   return result;
 }
 
@@ -127,12 +125,69 @@ String a_vertical_sweep(bool front_to_back) {
 
   result += row_string;
 
-  step++;
+  return result;
+}
+
+String a_mirrored(bool inward) {
+  String result = "";
+
+  if (step > NUM_COLUMNS / 2) {
+    step = 0;
+  }
+
+  char column_character;
+  if (inward) {
+    column_character = 'A' + step;
+  } else {
+    column_character = 'A' + ((NUM_COLUMNS / 2) + step);
+  }
+  result = String(column_character) + "..";
+
+  if (inward) {
+    column_character = 'A' + (NUM_COLUMNS - step);
+  } else {
+    column_character = 'A' + ((NUM_COLUMNS / 2) - step);
+  }
+
+  result = orSelector(result, String(column_character) + "..");
 
   return result;
 }
 
-String nextStepAnimation() {
+String a_chevron(bool front_to_back) {
+  String result = "";
+
+  if (step > NUM_ROWS) {
+    step = 0;
+  }
+
+  char column_character_left;
+  char column_character_right;
+  String column_regex;
+  char row_string[2];
+  for (int i = 0; i < NUM_COLUMNS / 2; i++) {
+    column_character_left = 'A' + (NUM_COLUMNS / 2) - i;
+    column_character_right = 'A' + (NUM_COLUMNS / 2) + i;
+
+    column_regex = "[" + String(column_character_left) +
+                   String(column_character_right) + "]";
+
+    if (front_to_back) {
+      sprintf(row_string, "%02d", NUM_ROWS - (step - i));
+    } else {
+      sprintf(row_string, "%02d", (step - i));
+    }
+
+    if (i == 0) {
+      result = column_regex + row_string;
+    } else {
+      result = orSelector(result, column_regex + row_string);
+    }
+  }
+  return result;
+}
+
+String animationToSelector() {
   switch (current_animation) {
     case NO_ANIMATION:
     default:
@@ -153,14 +208,28 @@ String nextStepAnimation() {
     case FRONT_TO_BACK:
       return a_vertical_sweep(true);
       break;
+    case OUTWARD:
+      return a_mirrored(false);
+      break;
+    case INWARD:
+      return a_mirrored(true);
+      break;
+    case CHEVRON_FTB:
+      return a_chevron(true);
+      break;
+    case CHEVRON_BTF:
+      return a_chevron(false);
+      break;
   }
 }
 
 void tick() {
   if (timerLapsed || first) {
     sendMessage(createMessage(
-        andSelector(nextStepAnimation(), filterToSelector(current_filter)),
+        andSelector(animationToSelector(), filterToSelector(current_filter)),
         String(current_command), current_number_of_parameters));
+
+    step++;
     restartTimer();
   }
 }

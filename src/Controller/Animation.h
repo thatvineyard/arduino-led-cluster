@@ -8,6 +8,10 @@ enum Animation {
   RIGHT_TO_LEFT,
   BACK_TO_FRONT,
   FRONT_TO_BACK,
+  OUTWARD,
+  INWARD,
+  CHEVRON_FTB,
+  CHEVRON_BTF
 };
 
 enum Filter {
