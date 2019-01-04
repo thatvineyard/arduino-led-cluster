@@ -1,7 +1,0 @@
-{
-    "board": "arduino:avr:uno",
-    "sketch": "src\\Unit\\Unit.ino",
-    "sketch_": "src\\Controller\\Controller.ino",
-    "port": "COM5",
-    "output": "out/"
-}
