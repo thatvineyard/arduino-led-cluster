@@ -3,9 +3,13 @@
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 #include "Animation.h"
+#include "Commands.h"
 #include "Composer.h"
 #include "Filter.h"
 #include "Globals.h"
+#include "Lcd.h"
+#include "Sender.h"
+#include "View.h"
 
 bool macro_toggle = false;
 
@@ -15,7 +19,7 @@ void setup() {
   // while (!Serial) {
   //   ;
   // }
-  initLCD();
+  lcd::initLCD();
   initInput();
 }
 
@@ -25,7 +29,6 @@ void loop() {
   } else {
     parseInputs();
   }
-  composer::sendSettings();
-  composer::sendMacro();
-  updateDisplay();
+  composer::update();
+  lcd::updateDisplay();
 }

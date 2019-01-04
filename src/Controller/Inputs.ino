@@ -26,7 +26,7 @@
 
 // #define POT_A_ACTION(x) setMacroSpeed(x)
 
-#define BUTTON_A_ACTION composer::sendMacroCommand()
+#define BUTTON_A_ACTION sender::sendMacroPROTOTYPE()
 
 #define ENCODER_A_BUTTON_ACTION parameterScroll()
 #define ENCODER_A_CW_ACTION parameterIncrement()
@@ -108,48 +108,29 @@ void parseInputs() {
 
 void parameterScroll() {
   parameterScroll();
-  requestUpdate();
+  lcd::requestUpdate();
 }
 
 void parameterIncrement() {
-  composer::changeSelectedParameter(ENCODER_DELTA);
-  requestUpdate();
+  view::changeSelectedParameter(ENCODER_DELTA);
+  lcd::requestUpdate();
 }
 
 void parameterDecrement() {
-  composer::changeSelectedParameter(ENCODER_DELTA * -1);
-  requestUpdate();
+  view::changeSelectedParameter(ENCODER_DELTA * -1);
+  lcd::requestUpdate();
 }
 
 void controlScroll() {
-  requestUpdate();
+  view::scrollControl(ENCODER_DELTA);
+  lcd::requestUpdate();
 }
 
 void controlIncrement() {
-  requestUpdate();
+  view::changeSelectedControl(ENCODER_DELTA);
+  lcd::requestUpdate();
 }
 void controlDecrement() {
-  requestUpdate();
+  view::changeSelectedControl(ENCODER_DELTA * -1);
+  lcd::requestUpdate();
 }
-
-// void setDimmer(int value) {
-//   composer::setDimmer(constrain(value, 0, 255));
-// }
-
-// void setMacroSpeed(int value) {
-//   composer::setMacroSpeed(constrain(value, 0, 255));
-// }
-
-// void setRed(int value) {
-//   composer::setRed(constrain(value, 0, 255));
-// }
-
-// void setGreen(int value) {
-//   green = constrain(value, 0, 255);
-//   color_changed = true;
-// }
-
-// void setBlue(int value) {
-//   blue = constrain(value, 0, 255);
-//   color_changed = true;
-// }

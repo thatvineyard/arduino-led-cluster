@@ -176,7 +176,7 @@ String animationToSelector() {
   }
 }
 
-bool nextFrame() {
+bool nextFrameReady() {
   return (timerLapsed() || first);
 }
 
@@ -188,9 +188,8 @@ String getNextFrame() {
   return result;
 }
 
-void init(Animation new_animation, int new_animation_delay) {
+void startAnimation(Animation new_animation) {
   current_animation = new_animation;
-  animation_delay = new_animation_delay;
 
   setTimerDelay(animation_delay);
   step = 0;

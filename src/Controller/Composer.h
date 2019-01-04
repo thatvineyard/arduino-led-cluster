@@ -1,34 +1,47 @@
 #ifndef COMPOSER_H_INCLUDED
 #define COMPOSER_H_INCLUDED
 
+#include "Animation.h"
+#include "Filter.h"
 #include "Globals.h"
 
 namespace composer {
 
-enum view { MACRO = 0, ANIMATION = 1, FILTER = 2, ANIMATION_SPEED = 3 };
+void update();
 
-// DIMMER
-int dimmer_value = 255;
-bool dimmer_changed;
+// SETTING
 
-// RGB
-int red_value = 0;
-int green_value = 0;
-int blue_value = 0;
-bool color_changed;
+void setMacro(Command new_macro, int number_of_parameters);
 
-// SPEED
-int macro_speed_value = 100;
-bool macro_speed_changed;
+void setParameter(int parameter_number, int value);
+void changeParameter(int parameter_number, int delta);
 
-// MACRO
+void setMacroSpeed(int value);
+void changeMacroSpeed(int delta);
 
-// ANIMATION
-int animation_speed = 100;
+void setFilter(Filter new_filter);
 
-void sendSettings();
+void setAnimation(Animation new_animation);
 
-void sendMacro();
+void setAnimationSpeed(int value);
+void changeAnimationSpeed(int delta);
+
+void setDimmer(int value);
+void changeDimmer(int delta);
+
+void setRed(int value);
+void changeRed(int delta);
+
+void setGreen(int value);
+void changeGreen(int delta);
+
+void setBlue(int value);
+void changeBlue(int delta);
+
+void setColor(int red_value, int green_value, int blue_value);
+void changeColor(int red_delta, int green_delta, int blue_delta);
+
+// SEND
 
 }  // namespace composer
 

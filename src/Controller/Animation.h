@@ -19,4 +19,10 @@ enum Animation {
 
 void setAnimationSpeed(int value);
 
+bool nextFrameReady();
+
+String getNextFrame();
+
+void startAnimation(Animation new_animation, int new_animation_delay);
+
 #endif
