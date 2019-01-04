@@ -9,10 +9,23 @@ namespace animation {
 Animation current_animation;
 int animation_delay = 100;
 bool first = false;
+bool finished = false;
+bool looping = false;
 
 int step;
 
+void lastStepReached() {
+  if (looping) {
+    step = 0;
+  } else {
+    finished = true;
+  }
+}
+
 String a_random() {
+  if (step > 0) {
+    lastStepReached();
+  }
   String result = "";
   String column_regex;
   char column_character;
@@ -38,13 +51,15 @@ String a_random() {
       result = orSelector(result, column_regex);
     }
   }
+
+  return result;
 }
 
 String a_horizontal_sweep(bool left_to_right) {
   String result = "";
 
   if (step > NUM_COLUMNS) {
-    step = 0;
+    lastStepReached();
   }
 
   char column_character;
@@ -63,7 +78,7 @@ String a_vertical_sweep(bool front_to_back) {
   String result = "";
 
   if (step > NUM_ROWS) {
-    step = 0;
+    lastStepReached();
   }
 
   result = ".";
@@ -85,7 +100,7 @@ String a_mirrored(bool inward) {
   String result = "";
 
   if (step > NUM_COLUMNS / 2) {
-    step = 0;
+    lastStepReached();
   }
 
   char column_character;
@@ -111,7 +126,7 @@ String a_chevron(bool front_to_back) {
   String result = "";
 
   if (step > NUM_ROWS) {
-    step = 0;
+    lastStepReached();
   }
 
   char column_character_left;
@@ -188,8 +203,10 @@ String getNextFrame() {
   return result;
 }
 
-void startAnimation(Animation new_animation) {
+void startAnimation(Animation new_animation, bool new_looping) {
   current_animation = new_animation;
+  looping = new_looping;
+  finished = false;
 
   setTimerDelay(animation_delay);
   step = 0;

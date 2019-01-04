@@ -32,14 +32,16 @@ Animation current_animation = NO_ANIMATION;
 bool animation_changed = false;
 int animation_speed_value = 100;
 bool animation_speed_changed = false;
-bool freeze_animation = false;
 
 // FILTER
 Filter current_filter = NO_FILTER;
 bool filter_changed = false;
 
-// SET
+// FREEZE
+bool freeze_animation = false;
+bool freeze_settings = false;
 
+// SET
 void setMacro(Command new_macro, int number_of_parameters) {
   current_macro = new_macro;
   current_number_of_parameters = number_of_parameters;
@@ -169,6 +171,7 @@ void sendSettings() {
     macro_speed_changed = false;
   }
 }
+
 void update() {
   if (animation_changed) {
     animation::startAnimation(current_animation);
@@ -181,7 +184,9 @@ void update() {
   if (!freeze_animation) {
     sendNextFrame();
   }
-  sendSettings();
+  if (!freeze_settings) {
+    sendSettings();
+  }
 }
 
 void freezeAnimation() {
@@ -190,6 +195,14 @@ void freezeAnimation() {
 
 void unfreezeAnimation() {
   freeze_animation = false;
+}
+
+void freezeSettings() {
+  freeze_settings = true;
+}
+
+void unfreezeSetting() {
+  freeze_settings = false;
 }
 
 }  // namespace composer

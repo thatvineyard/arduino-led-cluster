@@ -5,9 +5,42 @@
 #include "Filter.h"
 #include "Globals.h"
 
+/**
+ * COMPOSER
+ *
+ * This modules compiles the many different variables that are required and
+ * handles them, sending out relevant updates every time update() is called.
+ *
+ * The set-functions will change variables that will take effect upon then next
+ * update().
+ *
+ * freezeAnimation() will stop the changing of frames, blocking all changes made
+ * to the following until unfreezeAnimation() is called.
+ *  - Macro
+ *  - Parameters
+ *  - Animation
+ *  - Animation speed
+ *  - Filter
+ *
+ * freezeSettings() will stop the updating of settings, blocking all changes
+ * made to the following until unfreezeSetting() is called.
+ *  - Dimmer
+ *  - Red, green and blue values
+ *  - Macro speed
+ *
+ */
+
 namespace composer {
 
 void update();
+
+void freezeAnimation();
+
+void unfreezeAnimation();
+
+void freezeSettings();
+
+void unfreezeSetting();
 
 // SETTING
 
@@ -40,8 +73,6 @@ void changeBlue(int delta);
 
 void setColor(int red_value, int green_value, int blue_value);
 void changeColor(int red_delta, int green_delta, int blue_delta);
-
-// SEND
 
 }  // namespace composer
 
