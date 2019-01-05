@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <DmxSimple.h>
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 #include "Animation.h"
@@ -21,6 +20,8 @@ void setup() {
   // }
   lcd::initLCD();
   initInput();
+
+  composer::setMacro(M_FLICKER);
 }
 
 void loop() {

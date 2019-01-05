@@ -40,29 +40,6 @@ bool isNewSetting;
 long timer;
 long timer_delay;
 
-/**
- *
- * Settings are changes that are made once and don't interrupt macros.
- *
- * Macros are ongoing changes that will keep going until another macro or the
- * STOP command is issued.
- *
- */
-enum Command {
-  // SPECIAL COMMANDS
-  NULL_COMMAND = -1,
-  STOP = 0,
-  // SETTINGS
-  S_BASECOLOR = 101,
-  S_BASEBRIGHTNESS = 102,
-  S_BASESPEED = 103,
-  // MACROS
-  M_SOLID = 1,
-  M_PULSE = 2,
-  M_FLICKER = 3,
-  M_SINGLEFLASH = 4
-};
-
 // COLOR
 // BASE_BRIGHTNESS_CONSTRAINS - if true the base brightness set will be the
 // maximum allowed brightness

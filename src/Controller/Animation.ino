@@ -7,7 +7,7 @@ namespace animation {
 #define MAX_ANIMATION_DELAY 5000
 
 Animation current_animation;
-int animation_delay = 100;
+int animation_delay = 1000;
 bool first = false;
 bool finished = false;
 bool looping = false;
@@ -191,9 +191,7 @@ String animationToSelector() {
   }
 }
 
-bool nextFrameReady() {
-  return (timerLapsed() || first);
-}
+bool nextFrameReady() { return (timerLapsed() || first); }
 
 String getNextFrame() {
   String result = animationToSelector();

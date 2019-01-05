@@ -2,6 +2,8 @@
 
 namespace sender {
 
+String previous_message = "";
+
 String createMessage(String selector, String command, String parameters) {
   String message = "";
 
@@ -20,8 +22,15 @@ String createMessage(String selector, String command, String parameters) {
   return message;
 }
 
+bool sameAsPreviousMessage(String new_message) {
+  return new_message == previous_message;
+}
+
 void sendMessage(String message) {
-  Serial.print(message);
+  if (!sameAsPreviousMessage(message)) {
+    Serial.print(message);
+    previous_message = message;
+  }
 }
 
 void sendMessage(String selector, String command, String parameters) {
@@ -56,11 +65,8 @@ void sendMacroPROTOTYPE() {
   }
 }
 
-void sendSettings(int dimmer_value,
-                  int red_value,
-                  int green_value,
-                  int blue_value,
-                  int macro_speed_value) {
+void sendSettings(int dimmer_value, int red_value, int green_value,
+                  int blue_value, int macro_speed_value) {
   sendDimmer(dimmer_value);
   sendColor(red_value, green_value, blue_value);
   sendMacroSpeed(macro_speed_value);

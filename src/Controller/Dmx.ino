@@ -12,7 +12,7 @@
 #define DMX_CHANNEL_3_ACTION(x) composer::setBlue(x)
 #define DMX_CHANNEL_4_ACTION(x) composer::setGreen(x)
 #define DMX_CHANNEL_5_ACTION(x) composer::setMacro(getMacro(x))
-#define DMX_CHANNEL_6_ACTION(x) composer::setAnimation(x)
+#define DMX_CHANNEL_6_ACTION(x) composer::setAnimation(getAnimation(x))
 #define DMX_CHANNEL_7_ACTION(x) composer::setAnimationSpeed(x)
 #define DMX_CHANNEL_8_ACTION(x) composer::setFilter(x)
 
@@ -30,6 +30,21 @@
 #define MACRO_ZONE_4 NULL_COMMAND
 #define MACRO_ZONE_5 NULL_COMMAND
 #define MACRO_ZONE_6 NULL_COMMAND
+
+#define ANIMATION_ZONE_1_LOWER_BOUND 20
+#define ANIMATION_ZONE_2_LOWER_BOUND 40
+#define ANIMATION_ZONE_3_LOWER_BOUND 60
+#define ANIMATION_ZONE_4_LOWER_BOUND 80
+#define ANIMATION_ZONE_5_LOWER_BOUND 90
+#define ANIMATION_ZONE_6_LOWER_BOUND 100
+
+#define ANIMATION_ZONE_0 NULL_COMMAND
+#define ANIMATION_ZONE_1 NULL_COMMAND
+#define ANIMATION_ZONE_2 NULL_COMMAND
+#define ANIMATION_ZONE_3 NULL_COMMAND
+#define ANIMATION_ZONE_4 NULL_COMMAND
+#define ANIMATION_ZONE_5 NULL_COMMAND
+#define ANIMATION_ZONE_6 NULL_COMMAND
 
 // Configure a DMX slave controller
 // DMX_Slave dmx_receiver(DMX_CHANNELS);
@@ -99,5 +114,30 @@ Command getMacro(int value) {
     MACRO_ZONE_6;
   } else {
     MACRO_ZONE_0;
+  }
+}
+
+Animation getAnimation(int value) {
+  if (value >= 0 || value < ANIMATION_ZONE_1_LOWER_BOUND) {
+    ANIMATION_ZONE_0;
+  } else if (value >= ANIMATION_ZONE_1_LOWER_BOUND ||
+             value < ANIMATION_ZONE_2_LOWER_BOUND) {
+    ANIMATION_ZONE_1;
+  } else if (value >= ANIMATION_ZONE_2_LOWER_BOUND ||
+             value < ANIMATION_ZONE_3_LOWER_BOUND) {
+    ANIMATION_ZONE_2;
+  } else if (value >= ANIMATION_ZONE_3_LOWER_BOUND ||
+             value < ANIMATION_ZONE_4_LOWER_BOUND) {
+    ANIMATION_ZONE_3;
+  } else if (value >= ANIMATION_ZONE_4_LOWER_BOUND ||
+             value < ANIMATION_ZONE_5_LOWER_BOUND) {
+    ANIMATION_ZONE_4;
+  } else if (value >= ANIMATION_ZONE_5_LOWER_BOUND ||
+             value < ANIMATION_ZONE_6_LOWER_BOUND) {
+    ANIMATION_ZONE_5;
+  } else if (value >= ANIMATION_ZONE_6_LOWER_BOUND) {
+    ANIMATION_ZONE_6;
+  } else {
+    ANIMATION_ZONE_0;
   }
 }

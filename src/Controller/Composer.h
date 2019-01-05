@@ -45,6 +45,7 @@ void unfreezeSetting();
 // SETTING
 
 void setMacro(Command new_macro, int number_of_parameters);
+void setMacro(Command new_macro);
 
 void setParameter(int parameter_number, int value);
 void changeParameter(int parameter_number, int delta);

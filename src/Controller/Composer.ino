@@ -43,9 +43,13 @@ bool freeze_settings = false;
 
 // SET
 void setMacro(Command new_macro, int number_of_parameters) {
-  current_macro = new_macro;
-  current_number_of_parameters = number_of_parameters;
-  macro_changed = true;
+  if (current_macro != new_macro) {
+    current_macro = new_macro;
+    current_number_of_parameters = number_of_parameters;
+    macro_changed = true;
+    log("composer: macro set to " + commandToString(current_macro) + " with " +
+        number_of_parameters + " parameters");
+  }
 }
 
 void setMacro(Command new_macro) {
@@ -53,8 +57,13 @@ void setMacro(Command new_macro) {
 }
 
 void setParameter(int parameter_number, int value) {
-  parameters[parameter_number] = value % MAX_VALUE;
-  parameters_changed = true;
+  value = constrain(value, 0, MAX_VALUE);
+  if (parameters[parameter_number] != value) {
+    parameters[parameter_number] = value;
+    parameters_changed = true;
+    log("composer: parameter " + String(parameter_number) + " set to " +
+        String(parameters[parameter_number]));
+  }
 }
 
 void changeParameter(int parameter_number, int delta) {
@@ -62,27 +71,39 @@ void changeParameter(int parameter_number, int delta) {
 }
 
 void setMacroSpeed(int value) {
-  macro_speed_value = value;
-  macro_speed_changed = true;
+  value = constrain(value, 0, MAX_VALUE);
+  if (macro_speed_value != value) {
+    macro_speed_value = value;
+    macro_speed_changed = true;
+    log("composer: macro speed set to " + String(macro_speed_value));
+  }
 }
 
-void changeMacroSpeed(int delta) {
-  setMacroSpeed((macro_speed_value + MAX_VALUE + delta) % MAX_VALUE);
-}
+void changeMacroSpeed(int delta) { setMacroSpeed(macro_speed_value + delta); }
 
 void setFilter(Filter new_filter) {
-  current_filter = new_filter;
-  filter_changed = true;
+  if (current_filter != new_filter) {
+    current_filter = new_filter;
+    filter_changed = true;
+    log("composer: filter set to " + String((Filter)current_filter));
+  }
 }
 
 void setAnimation(Animation new_animation) {
-  current_animation = new_animation;
-  animation_changed = true;
+  if (current_animation != new_animation) {
+    current_animation = new_animation;
+    animation_changed = true;
+    log("composer: animation set to " + String((Animation)current_animation));
+  }
 }
 
 void setAnimationSpeed(int value) {
-  animation_speed_value = constrain(value, 0, MAX_VALUE);
-  animation_speed_changed = true;
+  value = constrain(value, 0, MAX_VALUE);
+  if (animation_speed_value != value) {
+    animation_speed_value = value;
+    animation_speed_changed = true;
+    log("composer: animation speed set to " + String(animation_speed_value));
+  }
 }
 
 void changeAnimationSpeed(int delta) {
@@ -90,39 +111,47 @@ void changeAnimationSpeed(int delta) {
 }
 
 void setDimmer(int value) {
-  dimmer_value = constrain(value, 0, MAX_BRIGHTNESS);
-  color_changed = true;
+  value = constrain(value, 0, MAX_BRIGHTNESS);
+  if (dimmer_value != value) {
+    dimmer_value = value;
+    color_changed = true;
+    log("composer: dimmer set to " + String(dimmer_value));
+  }
 }
 
-void changeDimmer(int delta) {
-  setDimmer(dimmer_value + delta);
-}
+void changeDimmer(int delta) { setDimmer(dimmer_value + delta); }
 
 void setRed(int value) {
-  red_value = constrain(value, 0, MAX_RED);
-  color_changed = true;
+  value = constrain(value, 0, MAX_RED);
+  if (red_value != value) {
+    red_value = value;
+    color_changed = true;
+    log("composer: red set to " + String(red_value));
+  }
 }
 
-void changeRed(int delta) {
-  setRed(red_value + delta);
-}
+void changeRed(int delta) { setRed(red_value + delta); }
 
 void setGreen(int value) {
-  green_value = constrain(value, 0, MAX_GREEN);
-  color_changed = true;
+  value = constrain(value, 0, MAX_GREEN);
+  if (green_value != value) {
+    green_value = value;
+    color_changed = true;
+    log("composer: green set to " + String(green_value));
+  }
 }
-void changeGreen(int delta) {
-  setGreen(green_value + delta);
-}
+void changeGreen(int delta) { setGreen(green_value + delta); }
 
 void setBlue(int value) {
-  blue_value = constrain(value, 0, MAX_BLUE);
-  color_changed = true;
+  value = constrain(value, 0, MAX_BLUE);
+  if (blue_value != value) {
+    blue_value = value;
+    color_changed = true;
+    log("composer: blue set to " + String(blue_value));
+  }
 }
 
-void changeBlue(int delta) {
-  setBlue(blue_value + delta);
-}
+void changeBlue(int delta) { setBlue(blue_value + delta); }
 
 void setColor(int red_value, int green_value, int blue_value) {
   setRed(red_value);
@@ -143,17 +172,16 @@ void sendNextFrame() {
   if (animation::nextFrameReady()) {
     String animation_regex = animation::getNextFrame();
     String filter_regex = filterToSelector(current_filter);
-    if (animation_regex != "") {
-      String parameters = "";
-      for (int i = 0; i < current_number_of_parameters; i++) {
-        parameters += composer::parameters[i];
-        if (i + 1 != current_number_of_parameters) {
-          parameters += " ";
-        }
+
+    String parameter_string = "";
+    for (int i = 0; i < current_number_of_parameters; i++) {
+      parameter_string += String(parameters[i]);
+      if (i + 1 != current_number_of_parameters) {
+        parameter_string += " ";
       }
-      sender::sendMessage(andSelector(animation_regex, filter_regex),
-                          String((Command)current_macro), parameters);
     }
+    sender::sendMessage(andSelector(animation_regex, filter_regex),
+                        commandToString(current_macro), parameter_string);
   }
 }
 
@@ -161,20 +189,25 @@ void sendSettings() {
   if (dimmer_changed) {
     sender::sendDimmer(dimmer_value);
     dimmer_changed = false;
+    log("composer: sending dimmer (" + String(dimmer_value) + ")");
   }
   if (color_changed) {
     sender::sendColor(red_value, green_value, blue_value);
     color_changed = false;
+    log("composer: sending color (" + String(red_value) + ", " +
+        String(green_value) + "," + String(blue_value) + ")");
   }
   if (macro_speed_changed) {
     sender::sendMacroSpeed(macro_speed_value);
     macro_speed_changed = false;
+    log("composer: sending macro speed (" + String(macro_speed_value) + ")");
   }
 }
 
 void update() {
   if (animation_changed) {
-    animation::startAnimation(current_animation);
+    log("composer: starting animation " + String(current_animation));
+    animation::startAnimation(current_animation, true);
     animation_changed = false;
   }
   if (animation_speed_changed) {
@@ -189,20 +222,12 @@ void update() {
   }
 }
 
-void freezeAnimation() {
-  freeze_animation = true;
-}
+void freezeAnimation() { freeze_animation = true; }
 
-void unfreezeAnimation() {
-  freeze_animation = false;
-}
+void unfreezeAnimation() { freeze_animation = false; }
 
-void freezeSettings() {
-  freeze_settings = true;
-}
+void freezeSettings() { freeze_settings = true; }
 
-void unfreezeSetting() {
-  freeze_settings = false;
-}
+void unfreezeSetting() { freeze_settings = false; }
 
 }  // namespace composer
