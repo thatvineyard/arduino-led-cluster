@@ -75,7 +75,7 @@ void initInput() {
 }
 
 void parseInputs() {
-  int old_state;
+  byte old_state;
 
   // faders
 

@@ -14,9 +14,9 @@ bool first = false;
 bool finished = false;
 bool looping = false;
 char column_character;
-char column_regex[10];
-char row_regex[10];
-char iteration_regex[20];
+char column_regex[15];
+char row_regex[15];
+char iteration_regex[30];
 char number_buffer[3];
 
 byte step = 0;
@@ -41,7 +41,7 @@ void a_random(char* regex_buffer) {
 
   randomSeed(millis());
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < NUM_COLUMNS; i++) {
     // This randomization is lazy. It will allow a random last digit, but will
     // match on any tens digit. For example is 2 is randomly selected then 02,
     // 12 and 22 will match.
@@ -55,8 +55,8 @@ void a_random(char* regex_buffer) {
     strcat(column_regex, ".");
 
     strcpy(row_regex, "[");
-    for (int j = 0; j < 1; j++) {
-      if (random(2) == 1) {
+    for (int j = 0; j < 10; j++) {
+      if (random(1) == 0) {
         sprintf(number_buffer, "%d", j);
         strcat(row_regex, number_buffer);
       }
