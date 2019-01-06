@@ -4,6 +4,9 @@
 
 namespace composer {
 
+char regex_string[MAX_REGEX_LENGTH];
+char parameter_string[20];
+
 // DIMMER
 int dimmer_value = 255;
 bool dimmer_changed;
@@ -31,7 +34,7 @@ animation::Animation current_animation = animation::NULL_ANIMATION;
 bool animation_changed = false;
 int animation_speed_value = 250;
 bool animation_speed_changed = false;
-String previous_animation_regex = "";
+long previous_animation_regex_hash = 0;
 
 // FILTER
 filter::Filter current_filter = filter::NULL_FILTER;
@@ -170,26 +173,30 @@ void changeColor(int red_delta, int green_delta, int blue_delta) {
 // ANIMATION
 
 void sendNextFrame() {
-  String animation_regex = "";
+  bool send = false;
   if (animation::nextFrameReady()) {
-    animation_regex = animation::getNextFrame();
-    previous_animation_regex = animation_regex;
+    animation::getNextFrame(regex_string);
+    bool send = true;
     lcd::requestUpdate();
   } else if (macro_changed || parameters_changed || filter_changed) {
-    animation_regex = previous_animation_regex;
+    macro_changed = false;
+    parameters_changed = false;
+    filter_changed = false;
+    bool send = true;
   }
-  if (animation_regex != "") {
-    String filter_regex = filterToSelector(current_filter);
+  if (send) {
+    andSelector(regex_string, filterToSelector(current_filter));
 
-    String parameter_string = "";
+    strcpy(parameter_string, "");
     for (int i = 0; i < current_number_of_parameters; i++) {
-      parameter_string += String(parameters[i]);
+      sprintf(parameter_string + strlen(parameter_string), "%d", parameters[i]);
       if (i + 1 != current_number_of_parameters) {
-        parameter_string += " ";
+        strcat(parameter_string, " ");
       }
     }
-    sender::sendMessage(andSelector(animation_regex, filter_regex),
-                        commandToString(current_macro), parameter_string);
+
+    sender::sendMessage(regex_string, commandToString(current_macro),
+                        parameter_string);
   }
 }  // namespace composer
 

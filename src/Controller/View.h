@@ -16,7 +16,7 @@ int view_scroll = 0;
 
 int macro_selector = 0;
 int parameter_selector = 0;
-int animation_selector = 0;
+int animation_selector = 2;
 int filter_selector = 0;
 
 void initView();

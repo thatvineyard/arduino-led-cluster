@@ -69,9 +69,9 @@ void print_parameter_row(int row) {
         'a' + ((i + view::parameter_selector) % MAX_PARAMETERS);
     lcd.setCursor(i * 4, row);
     sprintf(
-        lcd_buffer, "%03d",
+        lcd_buffer, "%c%03d", parameter_char,
         composer::parameters[(i + view::parameter_selector) % MAX_PARAMETERS]);
-    lcd.print(String(parameter_char) + lcd_buffer);
+    lcd.print(lcd_buffer);
   }
   lcd.setCursor(0, row);
   lcd.blink();

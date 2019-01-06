@@ -2,44 +2,48 @@
 
 namespace sender {
 
-String previous_message = "";
+char message_buffer[200];
+long previous_message_hash = 0;
 
-String createMessage(String selector, String command, String parameters) {
-  String message = "";
+void createMessage(char* message_buffer, char* selector, String command,
+                   char* parameters) {
+  strcpy(message_buffer, "");
 
-  message += DELIM_MESSAGE_START;
-  message += DELIM_SELECTOR_START;
-  message += selector;
-  message += DELIM_SELECTOR_END;
-  message += command;
+  sprintf(message_buffer + strlen(message_buffer), "%c", DELIM_MESSAGE_START);
+  sprintf(message_buffer + strlen(message_buffer), "%c", DELIM_SELECTOR_START);
+  strcat(message_buffer, selector);
+  sprintf(message_buffer + strlen(message_buffer), "%c", DELIM_SELECTOR_END);
+  strcat(message_buffer, command.c_str());
   if (parameters != "") {
-    message += DELIM_PARAMETERS_START;
-    message += parameters;
-    message += DELIM_PARAMETERS_END;
+    sprintf(message_buffer + strlen(message_buffer), "%c",
+            DELIM_PARAMETERS_START);
+    strcat(message_buffer, parameters);
+    sprintf(message_buffer + strlen(message_buffer), "%c",
+            DELIM_PARAMETERS_END);
   }
-  message += DELIM_MESSAGE_END;
-
-  return message;
+  sprintf(message_buffer + strlen(message_buffer), "%c", DELIM_MESSAGE_END);
 }
 
-bool sameAsPreviousMessage(String new_message) {
-  return new_message == previous_message;
+bool sameAsPreviousMessage(char* new_message) {
+  return hash(new_message) == previous_message_hash;
 }
 
-void sendMessage(String message) {
-  if (!sameAsPreviousMessage(message)) {
+void sendMessage(char* message) {
+  if (!sameAsPreviousMessage(message) && message != "") {
     Serial.print(message);
-    previous_message = message;
+    previous_message_hash = hash(message);
   }
 }
 
-void sendMessage(String selector, String command, String parameters) {
-  sendMessage(createMessage(selector, command, parameters));
+void sendMessage(char* selector, String command, char* parameters) {
+  createMessage(message_buffer, selector, command, parameters);
+  sendMessage(message_buffer);
 }
 
 void sendDimmer(int dimmer_value) {
   String parameters = "(" + String(dimmer_value) + ")";
-  sendMessage(createMessage(".*", "S_BASEBRIGHTNESS", parameters));
+  createMessage(message_buffer, ".*", "S_BASEBRIGHTNESS", parameters.c_str());
+  sendMessage(message_buffer);
 }
 
 void sendColor(int red_value, int green_value, int blue_value) {
@@ -47,22 +51,14 @@ void sendColor(int red_value, int green_value, int blue_value) {
   parameters += String(red_value) + " ";
   parameters += String(green_value) + " ";
   parameters += String(blue_value) + ")";
-  sendMessage(createMessage(".*", "S_BASECOLOR", parameters));
+  createMessage(message_buffer, ".*", "S_BASECOLOR", parameters.c_str());
+  sendMessage(message_buffer);
 }
 
 void sendMacroSpeed(int macro_speed_value) {
   String parameters = "(" + String(macro_speed_value) + ")";
-  sendMessage(createMessage(".*", "S_BASESPEED", parameters));
-}
-
-void sendMacroPROTOTYPE() {
-  if (macro_toggle) {
-    sendMessage(createMessage(".*", "S_BASECOLOR", "(255 30 0)"));
-    macro_toggle = false;
-  } else {
-    sendMessage(createMessage(".*", "M_FLICKER", "(20 200)"));
-    macro_toggle = true;
-  }
+  createMessage(message_buffer, ".*", "S_BASESPEED", parameters.c_str());
+  sendMessage(message_buffer);
 }
 
 void sendSettings(int dimmer_value, int red_value, int green_value,

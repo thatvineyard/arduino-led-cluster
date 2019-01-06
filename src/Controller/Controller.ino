@@ -10,8 +10,6 @@
 #include "Sender.h"
 #include "View.h"
 
-bool macro_toggle = false;
-
 void setup() {
   // Open serial connection
   Serial.begin(BAUD_RATE);

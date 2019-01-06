@@ -3,15 +3,12 @@
 
 namespace sender {
 
-String createMessage(String selector_string,
-                     String command_string,
-                     String parameters);
+void createMessage(char* message_buffer, char* selector_string,
+                   String command_string, char* parameters);
 
-String createMessage(String selector, String command, int number_of_parameters);
+void sendMessage(char* message);
 
-void sendMessage(String message);
-
-void sendMessage(String selector, String command, String adada);
+void sendMessage(char* selector, String command, char* parameters);
 
 void sendDimmer(int dimmer_value);
 
@@ -19,11 +16,8 @@ void sendColor(int red_value, int green_value, int blue_value);
 
 void sendMacroSpeed(int macro_speed_value);
 
-void sendSettings(int dimmer_value,
-                  int red_value,
-                  int green_value,
-                  int blue_value,
-                  int macro_speed_value);
+void sendSettings(int dimmer_value, int red_value, int green_value,
+                  int blue_value, int macro_speed_value);
 
 void sendMacroPROTOTYPE();
 

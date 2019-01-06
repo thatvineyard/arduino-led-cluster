@@ -13,6 +13,11 @@ int animation_delay = 1000;
 bool first = false;
 bool finished = false;
 bool looping = false;
+char column_character;
+char column_regex[10];
+char row_regex[10];
+char iteration_regex[20];
+char number_buffer[3];
 
 int step = 0;
 
@@ -24,105 +29,105 @@ void lastStepReached() {
   }
 }
 
-String a_random() {
-  String result = "";
+void a_random(char* regex_buffer) {
+  strcpy(regex_buffer, "");
 
   if (step > 0) {
     lastStepReached();
   }
 
   char column_character;
-  String column_regex = "";
   bool first_column = true;
 
   randomSeed(millis());
 
-  for (int i = 0; i < NUM_COLUMNS; i++) {
+  for (int i = 0; i < 5; i++) {
     // This randomization is lazy. It will allow a random last digit, but will
     // match on any tens digit. For example is 2 is randomly selected then 02,
     // 12 and 22 will match.
     // TODO: This can be improved with multiple or-selectors, but that is a
     // future improvement.
 
+    strcpy(iteration_regex, "");
+    strcpy(column_regex, "");
     column_character = START_CHARACTER + i;
-    column_regex += String(column_character);
-    column_regex += "[012]";
-    column_regex += +"[";
+    strncat(column_regex, &column_character, 1);
+    strcat(column_regex, ".");
 
-    for (int j = 0; j < 10; j++) {
+    strcpy(row_regex, "[");
+    for (int j = 0; j < 1; j++) {
       if (random(2) == 1) {
-        // column_regex += String(j);
+        sprintf(number_buffer, "%d", j);
+        strcat(row_regex, number_buffer);
       }
     }
+    strcat(row_regex, "]");
 
-    column_regex += "]";
+    strcat(iteration_regex, column_regex);
+    strcat(iteration_regex, row_regex);
 
     if (i == 0) {
-      result = column_regex;
-      // first_column = false;
+      strcpy(regex_buffer, iteration_regex);
     } else {
-      result = orSelector(result, column_regex);
+      orSelector(regex_buffer, iteration_regex);
     }
   }
-
-  return result;
 }
 
-String a_horizontal_sweep(bool left_to_right) {
-  String result = "";
+void a_horizontal_sweep(char* regex_buffer, bool left_to_right) {
+  strcpy(regex_buffer, "");
 
   if (step >= NUM_COLUMNS) {
     lastStepReached();
   }
 
-  char column_character;
   if (left_to_right) {
     column_character = START_CHARACTER + step;
   } else {
     column_character = START_CHARACTER + ((NUM_COLUMNS - 1) - step);
   }
 
-  result = String(column_character) + "..";
-
-  return result;
+  strncat(regex_buffer, &column_character, 1);
+  strcat(regex_buffer, "..");
 }
 
-String a_vertical_sweep(bool front_to_back) {
-  String result = "";
+void a_vertical_sweep(char* regex_buffer, bool front_to_back) {
+  strcpy(regex_buffer, "");
 
   if (step >= NUM_ROWS) {
     lastStepReached();
   }
 
-  result = ".";
-
-  char row_string[2];
+  strcat(column_regex, ".");
 
   if (front_to_back) {
-    sprintf(row_string, "%02d", NUM_ROWS - step);
+    sprintf(row_regex, "%02d", NUM_ROWS - step);
   } else {
-    sprintf(row_string, "%02d", (step + 1));
+    sprintf(row_regex, "%02d", (step + 1));
   }
 
-  result += row_string;
-
-  return result;
+  strcat(regex_buffer, column_regex);
+  strcat(regex_buffer, row_regex);
 }
 
-String a_mirrored(bool inward) {
-  String result = "";
+void a_mirrored(char* regex_buffer, bool inward) {
+  strcpy(regex_buffer, "");
 
   if (step >= NUM_COLUMNS / 2) {
     lastStepReached();
   }
 
-  char column_character;
   if (inward) {
     column_character = START_CHARACTER + step;
   } else {
     column_character = START_CHARACTER + ((NUM_COLUMNS / 2) - step - 1);
   }
-  result = String(column_character) + "..";
+
+  sprintf(column_regex, "%d", column_character);
+  strcpy(row_regex, "..");
+  strcpy(iteration_regex, column_regex);
+  strcat(iteration_regex, row_regex);
+  strcpy(regex_buffer, iteration_regex);
 
   if (inward) {
     column_character = START_CHARACTER + ((NUM_COLUMNS - 1) - step);
@@ -131,13 +136,12 @@ String a_mirrored(bool inward) {
         START_CHARACTER + ((NUM_COLUMNS / 2) + step - 1) + MIDDLE_SHIFT;
   }
 
-  result = orSelector(result, String(column_character) + "..");
-
-  return result;
+  sprintf(iteration_regex, "%c..", column_character);
+  orSelector(regex_buffer, iteration_regex);
 }
 
-String a_chevron(bool front_to_back) {
-  String result = "";
+void a_chevron(char* regex_buffer, bool front_to_back) {
+  strcpy(regex_buffer, "");
 
   if (step > NUM_ROWS) {
     lastStepReached();
@@ -145,63 +149,63 @@ String a_chevron(bool front_to_back) {
 
   char column_character_left;
   char column_character_right;
-  String column_regex;
-  char row_string[3];
   for (int i = 0; i < NUM_COLUMNS / 2; i++) {
     column_character_left = START_CHARACTER + (NUM_COLUMNS / 2) - i - 1;
     column_character_right =
         START_CHARACTER + (NUM_COLUMNS / 2) + i - 1 + MIDDLE_SHIFT;
 
-    column_regex = "[" + String(column_character_left) +
-                   String(column_character_right) + "]";
+    sprintf(column_regex, "[%c%c]", column_character_left,
+            column_character_right);
 
     if (front_to_back) {
-      sprintf(row_string, "%02d", NUM_ROWS - (step - i));
+      sprintf(row_regex, "%02d", NUM_ROWS - (step - i));
     } else {
-      sprintf(row_string, "%02d", (step - i));
+      sprintf(row_regex, "%02d", (step - i));
     }
 
     if (i == 0) {
-      result = column_regex + row_string;
+      strcpy(regex_buffer, column_regex);
+      strcat(regex_buffer, row_regex);
     } else {
-      result = orSelector(result, column_regex + row_string);
+      strcpy(iteration_regex, column_regex);
+      strcat(iteration_regex, row_regex);
+      orSelector(regex_buffer, iteration_regex);
     }
   }
-  return result;
 }
 
-String animationToSelector() {
+void animationToSelector(char* regex_buffer) {
   switch (current_animation) {
     case NO_ANIMATION:
     default:
-      return ".*";
+      strcpy(regex_buffer, ".*");
       break;
     case RANDOM:
-      return a_random();
+      a_random(regex_buffer);
       break;
     case LEFT_TO_RIGHT:
-      return a_horizontal_sweep(true);
+      a_horizontal_sweep(regex_buffer, true);
       break;
     case RIGHT_TO_LEFT:
-      return a_horizontal_sweep(false);
+      a_horizontal_sweep(regex_buffer, false);
       break;
     case BACK_TO_FRONT:
-      return a_vertical_sweep(false);
+      a_vertical_sweep(regex_buffer, false);
       break;
     case FRONT_TO_BACK:
-      return a_vertical_sweep(true);
+      a_vertical_sweep(regex_buffer, true);
       break;
     case OUTWARD:
-      return a_mirrored(false);
+      a_mirrored(regex_buffer, false);
       break;
     case INWARD:
-      return a_mirrored(true);
+      a_mirrored(regex_buffer, true);
       break;
     case CHEVRON_FTB:
-      return a_chevron(true);
+      a_chevron(regex_buffer, true);
       break;
     case CHEVRON_BTF:
-      return a_chevron(false);
+      a_chevron(regex_buffer, false);
       break;
   }
 }
@@ -235,12 +239,11 @@ String animationToString(Animation animation_to_convert) {
 
 bool nextFrameReady() { return (timerLapsed() || first); }
 
-String getNextFrame() {
-  String result = animationToSelector();
+void getNextFrame(char* regex_buffer) {
+  animationToSelector(regex_buffer);
   first = false;
   step++;
   restartTimer();
-  return result;
 }
 
 void startAnimation(Animation new_animation, bool new_looping) {

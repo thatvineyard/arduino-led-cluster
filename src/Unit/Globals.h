@@ -5,15 +5,23 @@
 #define UNIT_COLUMN 'A'
 #define UNIT_ROW 1
 
+// CONTROLLER
+#define DMX_MODE false
+
+// PROJECT
+#define NUM_COLUMNS 10
+#define NUM_ROWS 20
+
 // DEVELOPER SETTINGS
 #define DEBUG_MODE true
+#define MAX_REGEX_LENGTH 100
 
 // MESSAGING
 #define BAUD_RATE 9600
 #define DELIM_MESSAGE_START '>'
 #define DELIM_SELECTOR_START '{'
-#define DELIM_SELECTOR_AND '#'
-#define DELIM_SELECTOR_OR '@'
+#define DELIM_SELECTOR_AND '&'
+#define DELIM_SELECTOR_OR '|'
 #define DELIM_SELECTOR_END '}'
 #define DELIM_PARAMETERS_START '('
 #define DELIM_PARAMETERS_END ')'
