@@ -21,7 +21,7 @@ void setup() {
   lcd::initLCD();
   initInput();
 
-  composer::setMacro(M_FLICKER);
+  view::initView();
 }
 
 void loop() {

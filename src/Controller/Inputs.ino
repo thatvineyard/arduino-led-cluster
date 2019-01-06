@@ -10,12 +10,12 @@
 
 #define BUTTON_A -1
 
-#define ENCODER_A_BUTTON 7
-#define ENCODER_A_CW 9
-#define ENCODER_A_CCW 8
-#define ENCODER_B_BUTTON -1
-#define ENCODER_B_CW -1
-#define ENCODER_B_CCW -1
+#define ENCODER_A_BUTTON 3
+#define ENCODER_A_CW 5
+#define ENCODER_A_CCW 4
+#define ENCODER_B_BUTTON 6
+#define ENCODER_B_CW 8
+#define ENCODER_B_CCW 7
 
 // ACTIONS
 
@@ -121,7 +121,7 @@ void parseInputs() {
     old_state = encoder_b_wheel_state;
     encoder_b_wheel_state = digitalRead(ENCODER_B_CW);
     if (encoder_b_wheel_state == HIGH && encoder_b_wheel_state != old_state) {
-      if (digitalRead(ENCODER_A_CCW) == LOW) {
+      if (digitalRead(ENCODER_B_CCW) == LOW) {
         ENCODER_B_CW_ACTION;
       } else {
         ENCODER_B_CCW_ACTION;

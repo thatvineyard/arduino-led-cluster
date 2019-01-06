@@ -52,6 +52,13 @@ void scrollControl(bool direction) {
 
 // VIEW
 
+void initView() {
+  composer::setMacro((Command)macro_selector);
+  composer::setAnimation((animation::Animation)animation_selector);
+  composer::setFilter((filter::Filter)filter_selector);
+  composer::changeAnimationSpeed(0);
+}
+
 void changeSelectedParameter(int delta) {
   composer::changeParameter(parameter_selector, delta);
 }
@@ -70,15 +77,30 @@ void changeSelectedControl(int delta) {
       break;
     case ANIMATION:
       scrollAnimation(direction);
-      composer::setAnimation((Animation)animation_selector);
+      composer::setAnimation((animation::Animation)animation_selector);
       break;
     case FILTER:
       scrollFilter(direction);
-      composer::setFilter((Filter)filter_selector);
+      composer::setFilter((filter::Filter)filter_selector);
       break;
     case ANIMATION_SPEED:
       composer::changeAnimationSpeed(delta);
       break;
+  }
+}
+
+String viewToString(View view_to_convert) {
+  switch (view_to_convert) {
+    case MACRO:
+      return "MACRO";
+    case ANIMATION:
+      return "ANIMATION";
+    case FILTER:
+      return "FILTER";
+    case ANIMATION_SPEED:
+      return "ANIMATION_SPEED";
+    default:
+      return "NULL_VIEW";
   }
 }
 

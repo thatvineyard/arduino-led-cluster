@@ -53,9 +53,9 @@ void changeParameter(int parameter_number, int delta);
 void setMacroSpeed(int value);
 void changeMacroSpeed(int delta);
 
-void setFilter(Filter new_filter);
+void setFilter(filter::Filter new_filter);
 
-void setAnimation(Animation new_animation);
+void setAnimation(animation::Animation new_animation);
 
 void setAnimationSpeed(int value);
 void changeAnimationSpeed(int delta);

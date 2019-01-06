@@ -20,13 +20,48 @@ void initLCD() {
 // ROWS\
 
 void print_millis_row(int row) {
-  lcd.setCursor(
-      0,
-      row);  // Defining positon to write from first row,first column .
+  lcd.setCursor(0, row);
   lcd.print(millis());  // You can write 16 Characters per line .
 }
 
-void print_macro_row(int row) {}
+void print_macro_row(int row) {
+  lcd.setCursor(0, row);
+  lcd.print(commandToString((Command)view::macro_selector));
+}
+
+void print_animation_row(int row) {
+  lcd.setCursor(0, row);
+  lcd.print(animation::animationToString(
+      (animation::Animation)view::animation_selector));
+  lcd.setCursor(LCD_COLUMNS - 2, row);
+  lcd.print(String(animation::step));
+}
+void print_animation_speed_row(int row) {
+  lcd.setCursor(0, row);
+  lcd.print(String(composer::animation_speed_value));
+}
+
+void print_filter_row(int row) {
+  lcd.setCursor(0, row);
+  lcd.print(filter::filterToString((filter::Filter)view::filter_selector));
+}
+
+void print_control_row(int row) {
+  switch ((view::View)view::view_scroll) {
+    case view::MACRO:
+      print_macro_row(row);
+      break;
+    case view::ANIMATION:
+      print_animation_row(row);
+      break;
+    case view::FILTER:
+      print_filter_row(row);
+      break;
+    case view::ANIMATION_SPEED:
+      print_animation_speed_row(row);
+      break;
+  }
+}
 
 void print_parameter_row(int row) {
   for (int i = 0; i < LCD_COLUMNS / 4; i++) {
@@ -45,11 +80,12 @@ void print_parameter_row(int row) {
 
 void updateDisplay() {
   if (lcd_change == true) {
+    lcd.clear();
     if (LCD_ROWS == 1) {
       print_parameter_row(0);
     }
     if (LCD_ROWS == 2) {
-      print_millis_row(0);
+      print_control_row(0);
       print_parameter_row(1);
     }
     if (LCD_ROWS == 3) {
@@ -66,7 +102,5 @@ void updateDisplay() {
   }
 }
 
-void requestUpdate() {
-  lcd_change = true;
-}
+void requestUpdate() { lcd_change = true; }
 }  // namespace lcd

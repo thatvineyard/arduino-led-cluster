@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+namespace filter {
+
 Filter current_filter;
 
 String filterToSelector(Filter filter) {
@@ -7,36 +9,55 @@ String filterToSelector(Filter filter) {
     case NO_FILTER:
     default:
       return ".*";
-      break;
     case ODD_COLUMNS:
       return ".*";
-      break;
     case EVEN_COLUMNS:
       return ".*";
-      break;
     case ODD_ROWS:
       return ".*";
-      break;
     case EVEN_ROWS:
       return ".*";
-      break;
     case CHECKERBOARD:
       return ".*";
-      break;
     case LEFT_HALF:
       return ".*";
-      break;
     case RIGHT_HALF:
       return ".*";
-      break;
     case LEFT_THIRD:
       return ".*";
-      break;
     case MIDDLE_THIRD:
       return ".*";
-      break;
     case RIGHT_THIRD:
       return ".*";
-      break;
   }
 }
+
+String filterToString(Filter filter) {
+  switch (filter) {
+    case NO_FILTER:
+      return "NO_FILTER";
+    case ODD_COLUMNS:
+      return "ODD_COLUMNS";
+    case EVEN_COLUMNS:
+      return "EVEN_COLUMNS";
+    case ODD_ROWS:
+      return "ODD_ROWS";
+    case EVEN_ROWS:
+      return "EVEN_ROWS";
+    case CHECKERBOARD:
+      return "CHECKERBOARD";
+    case LEFT_HALF:
+      return "LEFT_HALF";
+    case RIGHT_HALF:
+      return "RIGHT_HALF";
+    case LEFT_THIRD:
+      return "LEFT_THIRD";
+    case MIDDLE_THIRD:
+      return "MIDDLE_THIRD";
+    case RIGHT_THIRD:
+      return "RIGHT_THIRD";
+    default:
+      return "NULL_COMMAND";
+  }
+}
+}  // namespace filter

@@ -38,13 +38,13 @@
 #define ANIMATION_ZONE_5_LOWER_BOUND 90
 #define ANIMATION_ZONE_6_LOWER_BOUND 100
 
-#define ANIMATION_ZONE_0 NULL_COMMAND
-#define ANIMATION_ZONE_1 NULL_COMMAND
-#define ANIMATION_ZONE_2 NULL_COMMAND
-#define ANIMATION_ZONE_3 NULL_COMMAND
-#define ANIMATION_ZONE_4 NULL_COMMAND
-#define ANIMATION_ZONE_5 NULL_COMMAND
-#define ANIMATION_ZONE_6 NULL_COMMAND
+#define ANIMATION_ZONE_0 animation::NO_ANIMATION
+#define ANIMATION_ZONE_1 animation::NO_ANIMATION
+#define ANIMATION_ZONE_2 animation::NO_ANIMATION
+#define ANIMATION_ZONE_3 animation::NO_ANIMATION
+#define ANIMATION_ZONE_4 animation::NO_ANIMATION
+#define ANIMATION_ZONE_5 animation::NO_ANIMATION
+#define ANIMATION_ZONE_6 animation::NO_ANIMATION
 
 // Configure a DMX slave controller
 // DMX_Slave dmx_receiver(DMX_CHANNELS);
@@ -117,7 +117,7 @@ Command getMacro(int value) {
   }
 }
 
-Animation getAnimation(int value) {
+animation::Animation getAnimation(int value) {
   if (value >= 0 || value < ANIMATION_ZONE_1_LOWER_BOUND) {
     ANIMATION_ZONE_0;
   } else if (value >= ANIMATION_ZONE_1_LOWER_BOUND ||

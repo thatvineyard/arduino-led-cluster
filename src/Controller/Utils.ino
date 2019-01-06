@@ -14,9 +14,7 @@ void log(String message) {
   }
 }
 
-void setBaseSpeed(int new_base_speed) {
-  base_speed = new_base_speed;
-}
+void setBaseSpeed(int new_base_speed) { base_speed = new_base_speed; }
 
 bool timerLapsed() {
   bool result = millis() - timer > timer_delay;
@@ -24,14 +22,12 @@ bool timerLapsed() {
 }
 
 void setTimerDelay(long delay) {
-  log("Timer set: " + String(delay) + "(+" + base_speed + "%)");
+  // log("Timer set: " + String(delay) + "(+" + base_speed + "%)");
 
   timer_delay = (int)((long)delay * (long)base_speed / 100);
 }
 
-void restartTimer() {
-  timer = millis();
-}
+void restartTimer() { timer = millis(); }
 
 String andSelector(String selector_one, String selector_two) {
   return selector_one + DELIM_SELECTOR_AND + selector_two;

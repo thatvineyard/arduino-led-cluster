@@ -1,6 +1,5 @@
 #include <Arduino.h>
 
-#define NUMBER_OF_VIEWS 3
 #define MAX_VALUE 255
 
 namespace composer {
@@ -28,13 +27,14 @@ int parameters[MAX_PARAMETERS];
 bool parameters_changed = false;
 
 // ANIMATION
-Animation current_animation = NO_ANIMATION;
+animation::Animation current_animation = animation::NULL_ANIMATION;
 bool animation_changed = false;
-int animation_speed_value = 100;
+int animation_speed_value = 250;
 bool animation_speed_changed = false;
+String previous_animation_regex = "";
 
 // FILTER
-Filter current_filter = NO_FILTER;
+filter::Filter current_filter = filter::NULL_FILTER;
 bool filter_changed = false;
 
 // FREEZE
@@ -81,19 +81,20 @@ void setMacroSpeed(int value) {
 
 void changeMacroSpeed(int delta) { setMacroSpeed(macro_speed_value + delta); }
 
-void setFilter(Filter new_filter) {
+void setFilter(filter::Filter new_filter) {
   if (current_filter != new_filter) {
     current_filter = new_filter;
     filter_changed = true;
-    log("composer: filter set to " + String((Filter)current_filter));
+    log("composer: filter set to " + filter::filterToString(current_filter));
   }
 }
 
-void setAnimation(Animation new_animation) {
+void setAnimation(animation::Animation new_animation) {
   if (current_animation != new_animation) {
     current_animation = new_animation;
     animation_changed = true;
-    log("composer: animation set to " + String((Animation)current_animation));
+    log("composer: animation set to " +
+        animation::animationToString(current_animation));
   }
 }
 
@@ -169,8 +170,15 @@ void changeColor(int red_delta, int green_delta, int blue_delta) {
 // ANIMATION
 
 void sendNextFrame() {
+  String animation_regex = "";
   if (animation::nextFrameReady()) {
-    String animation_regex = animation::getNextFrame();
+    animation_regex = animation::getNextFrame();
+    previous_animation_regex = animation_regex;
+    lcd::requestUpdate();
+  } else if (macro_changed || parameters_changed || filter_changed) {
+    animation_regex = previous_animation_regex;
+  }
+  if (animation_regex != "") {
     String filter_regex = filterToSelector(current_filter);
 
     String parameter_string = "";
@@ -183,7 +191,7 @@ void sendNextFrame() {
     sender::sendMessage(andSelector(animation_regex, filter_regex),
                         commandToString(current_macro), parameter_string);
   }
-}
+}  // namespace composer
 
 void sendSettings() {
   if (dimmer_changed) {
@@ -206,7 +214,8 @@ void sendSettings() {
 
 void update() {
   if (animation_changed) {
-    log("composer: starting animation " + String(current_animation));
+    log("composer: starting animation " +
+        animation::animationToString(current_animation));
     animation::startAnimation(current_animation, true);
     animation_changed = false;
   }

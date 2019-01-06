@@ -25,18 +25,19 @@
  * which are activated during that frame.
  *
  */
-
+namespace animation {
 enum Animation {
-  NO_ANIMATION,
-  RANDOM,
-  LEFT_TO_RIGHT,
-  RIGHT_TO_LEFT,
-  BACK_TO_FRONT,
-  FRONT_TO_BACK,
-  OUTWARD,
-  INWARD,
-  CHEVRON_FTB,
-  CHEVRON_BTF
+  NULL_ANIMATION = -1,
+  NO_ANIMATION = 0,
+  RANDOM = 1,
+  LEFT_TO_RIGHT = 2,
+  RIGHT_TO_LEFT = 3,
+  BACK_TO_FRONT = 4,
+  FRONT_TO_BACK = 5,
+  OUTWARD = 6,
+  INWARD = 7,
+  CHEVRON_FTB = 8,
+  CHEVRON_BTF = 9
 };
 
 void setAnimationSpeed(int value);
@@ -46,5 +47,6 @@ bool nextFrameReady();
 String getNextFrame();
 
 void startAnimation(Animation new_animation, bool looping);
+}  // namespace animation
 
 #endif

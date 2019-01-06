@@ -3,20 +3,27 @@
 
 #define NUMBER_OF_FILTERS 11
 
+namespace filter {
+
 enum Filter {
-  NO_FILTER,
-  ODD_COLUMNS,
-  EVEN_COLUMNS,
-  ODD_ROWS,
-  EVEN_ROWS,
-  CHECKERBOARD,
-  LEFT_HALF,
-  RIGHT_HALF,
-  LEFT_THIRD,
-  MIDDLE_THIRD,
-  RIGHT_THIRD
+  NULL_FILTER = -1,
+  NO_FILTER = 0,
+  ODD_COLUMNS = 1,
+  EVEN_COLUMNS = 2,
+  ODD_ROWS = 3,
+  EVEN_ROWS = 4,
+  CHECKERBOARD = 5,
+  LEFT_HALF = 6,
+  RIGHT_HALF = 7,
+  LEFT_THIRD = 8,
+  MIDDLE_THIRD = 9,
+  RIGHT_THIRD = 10
 };
 
-void setAnimationSpeed(int value);
+String filterToSelector(Filter filter);
+
+String filterToString(Filter filter);
+
+}  // namespace filter
 
 #endif
