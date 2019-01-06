@@ -19,7 +19,7 @@ char row_regex[10];
 char iteration_regex[20];
 char number_buffer[3];
 
-int step = 0;
+byte step = 0;
 
 void lastStepReached() {
   if (looping) {
@@ -179,6 +179,7 @@ void animationToSelector(char* regex_buffer) {
     case NO_ANIMATION:
     default:
       strcpy(regex_buffer, ".*");
+      step = 0;
       break;
     case RANDOM:
       a_random(regex_buffer);

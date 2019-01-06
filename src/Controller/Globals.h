@@ -15,6 +15,8 @@
 // DEVELOPER SETTINGS
 #define DEBUG_MODE true
 #define MAX_REGEX_LENGTH 180
+#define MAX_COMMAND_NAME_LENGTH 10
+#define MAX_PARAMETERS 6
 
 // MESSAGING
 #define BAUD_RATE 9600
@@ -34,10 +36,9 @@
 #define LED_TYPE led::COMMON_ANODE
 
 // COMMANDS
-#define MAX_PARAMETERS 10
 #define NUMBER_OF_MACROS 4
-bool isNewMacro;
-bool isNewSetting;
+// bool isNewMacro;
+// bool isNewSetting;
 long timer;
 long timer_delay;
 
@@ -45,6 +46,7 @@ long timer_delay;
 // BASE_BRIGHTNESS_CONSTRAINS - if true the base brightness set will be the
 // maximum allowed brightness
 #define BASE_BRIGHTNESS_CONSTRAINS true
+#define MAX_VALUE 255
 #define MAX_BRIGHTNESS 255
 #define MAX_RED 255
 #define MAX_GREEN 255

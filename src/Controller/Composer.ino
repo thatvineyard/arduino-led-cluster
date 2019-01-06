@@ -1,38 +1,36 @@
 #include <Arduino.h>
 
-#define MAX_VALUE 255
-
 namespace composer {
 
 char regex_string[MAX_REGEX_LENGTH];
-char parameter_string[20];
+char parameter_string[4 * MAX_PARAMETERS];
 
 // DIMMER
-int dimmer_value = 255;
+byte dimmer_value = 255;
 bool dimmer_changed;
 
 // RGB
-int red_value = 0;
-int green_value = 0;
-int blue_value = 0;
+byte red_value = 0;
+byte green_value = 0;
+byte blue_value = 0;
 bool color_changed;
 
 // SPEED
-int macro_speed_value = 100;
+byte macro_speed_value = 100;
 bool macro_speed_changed;
 
 // MACRO
 Command current_macro = NULL_COMMAND;
 bool macro_changed = false;
-int current_number_of_parameters = 0;
+byte current_number_of_parameters = 0;
 
-int parameters[MAX_PARAMETERS];
+byte parameters[MAX_PARAMETERS];
 bool parameters_changed = false;
 
 // ANIMATION
 animation::Animation current_animation = animation::NULL_ANIMATION;
 bool animation_changed = false;
-int animation_speed_value = 250;
+byte animation_speed_value = 250;
 bool animation_speed_changed = false;
 long previous_animation_regex_hash = 0;
 
@@ -174,17 +172,16 @@ void changeColor(int red_delta, int green_delta, int blue_delta) {
 
 void sendNextFrame() {
   bool send = false;
-  if (animation::nextFrameReady()) {
-    animation::getNextFrame(regex_string);
-    bool send = true;
-    lcd::requestUpdate();
-  } else if (macro_changed || parameters_changed || filter_changed) {
+  if (animation::nextFrameReady() || macro_changed || parameters_changed ||
+      filter_changed) {
+    if (animation::nextFrameReady()) {
+      animation::getNextFrame(regex_string);
+      lcd::requestUpdate();
+    }
     macro_changed = false;
     parameters_changed = false;
     filter_changed = false;
-    bool send = true;
-  }
-  if (send) {
+
     andSelector(regex_string, filterToSelector(current_filter));
 
     strcpy(parameter_string, "");
@@ -194,7 +191,6 @@ void sendNextFrame() {
         strcat(parameter_string, " ");
       }
     }
-
     sender::sendMessage(regex_string, commandToString(current_macro),
                         parameter_string);
   }

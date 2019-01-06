@@ -49,8 +49,8 @@
 // Configure a DMX slave controller
 // DMX_Slave dmx_receiver(DMX_CHANNELS);
 
-int old_state;
-int state[DMX_CHANNELS];
+byte old_state;
+byte state[DMX_CHANNELS];
 bool state_change[DMX_CHANNELS];
 
 void initDmx() {
