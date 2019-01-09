@@ -36,8 +36,8 @@
 // COMMANDS
 #define MAX_PARAMETERS 10
 #define NUMBER_OF_MACROS 4
-bool isNewMacro;
-bool isNewSetting;
+bool is_new_macro;
+bool is_new_setting;
 long timer;
 long timer_delay;
 

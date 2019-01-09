@@ -21,14 +21,14 @@ void setup() {
 void loop() {
   messaging::parseMessage();
 
-  if (isNewSetting) {
+  if (is_new_setting) {
     applySetting();
-    isNewSetting = false;
+    is_new_setting = false;
   }
 
-  if (isNewMacro) {
+  if (is_new_macro) {
     initMacro();
-    isNewMacro = false;
+    is_new_macro = false;
   }
 
   tickMacro();

@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include "Commands.h"
 
-Command currentMacro = NULL_COMMAND;
-Command currentSetting = NULL_COMMAND;
-String currentParameters[MAX_PARAMETERS];
+Command current_macro = NULL_COMMAND;
+Command current_setting = NULL_COMMAND;
+String current_parameters[MAX_PARAMETERS];
 
 bool isSetting(Command command_to_check) {
   return ((command_to_check == S_BASEBRIGHTNESS) ||
@@ -17,19 +17,40 @@ bool isMacro(Command command_to_check) {
           (command_to_check == M_SOLID) || (command_to_check == M_FLICKER));
 }
 
-void setMacro(Command newMacro) {
-  currentMacro = newMacro;
-  isNewMacro = true;
+void stopCommand() {
+  setMacro(NULL_COMMAND);
+  is_new_macro = false;
+
+  setSetting(NULL_COMMAND);
+  is_new_setting = false;
+
+  color::setAuxBrightnessProcent(0);
+  color::setAuxColorProcent(0, 0, 0);
 }
 
-void setSetting(Command newSetting) {
-  currentSetting = newSetting;
-  isNewSetting = true;
+void handleNewCommand(Command new_command) {
+  if (isMacro(new_command)) {
+    setMacro(new_command);
+  } else if (isSetting(new_command)) {
+    setSetting(new_command);
+  } else if (new_command = STOP) {
+    stopCommand();
+  }
 }
 
-void setParameters(String newParameters[]) {
+void setMacro(Command new_macro) {
+  current_macro = new_macro;
+  is_new_macro = true;
+}
+
+void setSetting(Command new_setting) {
+  current_setting = new_setting;
+  is_new_setting = true;
+}
+
+void setParameters(String new_parameters[]) {
   for (int i = 0; i < MAX_PARAMETERS; i++) {
-    currentParameters[i] = newParameters[i];
+    current_parameters[i] = new_parameters[i];
   }
 }
 
@@ -41,7 +62,8 @@ void setBaseBrightness(String new_base_brightness_string) {
   }
 }
 
-void setBaseColor(String new_red_string, String new_green_string,
+void setBaseColor(String new_red_string,
+                  String new_green_string,
                   String new_blue_string) {
   int new_red = 255;
   int new_green = 255;
@@ -68,17 +90,17 @@ void setBaseSpeed(String new_base_speed_string) {
 }
 
 void applySetting() {
-  log("Applying setting: " + commandToString(currentSetting) + ".");
-  switch (currentSetting) {
+  log("Applying setting: " + commandToString(current_setting) + ".");
+  switch (current_setting) {
     case S_BASEBRIGHTNESS:
-      setBaseBrightness(currentParameters[0]);
+      setBaseBrightness(current_parameters[0]);
       break;
     case S_BASECOLOR:
-      setBaseColor(currentParameters[0], currentParameters[1],
-                   currentParameters[2]);
+      setBaseColor(current_parameters[0], current_parameters[1],
+                   current_parameters[2]);
       break;
     case S_BASESPEED:
-      setBaseSpeed(currentParameters[0]);
+      setBaseSpeed(current_parameters[0]);
       break;
     case NULL_COMMAND:
     default:
@@ -87,20 +109,20 @@ void applySetting() {
 }
 
 void initMacro() {
-  log("Initializing macro: " + commandToString(currentMacro) + ".");
-  switch (currentMacro) {
+  log("Initializing macro: " + commandToString(current_macro) + ".");
+  switch (current_macro) {
     case M_PULSE:
-      m_pulse::init(currentParameters[0], currentParameters[1],
-                    currentParameters[2], currentParameters[3]);
+      m_pulse::init(current_parameters[0], current_parameters[1],
+                    current_parameters[2], current_parameters[3]);
       break;
     case M_FLICKER:
-      m_flicker::init(currentParameters[0], currentParameters[1]);
+      m_flicker::init(current_parameters[0], current_parameters[1]);
       break;
     case M_SOLID:
       m_solid::init();
       break;
     case M_SINGLEFLASH:
-      m_singleflash::init(currentParameters[0], currentParameters[1]);
+      m_singleflash::init(current_parameters[0], current_parameters[1]);
       break;
     case NULL_COMMAND:
     default:
@@ -109,7 +131,7 @@ void initMacro() {
 }
 
 void tickMacro() {
-  switch (currentMacro) {
+  switch (current_macro) {
     case M_PULSE:
       m_pulse::tick();
       break;

@@ -27,9 +27,14 @@ enum Command {
 };
 
 /**
+ *
+ */
+void handleNewCommand(Command new_command);
+
+/**
  * Sets a new macro. This will flag that a new macro is ready to be initialized.
  */
-void setMacro(Command newCommand);
+void setMacro(Command new_command);
 
 /**
  * Sets a new setting. This will flag that a new setting is ready to be applied.

@@ -72,14 +72,7 @@ bool parseSelector() {
 }
 
 void parseCommand() {
-  Command new_command = stringToCommand(input_command);
-  if (isMacro(new_command)) {
-    setMacro(new_command);
-    isNewMacro = true;
-  } else if (isSetting(new_command)) {
-    setSetting(new_command);
-    isNewSetting = true;
-  }
+  handleNewCommand(stringToCommand(input_command));
 }
 
 void parseParameters() {
