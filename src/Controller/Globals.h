@@ -15,6 +15,7 @@
 // DEVELOPER SETTINGS
 #define DEBUG_MODE true
 #define MAX_REGEX_LENGTH 180
+char temp_number_buffer[3];
 
 // MESSAGING
 #define BAUD_RATE 9600
