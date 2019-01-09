@@ -4,6 +4,29 @@
 #include "Globals.h"
 
 /**
+ *
+ * Settings are changes that are made once and don't interrupt macros.
+ *
+ * Macros are ongoing changes that will keep going until another macro or the
+ * STOP command is issued.
+ *
+ */
+enum Command {
+  // SPECIAL COMMANDS
+  NULL_COMMAND = -1,
+  STOP = 0,
+  // SETTINGS
+  S_BASECOLOR = 101,
+  S_BASEBRIGHTNESS = 102,
+  S_BASESPEED = 103,
+  // MACROS
+  M_SOLID = 1,
+  M_PULSE = 2,
+  M_FLICKER = 3,
+  M_SINGLEFLASH = 4
+};
+
+/**
  * Sets a new macro. This will flag that a new macro is ready to be initialized.
  */
 void setMacro(Command newCommand);
@@ -31,29 +54,6 @@ void tickMacro();
  * Should only be called when a new setting has been set.
  */
 void applySetting();
-
-/**
- *
- * Settings are changes that are made once and don't interrupt macros.
- *
- * Macros are ongoing changes that will keep going until another macro or the
- * STOP command is issued.
- *
- */
-enum Command {
-  // SPECIAL COMMANDS
-  NULL_COMMAND = -1,
-  STOP = 0,
-  // SETTINGS
-  S_BASECOLOR = 101,
-  S_BASEBRIGHTNESS = 102,
-  S_BASESPEED = 103,
-  // MACROS
-  M_SOLID = 1,
-  M_PULSE = 2,
-  M_FLICKER = 3,
-  M_SINGLEFLASH = 4
-};
 
 Command stringToCommand(String string_to_convert) {
   string_to_convert.toUpperCase();
@@ -133,7 +133,9 @@ String commandToString(Command command_to_convert) {
  */
 namespace m_pulse {
 int num_params = 4;
-void init(String on_duration, String fade_in_duration, String off_duration,
+void init(String on_duration,
+          String fade_in_duration,
+          String off_duration,
           String fade_out_duration);
 void tick();
 }  // namespace m_pulse

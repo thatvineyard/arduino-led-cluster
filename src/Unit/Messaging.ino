@@ -28,7 +28,9 @@ void resetMessaging() {
   input_parameter_index = 0;
 }
 
-void addToSelector(char inChar) { input_selector += inChar; }
+void addToSelector(char inChar) {
+  input_selector += inChar;
+}
 
 void addToParameters(char inChar) {
   if (inChar != ' ') {
@@ -52,12 +54,21 @@ void setRegexp(String new_regexp) {
 }
 
 bool parseSelector() {
-  char res = match_state.Match(const_cast<char*>(input_selector.c_str()), 0);
-  if (res > 0) {
-    return true;
-  } else {
-    return false;
+  String selector_rest = input_selector;
+  String selector_segment = "";
+  int next_and_symbol = 0;
+  char res = 0;
+  while (next_and_symbol != -1) {
+    next_and_symbol = selector_rest.indexOf(DELIM_SELECTOR_AND);
+    selector_segment = selector_rest.substring(0, next_and_symbol);
+    selector_rest = selector_rest.substring(next_and_symbol + 1);
+    char res = match_state.Match(const_cast<char*>(input_selector.c_str()), 0);
+    if (res > 0) {
+    } else {
+      return false;
+    }
   }
+  return true;
 }
 
 void parseCommand() {
@@ -71,7 +82,9 @@ void parseCommand() {
   }
 }
 
-void parseParameters() { setParameters(input_parameters); }
+void parseParameters() {
+  setParameters(input_parameters);
+}
 
 void parseMessage() {
   if (message_state == AWAITING_PARSING) {
