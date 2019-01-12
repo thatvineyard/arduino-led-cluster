@@ -60,8 +60,10 @@ void tick() {
   }
 }
 
-void init(String new_on_duration, String new_fade_in_duration,
-          String new_off_duration, String new_fade_out_duration) {
+void init(String new_on_duration,
+          String new_fade_in_duration,
+          String new_off_duration,
+          String new_fade_out_duration) {  // TODO: Handle parameters as 0-255
   if (new_on_duration != "") {
     on_duration = new_on_duration.toInt();
   } else {

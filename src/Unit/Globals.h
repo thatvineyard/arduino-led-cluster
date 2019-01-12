@@ -2,8 +2,7 @@
 #define GLOBALS_H_INCLUDED
 
 // UNIT ID
-#define UNIT_COLUMN 'A'
-#define UNIT_ROW 1
+#define UNIT_ID "A01"
 
 // CONTROLLER
 #define DMX_MODE false

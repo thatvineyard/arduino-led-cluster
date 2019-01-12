@@ -16,8 +16,6 @@ Command parsed_command = NULL_COMMAND;
 
 // State handlers
 MessageState message_state;
-MatchState match_state;
-
 // MESSAGE RECORDING
 void resetMessaging() {
   input_selector = "";
@@ -48,9 +46,8 @@ void addToCommand(char inChar) {
 
 // MESSAGE PARSING
 
-void setRegexp(String new_regexp) {
-  log("Setting regexp to: " + new_regexp + ".");
-  match_state.Target(const_cast<char*>(new_regexp.c_str()));
+void setRegexp() {
+  match_state.Target(UNIT_ID);
 }
 
 bool parseSelector() {
@@ -60,11 +57,16 @@ bool parseSelector() {
   char res = 0;
   while (next_and_symbol != -1) {
     next_and_symbol = selector_rest.indexOf(DELIM_SELECTOR_AND);
-    selector_segment = selector_rest.substring(0, next_and_symbol);
-    selector_rest = selector_rest.substring(next_and_symbol + 1);
-    char res = match_state.Match(const_cast<char*>(input_selector.c_str()), 0);
-    if (res > 0) {
+    if (next_and_symbol != -1) {
+      selector_segment = selector_rest.substring(0, next_and_symbol);
+      selector_rest = selector_rest.substring(next_and_symbol + 1);
     } else {
+      selector_segment = selector_rest;
+    }
+    log("selector segment: " + selector_segment);
+    int res = match_state.Match(const_cast<char*>(selector_segment.c_str()), 0);
+    log("res: " + String(res));
+    if (res == REGEXP_NOMATCH) {
       return false;
     }
   }

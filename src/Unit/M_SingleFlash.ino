@@ -29,7 +29,8 @@ void tick() {
   }
 }
 
-void init(String flash_duration, String new_fade_duration) {
+void init(String flash_duration,
+          String new_fade_duration) {  // TODO: Handle parameters as 0-255
   if (flash_duration == "") {
     setTimerDelay(100);
   } else {

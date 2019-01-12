@@ -6,16 +6,20 @@
 #include "Messaging.h"
 
 void setup() {
-  // Set the regex match state to the id.
-  messaging::setRegexp(createId(UNIT_COLUMN, UNIT_ROW));
   // Open serial connection
   Serial.begin(BAUD_RATE);
-  // while (!Serial) {
-  //   ;
-  // }
+  while (!Serial) {
+    ;
+  }
+  // Set the regex match state to the id.
+  messaging::setRegexp();
 
   // initialize pins
   led::initLed(LED_TYPE);
+
+  log("source string: " + String(messaging::match_state.src));
+  int result = messaging::match_state.Match("A01", 0);
+  log("result =" + String(result));
 }
 
 void loop() {

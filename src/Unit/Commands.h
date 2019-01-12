@@ -177,7 +177,8 @@ void tick();
  */
 namespace m_singleflash {
 int num_params = 2;
-void init(String flash_duration, String fade_duration);
+void init(String flash_duration,
+          String fade_duration);  // TODO: debug with 0-length fade
 void tick();
 }  // namespace m_singleflash
 

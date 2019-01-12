@@ -12,7 +12,8 @@ int changeColor(int delta) {
   procent = constrain(procent + delta, minimum, 100);
 }
 
-void init(String delay, String minimum_procent) {
+void init(String delay,
+          String minimum_procent) {  // TODO: Handle parameters as 0-255
   if (delay == "") {
     setTimerDelay(30);
   } else {

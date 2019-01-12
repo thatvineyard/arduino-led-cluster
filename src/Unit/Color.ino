@@ -5,8 +5,8 @@ namespace color {
 enum AuxType { NONE, VALUE, PROCENT, DELTA };
 
 int base_brightness_value = 255;
-int base_red_value = 0;
-int base_green_value = 0;
+int base_red_value = 255;
+int base_green_value = 30;
 int base_blue_value = 0;
 
 AuxType brightness_aux_type = NONE;
@@ -172,7 +172,8 @@ void setAuxColorToBase() {
   displayColor();
 }
 
-void setAuxColorValue(int new_aux_red_value, int new_aux_green_value,
+void setAuxColorValue(int new_aux_red_value,
+                      int new_aux_green_value,
                       int new_aux_blue_value) {
   color_aux_type = VALUE;
   aux_red_value = constrain(new_aux_red_value, 0, 255);
@@ -181,7 +182,8 @@ void setAuxColorValue(int new_aux_red_value, int new_aux_green_value,
   displayColor();
 }
 
-void setAuxColorProcent(int new_aux_red_procent, int new_aux_green_procent,
+void setAuxColorProcent(int new_aux_red_procent,
+                        int new_aux_green_procent,
                         int new_aux_blue_procent) {
   color_aux_type = PROCENT;
   aux_red_procent = new_aux_red_procent;
@@ -190,7 +192,8 @@ void setAuxColorProcent(int new_aux_red_procent, int new_aux_green_procent,
   displayColor();
 }
 
-void setAuxColorDelta(int new_aux_red_delta, int new_aux_green_delta,
+void setAuxColorDelta(int new_aux_red_delta,
+                      int new_aux_green_delta,
                       int new_aux_blue_delta) {
   aux_red_delta = new_aux_red_delta;
   aux_green_delta = new_aux_green_delta;
