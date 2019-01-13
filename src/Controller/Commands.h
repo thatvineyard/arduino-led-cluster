@@ -1,6 +1,5 @@
 #ifndef COMMANDS_H_DEFINED
 #define COMMANDS_H_DEFINED
-
 #include "Globals.h"
 
 /**
@@ -104,8 +103,8 @@ String commandToString(Command command_to_convert) {
  */
 namespace m_pulse {
 int num_params = 4;
-void init(String on_duration, String fade_in_duration, String off_duration,
-          String fade_out_duration);
+void init(int on_duration, int fade_in_duration, int off_duration,
+          int fade_out_duration);
 void tick();
 }  // namespace m_pulse
 
@@ -118,7 +117,7 @@ void tick();
  */
 namespace m_flicker {
 int num_params = 2;
-void init(String flicker_delay, String minimum_procent);
+void init(int flicker_delay, int minimum_procent);
 void tick();
 }  // namespace m_flicker
 
@@ -141,7 +140,7 @@ void tick();
  */
 namespace m_singleflash {
 int num_params = 2;
-void init(String flash_duration, String fade_duration);
+void init(int flash_duration, int fade_duration);
 void tick();
 }  // namespace m_singleflash
 
