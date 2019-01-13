@@ -45,11 +45,31 @@ void addToCommand(char inChar) {
 
 void setRegexp() { match_state.Target(UNIT_ID); }
 
+int parseOr(String input) {
+  String selector_rest = input;
+  String selector_segment = "";
+  int next_or_symbol = 0;
+
+  while (next_or_symbol != -1) {
+    next_or_symbol = selector_rest.indexOf(DELIM_SELECTOR_OR);
+    if (next_or_symbol != -1) {
+      selector_segment = selector_rest.substring(0, next_or_symbol);
+      selector_rest = selector_rest.substring(next_or_symbol + 1);
+    } else {
+      selector_segment = selector_rest;
+    }
+    int res = match_state.Match(const_cast<char*>(selector_segment.c_str()), 0);
+    if (res == REGEXP_MATCHED) {
+      return REGEXP_MATCHED;
+    }
+  }
+  return REGEXP_NOMATCH;
+}
+
 bool parseSelector() {
   String selector_rest = input_selector;
   String selector_segment = "";
   int next_and_symbol = 0;
-  char res = 0;
   while (next_and_symbol != -1) {
     next_and_symbol = selector_rest.indexOf(DELIM_SELECTOR_AND);
     if (next_and_symbol != -1) {
@@ -58,7 +78,8 @@ bool parseSelector() {
     } else {
       selector_segment = selector_rest;
     }
-    int res = match_state.Match(const_cast<char*>(selector_segment.c_str()), 0);
+
+    int res = parseOr(selector_segment);
     if (res == REGEXP_NOMATCH) {
       return false;
     }
