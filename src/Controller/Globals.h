@@ -35,7 +35,7 @@ char temp_number_buffer[3];
 #define LED_TYPE led::COMMON_ANODE
 
 // COMMANDS
-#define MAX_PARAMETERS 10
+#define MAX_PARAMETERS 4
 #define NUMBER_OF_MACROS 4
 bool isNewMacro;
 bool isNewSetting;

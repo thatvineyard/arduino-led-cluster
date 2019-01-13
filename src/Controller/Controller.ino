@@ -13,9 +13,9 @@
 void setup() {
   // Open serial connection
   Serial.begin(BAUD_RATE);
-  // while (!Serial) {
-  //   ;
-  // }
+  while (!Serial) {
+    ;
+  }
   lcd::initLCD();
   initInput();
 

@@ -16,9 +16,11 @@ void scrollParameter(bool direction) {
 
 void scrollMacro(bool direction) {
   if (direction) {
-    macro_selector = (macro_selector + NUMBER_OF_MACROS + 1) % NUMBER_OF_MACROS;
+    macro_selector =
+        (macro_selector + NUMBER_OF_MACROS + 1 + 1) % (NUMBER_OF_MACROS + 1);
   } else {
-    macro_selector = (macro_selector + NUMBER_OF_MACROS - 1) % NUMBER_OF_MACROS;
+    macro_selector =
+        (macro_selector + NUMBER_OF_MACROS - 1 + 1) % (NUMBER_OF_MACROS + 1);
   }
 }
 
