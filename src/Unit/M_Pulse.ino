@@ -62,24 +62,30 @@ void tick() {
 }
 
 void init(int new_on_duration, int new_fade_in_duration, int new_off_duration,
-          int new_fade_out_duration) {  // TODO: Handle parameters as 0-255
+          int new_fade_out_duration) {
   if (new_on_duration != -1) {
-    on_duration = new_on_duration;
+    on_duration = mapScale(M_PULSE_SCALE_TYPE, M_PULSE_MIN_DURATION,
+                           M_PULSE_MAX_DURATION, 0, 255, new_on_duration);
   } else {
     on_duration = 1000;
   }
   if (new_fade_in_duration != -1) {
-    fade_in_duration = new_fade_in_duration;
+    fade_in_duration =
+        mapScale(M_PULSE_SCALE_TYPE, M_PULSE_MIN_DURATION, M_PULSE_MAX_DURATION,
+                 0, 255, new_fade_in_duration);
   } else {
     fade_in_duration = 500;
   }
   if (new_off_duration != -1) {
-    off_duration = new_off_duration;
+    off_duration = mapScale(M_PULSE_SCALE_TYPE, M_PULSE_MIN_DURATION,
+                            M_PULSE_MAX_DURATION, 0, 255, new_off_duration);
   } else {
     off_duration = on_duration;
   }
   if (new_fade_out_duration != -1) {
-    fade_out_duration = new_fade_out_duration;
+    fade_out_duration =
+        mapScale(M_PULSE_SCALE_TYPE, M_PULSE_MIN_DURATION, M_PULSE_MAX_DURATION,
+                 0, 255, new_fade_out_duration);
   } else {
     fade_out_duration = fade_in_duration;
   }
