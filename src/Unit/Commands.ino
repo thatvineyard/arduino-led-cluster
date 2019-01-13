@@ -120,7 +120,7 @@ void applySetting() {
 void initMacro() {
   log("Initializing macro: " + commandToString(current_macro) + ".");
   for (int i = 0; i < MAX_PARAMETERS; i++) {
-    log("parameter " + String(i) + ": " + String(current_parameters[i]));
+    // log("parameter " + String(i) + ": " + String(current_parameters[i]));
   }
   switch (current_macro) {
     case M_PULSE:
