@@ -14,10 +14,9 @@ bool first = false;
 bool finished = false;
 bool looping = false;
 char column_character;
-char column_regex[15];
-char row_regex[15];
-char iteration_regex[30];
-char number_buffer[3];
+char column_regex[10];
+char row_regex[10];
+char iteration_regex[20];
 
 byte step = 0;
 
@@ -55,10 +54,10 @@ void a_random(char* regex_buffer) {
     strcat(column_regex, ".");
 
     strcpy(row_regex, "[");
-    for (int j = 0; j < 10; j++) {
-      if (random(1) == 0) {
-        sprintf(number_buffer, "%d", j);
-        strcat(row_regex, number_buffer);
+    for (int j = 0; j < 1; j++) {
+      if (random(2) == 1) {
+        sprintf(temp_number_buffer, "%d", j);
+        strcat(row_regex, temp_number_buffer);
       }
     }
     strcat(row_regex, "]");

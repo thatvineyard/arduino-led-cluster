@@ -16,8 +16,6 @@ Command parsed_command = NULL_COMMAND;
 
 // State handlers
 MessageState message_state;
-MatchState match_state;
-
 // MESSAGE RECORDING
 void resetMessaging() {
   input_selector = "";
@@ -28,7 +26,9 @@ void resetMessaging() {
   input_parameter_index = 0;
 }
 
-void addToSelector(char inChar) { input_selector += inChar; }
+void addToSelector(char inChar) {
+  input_selector += inChar;
+}
 
 void addToParameters(char inChar) {
   if (inChar != ' ') {
@@ -46,32 +46,40 @@ void addToCommand(char inChar) {
 
 // MESSAGE PARSING
 
-void setRegexp(String new_regexp) {
-  log("Setting regexp to: " + new_regexp + ".");
-  match_state.Target(const_cast<char*>(new_regexp.c_str()));
+void setRegexp() {
+  match_state.Target(UNIT_ID);
 }
 
 bool parseSelector() {
-  char res = match_state.Match(const_cast<char*>(input_selector.c_str()), 0);
-  if (res > 0) {
-    return true;
-  } else {
-    return false;
+  String selector_rest = input_selector;
+  String selector_segment = "";
+  int next_and_symbol = 0;
+  char res = 0;
+  while (next_and_symbol != -1) {
+    next_and_symbol = selector_rest.indexOf(DELIM_SELECTOR_AND);
+    if (next_and_symbol != -1) {
+      selector_segment = selector_rest.substring(0, next_and_symbol);
+      selector_rest = selector_rest.substring(next_and_symbol + 1);
+    } else {
+      selector_segment = selector_rest;
+    }
+    log("selector segment: " + selector_segment);
+    int res = match_state.Match(const_cast<char*>(selector_segment.c_str()), 0);
+    log("res: " + String(res));
+    if (res == REGEXP_NOMATCH) {
+      return false;
+    }
   }
+  return true;
 }
 
 void parseCommand() {
-  Command new_command = stringToCommand(input_command);
-  if (isMacro(new_command)) {
-    setMacro(new_command);
-    isNewMacro = true;
-  } else if (isSetting(new_command)) {
-    setSetting(new_command);
-    isNewSetting = true;
-  }
+  handleNewCommand(stringToCommand(input_command));
 }
 
-void parseParameters() { setParameters(input_parameters); }
+void parseParameters() {
+  setParameters(input_parameters);
+}
 
 void parseMessage() {
   if (message_state == AWAITING_PARSING) {

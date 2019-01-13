@@ -44,7 +44,7 @@ void setAnimationSpeed(int value);
 
 bool nextFrameReady();
 
-String getNextFrame();
+void getNextFrame(char* regex_buffer);
 
 void startAnimation(Animation new_animation, bool looping);
 }  // namespace animation

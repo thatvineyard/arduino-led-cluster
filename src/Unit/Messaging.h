@@ -1,5 +1,6 @@
 #ifndef MESSAGING_H_INCLUDED
 #define MESSAGING_H_INCLUDED
+#include <Regexp.h>
 
 namespace messaging {
 
@@ -13,13 +14,15 @@ enum MessageState {
   AWAITING_PARSING
 };
 
+MatchState match_state;
+
 /**
  * setRegexp(String)
  *
  * Sets the regexp which messaging will match the selector on.
  *
  */
-void setRegexp(String new_regexp);
+void setRegexp();
 
 /**
  * parseMessage()
