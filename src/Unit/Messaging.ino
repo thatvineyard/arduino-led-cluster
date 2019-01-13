@@ -49,17 +49,39 @@ bool parseSelector() {
   String selector_rest = input_selector;
   String selector_segment = "";
   int next_and_symbol = 0;
+  int next_or_symbol = 0;
+  bool block_result = false;
   char res = 0;
   while (next_and_symbol != -1) {
     next_and_symbol = selector_rest.indexOf(DELIM_SELECTOR_AND);
-    if (next_and_symbol != -1) {
-      selector_segment = selector_rest.substring(0, next_and_symbol);
-      selector_rest = selector_rest.substring(next_and_symbol + 1);
-    } else {
-      selector_segment = selector_rest;
+
+    block_result = false;
+    // potential improvement would be to check if block_result is true, since it
+    // would mean that the whole block ORs to true, but it would make substring
+    // handling slightly more complicated
+    while (next_or_symbol != -1) {
+      next_or_symbol = selector_rest.indexOf(DELIM_SELECTOR_OR);
+      if (next_and_symbol != -1 && next_or_symbol >= next_and_symbol) {
+        next_or_symbol = -1;
+      }
+      if (next_or_symbol != -1) {
+        selector_segment = selector_rest.substring(0, next_or_symbol);
+        selector_rest = selector_rest.substring(next_or_symbol + 1);
+      } else {
+        if (next_and_symbol == -1) {
+          selector_segment = selector_rest;
+        } else {
+          selector_segment = selector_rest.substring(0, next_and_symbol);
+          selector_rest = selector_rest.substring(next_and_symbol + 1);
+        }
+      }
+      int res =
+          match_state.Match(const_cast<char*>(selector_segment.c_str()), 0);
+      if (res == REGEX_MATCHED) {
+        block_result = true;
+      }
     }
-    int res = match_state.Match(const_cast<char*>(selector_segment.c_str()), 0);
-    if (res == REGEXP_NOMATCH) {
+    if (block_result == false) {
       return false;
     }
   }

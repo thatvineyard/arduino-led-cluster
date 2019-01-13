@@ -65,6 +65,7 @@ The cons:
 #### LED id layout
 | Column A | Column B | Column C | Column D | Column E | Column F | Column G | Column H | Column I | Column J |
 | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
+| A00      | B00      | C00      | D00      | E00      | F00      | G00      | H00      | I00      | J00      |
 | A01      | B01      | C01      | D01      | E01      | F01      | G01      | H01      | I01      | J01      |
 | A02      | B02      | C02      | D02      | E02      | F02      | G02      | H02      | I02      | J02      |
 | A03      | B03      | C03      | D03      | E03      | F03      | G03      | H03      | I03      | J03      |
@@ -84,7 +85,6 @@ The cons:
 | A17      | B17      | C17      | D17      | E17      | F17      | G17      | H17      | I17      | J17      |
 | A18      | B18      | C18      | D18      | E18      | F18      | G18      | H18      | I18      | J18      |
 | A19      | B19      | C19      | D19      | E19      | F19      | G19      | H19      | I19      | J19      |
-| A20      | B20      | C20      | D20      | E20      | F20      | G20      | H20      | I20      | J20      |
 
 #### Regex and Mathematical Equations
 
@@ -102,6 +102,8 @@ The mathematical equations are hard-coded boolean equations which will be told
 to run with certain parameters and if it equals the id of the arduino, it will 
 be selected. These are a lot less flexible and are essentially included to 
 allow for curves and circles without massive regexs.
+
+We have added OR and AND functionality to the regex. The order of operations is OR first, then AND. 
 
 **Example:**
 
