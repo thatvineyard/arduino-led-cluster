@@ -17,7 +17,7 @@ void setup() {
   // initialize pins
   led::initLed(LED_TYPE);
 
-  log("source string: " + String(messaging::match_state.src));
+  log(String(getColumn()) + ":" + String(getRow()));
 }
 
 void loop() {

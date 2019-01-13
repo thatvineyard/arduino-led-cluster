@@ -133,3 +133,9 @@ int mapScale(Scale scale, int result_minimum, int result_maximum,
 int mapScale(Scale scale, int result_maximum, int input_maximum, int input) {
   return mapScale(scale, 0, result_maximum, 0, input_maximum, input);
 }
+
+int calculateGradient() {}
+
+int getColumn() { return (int)UNIT_ID[0] - START_CHARACTER; }
+
+int getRow() { return String(UNIT_ID).substring(1).toInt(); }

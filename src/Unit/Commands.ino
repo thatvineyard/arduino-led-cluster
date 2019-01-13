@@ -8,7 +8,8 @@ int current_parameters[MAX_PARAMETERS];
 bool isSetting(Command command_to_check) {
   return ((command_to_check == S_BASEBRIGHTNESS) ||
           (command_to_check == S_BASECOLOR) ||
-          (command_to_check == S_BASESPEED));
+          (command_to_check == S_BASESPEED) ||
+          (command_to_check == S_BASECOLORGRADIENT));
 }
 
 bool isMacro(Command command_to_check) {
@@ -64,29 +65,11 @@ void setParameters(String new_parameters[]) {
   }
 }
 
-void setBaseBrightness(int new_base_brightness_string) {
-  if (new_base_brightness_string == -1) {
-    color::setBaseBrightness(255);
-  } else {
-    color::setBaseBrightness(new_base_brightness_string);
-  }
+void setBaseBrightness(int new_base_brightness) {
+  color::setBaseBrightness(new_base_brightness);
 }
 
-void setBaseColor(int new_red_string, int new_green_string,
-                  int new_blue_string) {
-  int new_red = 255;
-  int new_green = 255;
-  int new_blue = 255;
-
-  if (new_red_string != -1) {
-    new_red = new_red_string;
-  }
-  if (new_green_string != -1) {
-    new_green = new_green_string;
-  }
-  if (new_blue_string != -1) {
-    new_blue = new_blue_string;
-  }
+void setBaseColor(int new_red, int new_green, int new_blue) {
   color::setBaseColor(new_red, new_green, new_blue);
 }
 
@@ -96,6 +79,24 @@ void setBaseSpeed(int new_base_speed_string) {
   } else {
     setTimerBaseSpeed(new_base_speed_string);
   }
+}
+
+void setBaseColorGradient(int new_red_start, int new_green_start,
+                          int new_blue_start, int new_red_end,
+                          int new_green_end, int new_blue_end) {
+  setBaseColor(
+      (mapScale(LINEAR, new_red_start, new_red_end, 0, NUM_ROWS, getRow()) +
+       mapScale(LINEAR, new_red_start, new_red_end, 0, NUM_COLUMNS,
+                getColumn())) /
+          2,
+      (mapScale(LINEAR, new_green_start, new_green_end, 0, NUM_ROWS, getRow()) +
+       mapScale(LINEAR, new_green_start, new_green_end, 0, NUM_COLUMNS,
+                getColumn())) /
+          2,
+      (mapScale(LINEAR, new_blue_start, new_blue_end, 0, NUM_ROWS, getRow()) +
+       mapScale(LINEAR, new_blue_start, new_blue_end, 0, NUM_COLUMNS,
+                getColumn())) /
+          2);
 }
 
 void applySetting() {
@@ -111,6 +112,10 @@ void applySetting() {
     case S_BASESPEED:
       setBaseSpeed(current_parameters[0]);
       break;
+    case S_BASECOLORGRADIENT:
+      setBaseColorGradient(current_parameters[0], current_parameters[1],
+                           current_parameters[2], current_parameters[3],
+                           current_parameters[4], current_parameters[5]);
     case NULL_COMMAND:
     default:
       break;

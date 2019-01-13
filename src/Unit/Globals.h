@@ -2,7 +2,7 @@
 #define GLOBALS_H_INCLUDED
 
 // UNIT ID
-#define UNIT_ID "A01"
+#define UNIT_ID "F15"
 
 // CONTROLLER
 #define DMX_MODE false
@@ -13,7 +13,15 @@
 
 // DEVELOPER SETTINGS
 #define DEBUG_MODE true
-#define MAX_REGEX_LENGTH 100
+#define MAX_MESSAGE_REGEX_LENTGH 200
+#define MAX_MESSAGE_COMMAND_LENGTH MAX_COMMAND_NAME_LENGTH
+#define MAX_MESSAGE_PARAMETER_LENGTH (4 * MAX_PARAMETERS + 1)
+#define MAX_MESSAGE_LENGTH                                 \
+  (MAX_MESSAGE_REGEX_LENTGH + MAX_MESSAGE_COMMAND_LENGTH + \
+   MAX_MESSAGE_PARAMETER_LENGTH + 2)
+char temp_number_buffer[3];
+#define START_CHARACTER 'A'
+#define START_NUMBER 0
 
 // MESSAGING
 #define BAUD_RATE 9600
@@ -33,7 +41,8 @@
 #define LED_TYPE led::COMMON_ANODE
 
 // COMMANDS
-#define MAX_PARAMETERS 10
+#define MAX_COMMAND_NAME_LENGTH 15
+#define MAX_PARAMETERS 6
 #define NUMBER_OF_MACROS 4
 bool is_new_macro;
 bool is_new_setting;

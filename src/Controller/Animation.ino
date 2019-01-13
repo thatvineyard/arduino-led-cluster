@@ -6,8 +6,6 @@ namespace animation {
 #define MIN_ANIMATION_DELAY 50
 #define MAX_ANIMATION_DELAY 5000
 #define MIDDLE_SHIFT ((NUM_COLUMNS + 1) % 2)
-#define START_CHARACTER 'A'
-#define START_NUMBER 0
 
 Animation current_animation;
 int animation_delay = 1000;

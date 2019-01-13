@@ -19,6 +19,7 @@ enum Command {
   S_BASECOLOR = 101,
   S_BASEBRIGHTNESS = 102,
   S_BASESPEED = 103,
+  S_BASECOLORGRADIENT = 104,
   // MACROS
   M_SOLID = 1,
   M_PULSE = 2,
@@ -87,6 +88,9 @@ Command stringToCommand(String string_to_convert) {
   if (string_to_convert == F("S_BASESPEED")) {
     return S_BASESPEED;
   }
+  if (string_to_convert == F("S_BASECOLORGRADIENT")) {
+    return S_BASECOLORGRADIENT;
+  }
   if (string_to_convert == F("M_PULSE")) {
     return M_PULSE;
   }
@@ -118,6 +122,9 @@ String commandToString(Command command_to_convert) {
   }
   if (command_to_convert == S_BASESPEED) {
     return F("S_BASESPEED");
+  }
+  if (command_to_convert == S_BASECOLORGRADIENT) {
+    return F("S_BASECOLORGRADIENT");
   }
   if (command_to_convert == M_PULSE) {
     return F("M_PULSE");

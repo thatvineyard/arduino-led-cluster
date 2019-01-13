@@ -2,8 +2,7 @@
 #define GLOBALS_H_INCLUDED
 
 // UNIT ID
-#define UNIT_COLUMN 'A'
-#define UNIT_ROW 1
+#define UNIT_ID "A01"
 
 // CONTROLLER
 #define DMX_MODE false
@@ -21,6 +20,8 @@
   (MAX_MESSAGE_REGEX_LENTGH + MAX_MESSAGE_COMMAND_LENGTH + \
    MAX_MESSAGE_PARAMETER_LENGTH + 2)
 char temp_number_buffer[3];
+#define START_CHARACTER 'A'
+#define START_NUMBER 0
 
 // MESSAGING
 #define BAUD_RATE 9600
@@ -41,10 +42,10 @@ char temp_number_buffer[3];
 
 // COMMANDS
 #define MAX_COMMAND_NAME_LENGTH 15
-#define MAX_PARAMETERS 5
+#define MAX_PARAMETERS 6
 #define NUMBER_OF_MACROS 4
-// bool isNewMacro;
-// bool isNewSetting;
+// bool is_new_macro;
+// bool is_new_setting;
 long timer;
 long timer_delay;
 
