@@ -17,6 +17,10 @@ bool isMacro(Command command_to_check) {
           (command_to_check == M_SOLID) || (command_to_check == M_FLICKER));
 }
 
+bool isSpecial(Command command_to_check) {
+  return ((command_to_check == STOP));
+}
+
 void stopCommand() {
   setMacro(NULL_COMMAND);
   is_new_macro = false;
@@ -26,6 +30,7 @@ void stopCommand() {
 
   color::setAuxBrightnessProcent(0);
   color::setAuxColorProcent(0, 0, 0);
+  log("Stopping macro");
 }
 
 void handleNewCommand(Command new_command) {
@@ -33,7 +38,7 @@ void handleNewCommand(Command new_command) {
     setMacro(new_command);
   } else if (isSetting(new_command)) {
     setSetting(new_command);
-  } else if (new_command = STOP) {
+  } else if (new_command == STOP) {
     stopCommand();
   }
 }
@@ -62,8 +67,7 @@ void setBaseBrightness(String new_base_brightness_string) {
   }
 }
 
-void setBaseColor(String new_red_string,
-                  String new_green_string,
+void setBaseColor(String new_red_string, String new_green_string,
                   String new_blue_string) {
   int new_red = 255;
   int new_green = 255;

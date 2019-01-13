@@ -58,9 +58,7 @@ bool parseSelector() {
     } else {
       selector_segment = selector_rest;
     }
-    log("selector segment: " + selector_segment);
     int res = match_state.Match(const_cast<char*>(selector_segment.c_str()), 0);
-    log("res: " + String(res));
     if (res == REGEXP_NOMATCH) {
       return false;
     }
@@ -89,6 +87,8 @@ void parseMessage() {
         command_type = "macro";
       } else if (isSetting(stringToCommand(input_command))) {
         command_type = "setting";
+      } else if (isSpecial(stringToCommand(input_command))) {
+        command_type = "special";
       } else {
         command_type = "invalid command";
       }
