@@ -119,11 +119,11 @@ void applySetting() {
 
 void initMacro() {
   log("Initializing macro: " + commandToString(current_macro) + ".");
+  for (int i = 0; i < MAX_PARAMETERS; i++) {
+    log("parameter " + String(i) + ": " + String(current_parameters[i]));
+  }
   switch (current_macro) {
     case M_PULSE:
-      for (int i = 0; i < 4; i++) {
-        log("parameter " + String(i) + ": " + String(current_parameters[i]));
-      }
       m_pulse::init(current_parameters[0], current_parameters[1],
                     current_parameters[2], current_parameters[3]);
       break;
