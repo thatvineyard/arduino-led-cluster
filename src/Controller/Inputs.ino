@@ -36,11 +36,11 @@
 #define ENCODER_B_CW_ACTION controlIncrement()
 #define ENCODER_B_CCW_ACTION controlDecrement()
 
-int button_a_state = 0;
-int encoder_a_button_state = 0;
-int encoder_a_wheel_state = 0;
-int encoder_b_button_state = 0;
-int encoder_b_wheel_state = 0;
+byte button_a_state = 0;
+byte encoder_a_button_state = 0;
+byte encoder_a_wheel_state = 0;
+byte encoder_b_button_state = 0;
+byte encoder_b_wheel_state = 0;
 
 #define ENCODER_DELTA 5
 
@@ -75,7 +75,7 @@ void initInput() {
 }
 
 void parseInputs() {
-  int old_state;
+  byte old_state;
 
   // faders
 

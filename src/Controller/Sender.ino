@@ -2,7 +2,7 @@
 
 namespace sender {
 
-char message_buffer[200];
+char message_buffer[MAX_MESSAGE_LENGTH];
 long previous_message_hash = 0;
 
 void createMessage(char* message_buffer, char* selector, String command,

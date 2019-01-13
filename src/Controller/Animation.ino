@@ -18,7 +18,7 @@ char column_regex[10];
 char row_regex[10];
 char iteration_regex[20];
 
-int step = 0;
+byte step = 0;
 
 void lastStepReached() {
   if (looping) {
@@ -40,7 +40,7 @@ void a_random(char* regex_buffer) {
 
   randomSeed(millis());
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < NUM_COLUMNS; i++) {
     // This randomization is lazy. It will allow a random last digit, but will
     // match on any tens digit. For example is 2 is randomly selected then 02,
     // 12 and 22 will match.
@@ -178,6 +178,7 @@ void animationToSelector(char* regex_buffer) {
     case NO_ANIMATION:
     default:
       strcpy(regex_buffer, ".*");
+      step = 0;
       break;
     case RANDOM:
       a_random(regex_buffer);
@@ -236,9 +237,7 @@ String animationToString(Animation animation_to_convert) {
   }
 }
 
-bool nextFrameReady() {
-  return (timerLapsed() || first);
-}
+bool nextFrameReady() { return (timerLapsed() || first); }
 
 void getNextFrame(char* regex_buffer) {
   animationToSelector(regex_buffer);

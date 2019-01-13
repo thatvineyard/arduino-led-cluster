@@ -14,6 +14,12 @@ void log(String message) {
   }
 }
 
+void log(char* message) {
+  if (DEBUG_MODE) {
+    Serial.println(message);
+  }
+}
+
 void setBaseSpeed(int new_base_speed) { base_speed = new_base_speed; }
 
 bool timerLapsed() {
@@ -50,29 +56,25 @@ String orSelector(String selector_one, String selector_two) {
 }
 
 void andSelector(char* selector_one, char* selector_two) {
-  char new_regex[MAX_REGEX_LENGTH];
   if (strcmp(selector_one, "") == 0) {
     strcpy(selector_one, selector_two);
   } else {
     if (strcmp(selector_two, "") == 0) {
     } else {
-      sprintf(new_regex, "%s%c%s", selector_one, DELIM_SELECTOR_AND,
+      sprintf(selector_one + strlen(selector_one), "%c%s", DELIM_SELECTOR_AND,
               selector_two);
-      strcpy(selector_one, new_regex);
     }
   }
 }
 
 void orSelector(char* selector_one, char* selector_two) {
-  char new_regex[MAX_REGEX_LENGTH];
   if (strcmp(selector_one, "") == 0) {
     strcpy(selector_one, selector_two);
   } else {
     if (strcmp(selector_two, "") == 0) {
     } else {
-      sprintf(new_regex, "%s%c%s", selector_one, DELIM_SELECTOR_OR,
+      sprintf(selector_one + strlen(selector_one), "%c%s", DELIM_SELECTOR_OR,
               selector_two);
-      strcpy(selector_one, new_regex);
     }
   }
 }

@@ -10,25 +10,25 @@ String filterToSelector(Filter filter) {
     default:
       return ".*";
     case ODD_COLUMNS:
-      return ".*";
+      return "[BDFHJ]..";
     case EVEN_COLUMNS:
-      return ".*";
+      return "[ACEGI]..";
     case ODD_ROWS:
-      return ".*";
+      return "..[13579]";
     case EVEN_ROWS:
-      return ".*";
+      return "..[02468]";
     case CHECKERBOARD:
       return ".*";
     case LEFT_HALF:
-      return ".*";
+      return "[ABCDE]..";
     case RIGHT_HALF:
-      return ".*";
+      return "[FGHIJ]..";
     case LEFT_THIRD:
-      return ".*";
+      return "[ABC]..";
     case MIDDLE_THIRD:
-      return ".*";
+      return "[DEFG]..";
     case RIGHT_THIRD:
-      return ".*";
+      return "[HIJ]..";
   }
 }
 
