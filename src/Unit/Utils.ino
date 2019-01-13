@@ -14,7 +14,7 @@ void log(String message) {
   // }
 }
 
-void setBaseSpeed(int new_base_speed) { base_speed = new_base_speed; }
+void setTimerBaseSpeed(int new_base_speed) { base_speed = new_base_speed; }
 
 bool timerLapsed() {
   bool result = millis() - timer > timer_delay;

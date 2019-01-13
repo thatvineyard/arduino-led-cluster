@@ -61,26 +61,25 @@ void tick() {
   }
 }
 
-void init(String new_on_duration, String new_fade_in_duration,
-          String new_off_duration,
-          String new_fade_out_duration) {  // TODO: Handle parameters as 0-255
-  if (new_on_duration != "") {
-    on_duration = new_on_duration.toInt();
+void init(int new_on_duration, int new_fade_in_duration, int new_off_duration,
+          int new_fade_out_duration) {  // TODO: Handle parameters as 0-255
+  if (new_on_duration != -1) {
+    on_duration = new_on_duration;
   } else {
     on_duration = 1000;
   }
-  if (new_fade_in_duration != "") {
-    fade_in_duration = new_fade_in_duration.toInt();
+  if (new_fade_in_duration != -1) {
+    fade_in_duration = new_fade_in_duration;
   } else {
     fade_in_duration = 500;
   }
-  if (new_off_duration != "") {
-    off_duration = new_off_duration.toInt();
+  if (new_off_duration != -1) {
+    off_duration = new_off_duration;
   } else {
     off_duration = on_duration;
   }
-  if (new_fade_out_duration != "") {
-    fade_out_duration = new_fade_out_duration.toInt();
+  if (new_fade_out_duration != -1) {
+    fade_out_duration = new_fade_out_duration;
   } else {
     fade_out_duration = fade_in_duration;
   }

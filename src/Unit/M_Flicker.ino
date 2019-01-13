@@ -12,17 +12,17 @@ int changeColor(int delta) {
   procent = constrain(procent + delta, minimum, 100);
 }
 
-void init(String delay,
-          String minimum_procent) {  // TODO: Handle parameters as 0-255
-  if (delay == "") {
+void init(int delay,
+          int minimum_procent) {  // TODO: Handle parameters as 0-255
+  if (delay == -1) {
     setTimerDelay(30);
   } else {
-    setTimerDelay(delay.toInt());
+    setTimerDelay(delay);
   }
-  if (minimum_procent == "") {
+  if (minimum_procent == -1) {
     minimum = 80;
   } else {
-    minimum = constrain(minimum_procent.toInt(), 0, 100);
+    minimum = constrain(minimum_procent, 0, 100);
   }
 
   color::setAuxBrightnessProcent(procent);

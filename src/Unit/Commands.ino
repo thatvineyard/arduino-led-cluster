@@ -3,7 +3,7 @@
 
 Command current_macro = NULL_COMMAND;
 Command current_setting = NULL_COMMAND;
-String current_parameters[MAX_PARAMETERS];
+int current_parameters[MAX_PARAMETERS];
 
 bool isSetting(Command command_to_check) {
   return ((command_to_check == S_BASEBRIGHTNESS) ||
@@ -55,41 +55,46 @@ void setSetting(Command new_setting) {
 
 void setParameters(String new_parameters[]) {
   for (int i = 0; i < MAX_PARAMETERS; i++) {
-    current_parameters[i] = new_parameters[i];
+    if (new_parameters[i] != "") {
+      current_parameters[i] =
+          constrain(new_parameters[i].toInt(), 0, MAX_VALUE);
+    } else {
+      current_parameters[i] = -1;
+    }
   }
 }
 
-void setBaseBrightness(String new_base_brightness_string) {
-  if (new_base_brightness_string == "") {
+void setBaseBrightness(int new_base_brightness_string) {
+  if (new_base_brightness_string == -1) {
     color::setBaseBrightness(255);
   } else {
-    color::setBaseBrightness(new_base_brightness_string.toInt());
+    color::setBaseBrightness(new_base_brightness_string);
   }
 }
 
-void setBaseColor(String new_red_string, String new_green_string,
-                  String new_blue_string) {
+void setBaseColor(int new_red_string, int new_green_string,
+                  int new_blue_string) {
   int new_red = 255;
   int new_green = 255;
   int new_blue = 255;
 
-  if (new_red_string != "") {
-    new_red = new_red_string.toInt();
+  if (new_red_string != -1) {
+    new_red = new_red_string;
   }
-  if (new_green_string != "") {
-    new_green = new_green_string.toInt();
+  if (new_green_string != -1) {
+    new_green = new_green_string;
   }
-  if (new_blue_string != "") {
-    new_blue = new_blue_string.toInt();
+  if (new_blue_string != -1) {
+    new_blue = new_blue_string;
   }
   color::setBaseColor(new_red, new_green, new_blue);
 }
 
-void setBaseSpeed(String new_base_speed_string) {
-  if (new_base_speed_string == "") {
-    setBaseSpeed(100);
+void setBaseSpeed(int new_base_speed_string) {
+  if (new_base_speed_string == -1) {
+    setTimerBaseSpeed(100);
   } else {
-    setBaseSpeed(new_base_speed_string.toInt());
+    setTimerBaseSpeed(new_base_speed_string);
   }
 }
 
@@ -116,6 +121,9 @@ void initMacro() {
   log("Initializing macro: " + commandToString(current_macro) + ".");
   switch (current_macro) {
     case M_PULSE:
+      for (int i = 0; i < 4; i++) {
+        log("parameter " + String(i) + ": " + String(current_parameters[i]));
+      }
       m_pulse::init(current_parameters[0], current_parameters[1],
                     current_parameters[2], current_parameters[3]);
       break;

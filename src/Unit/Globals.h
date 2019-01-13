@@ -44,6 +44,7 @@ long timer_delay;
 // BASE_BRIGHTNESS_CONSTRAINS - if true the base brightness set will be the
 // maximum allowed brightness
 #define BASE_BRIGHTNESS_CONSTRAINS true
+#define MAX_VALUE 255
 #define MAX_BRIGHTNESS 255
 #define MAX_RED 255
 #define MAX_GREEN 255

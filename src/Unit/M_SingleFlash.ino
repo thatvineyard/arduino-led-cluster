@@ -17,8 +17,13 @@ int calculateFade() {
 void tick() {
   if (step == 1) {
     if (timerLapsed()) {
-      fade_start = millis();
-      step = 2;
+      if (fade_duration > 0) {
+        fade_start = millis();
+        step = 2;
+      } else {
+        color::setAuxBrightnessProcent(0);
+        step = 3;
+      }
     }
   } else if (step == 2) {
     int fade = calculateFade();
@@ -29,22 +34,23 @@ void tick() {
   }
 }
 
-void init(String flash_duration,
-          String new_fade_duration) {  // TODO: Handle parameters as 0-255
-  if (flash_duration == "") {
+void init(int flash_duration,
+          int new_fade_duration) {  // TODO: Handle parameters as 0-255
+  if (flash_duration == -1) {
     setTimerDelay(100);
   } else {
-    setTimerDelay(flash_duration.toInt());
+    setTimerDelay(flash_duration);
   }
-  if (new_fade_duration == "") {
+  if (new_fade_duration == -1) {
     fade_duration = 1000;
   } else {
-    fade_duration = new_fade_duration.toInt();
+    fade_duration = new_fade_duration;
   }
 
   color::setAuxColorToBase();
   color::setAuxBrightnessToBase();
 
+  restartTimer();
   step = 1;
 }
 
