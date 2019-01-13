@@ -9,9 +9,15 @@ String createId(char column, int row) {
 }
 
 void log(String message) {
-  // if (DEBUG_MODE) {
-  Serial.println(message);
-  // }
+  if (DEBUG_MODE) {
+    Serial.println(message);
+  }
+}
+
+void log(char* message) {
+  if (DEBUG_MODE) {
+    Serial.println(message);
+  }
 }
 
 void setTimerBaseSpeed(int new_base_speed) { base_speed = new_base_speed; }
@@ -22,15 +28,59 @@ bool timerLapsed() {
 }
 
 void setTimerDelay(long delay) {
-  log("Timer set: " + String(delay) + "(+" + base_speed + "%)");
+  // log("Timer set: " + String(delay) + "(+" + base_speed + "%)");
 
   timer_delay = (int)((long)delay * (long)base_speed / 100);
 }
 
 void restartTimer() { timer = millis(); }
 
-unsigned long hash(unsigned char *str) {
-  unsigned long hash = 5381;
+String andSelector(String selector_one, String selector_two) {
+  if (selector_one == "") {
+    return selector_two;
+  }
+  if (selector_two == "") {
+    return selector_one;
+  }
+  return selector_one + DELIM_SELECTOR_AND + selector_two;
+}
+
+String orSelector(String selector_one, String selector_two) {
+  if (selector_one == "") {
+    return selector_two;
+  }
+  if (selector_two == "") {
+    return selector_one;
+  }
+  return selector_one + DELIM_SELECTOR_OR + selector_two;
+}
+
+void andSelector(char* selector_one, char* selector_two) {
+  if (strcmp(selector_one, "") == 0) {
+    strcpy(selector_one, selector_two);
+  } else {
+    if (strcmp(selector_two, "") == 0) {
+    } else {
+      sprintf(selector_one + strlen(selector_one), "%c%s", DELIM_SELECTOR_AND,
+              selector_two);
+    }
+  }
+}
+
+void orSelector(char* selector_one, char* selector_two) {
+  if (strcmp(selector_one, "") == 0) {
+    strcpy(selector_one, selector_two);
+  } else {
+    if (strcmp(selector_two, "") == 0) {
+    } else {
+      sprintf(selector_one + strlen(selector_one), "%c%s", DELIM_SELECTOR_OR,
+              selector_two);
+    }
+  }
+}
+
+long hash(char* str) {
+  long hash = 5381;
   int c;
 
   while (c = *str++) hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
@@ -51,12 +101,23 @@ int mapScale(Scale scale, int result_minimum, int result_maximum,
     return result_minimum +
            ((long)input * (long)result_difference / input_difference);
   }
+  if (scale == LINEAR_INVERSE) {
+    return result_minimum +
+           (result_difference -
+            ((long)input * (long)result_difference / input_difference));
+  }
   // if (scale == EXPONENTIAL) {
   // }
   if (scale == QUADRATIC) {
     return result_minimum + (long)input * (long)input /
                                 (((long)input_difference) *
                                  ((long)input_difference) / result_difference);
+  }
+  if (scale == QUADRATIC_INVERSE) {
+    return result_minimum + (result_difference - (long)input * (long)input /
+                                                     (((long)input_difference) *
+                                                      ((long)input_difference) /
+                                                      result_difference));
   }
 }
 

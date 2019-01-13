@@ -28,9 +28,11 @@ enum Command {
 
 enum Scale {
   LINEAR,
+  LINEAR_INVERSE,
   // LOGARITHMIC,
   // EXPONENTIAL,
-  QUADRATIC
+  QUADRATIC,
+  QUADRATIC_INVERSE
 };
 
 /**

@@ -15,7 +15,7 @@ enum View { MACRO = 0, ANIMATION = 1, FILTER = 2, ANIMATION_SPEED = 3 };
 byte view_scroll = 0;
 byte macro_selector = 0;
 byte parameter_selector = 0;
-byte animation_selector = 2;
+byte animation_selector = 0;
 byte filter_selector = 0;
 
 void initView();

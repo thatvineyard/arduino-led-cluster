@@ -3,7 +3,7 @@
 
 namespace animation {
 
-#define MIN_ANIMATION_DELAY 20
+#define MIN_ANIMATION_DELAY 50
 #define MAX_ANIMATION_DELAY 5000
 #define MIDDLE_SHIFT ((NUM_COLUMNS + 1) % 2)
 #define START_CHARACTER 'A'
@@ -110,11 +110,11 @@ void a_vertical_sweep(char* regex_buffer, bool front_to_back) {
 }
 
 void a_mirrored(char* regex_buffer, bool inward) {
-  strcpy(regex_buffer, "");
-
   if (step >= NUM_COLUMNS / 2) {
     lastStepReached();
   }
+
+  strcpy(regex_buffer, "");
 
   if (inward) {
     column_character = START_CHARACTER + step;
@@ -122,7 +122,7 @@ void a_mirrored(char* regex_buffer, bool inward) {
     column_character = START_CHARACTER + ((NUM_COLUMNS / 2) - step - 1);
   }
 
-  sprintf(column_regex, "%d", column_character);
+  sprintf(column_regex, "%c", column_character);
   strcpy(row_regex, "..");
   strcpy(iteration_regex, column_regex);
   strcat(iteration_regex, row_regex);
@@ -140,11 +140,11 @@ void a_mirrored(char* regex_buffer, bool inward) {
 }
 
 void a_chevron(char* regex_buffer, bool front_to_back) {
-  strcpy(regex_buffer, "");
-
-  if (step > NUM_ROWS) {
+  if (step > NUM_ROWS + (NUM_COLUMNS / 2) + MIDDLE_SHIFT) {
     lastStepReached();
   }
+
+  strcpy(regex_buffer, "");
 
   char column_character_left;
   char column_character_right;
@@ -260,9 +260,8 @@ void startAnimation(Animation new_animation, bool new_looping) {
 }
 
 void setAnimationSpeed(int value) {
-  animation_delay = MIN_ANIMATION_DELAY +
-                    (((long)(MAX_ANIMATION_DELAY - MIN_ANIMATION_DELAY)) *
-                     constrain(value, 0, 255) / 255);
+  animation_delay = mapScale(LINEAR_INVERSE, MIN_ANIMATION_DELAY,
+                             MAX_ANIMATION_DELAY, 0, 255, value);
   setTimerDelay(animation_delay);
 }
 

@@ -3,7 +3,7 @@
 namespace composer {
 
 char regex_string[MAX_MESSAGE_REGEX_LENTGH];
-char parameter_string[MAX_PARAMETERS * 4];
+char parameter_string[MAX_PARAMETERS * 4 + 5];
 
 // DIMMER
 byte dimmer_value = 255;
@@ -21,7 +21,7 @@ bool macro_speed_changed;
 
 // MACRO
 Command current_macro = NULL_COMMAND;
-bool macro_changed = false;
+bool macro_changed = true;
 byte current_number_of_parameters = 0;
 
 byte parameters[MAX_PARAMETERS];
@@ -29,14 +29,14 @@ bool parameters_changed = false;
 
 // ANIMATION
 animation::Animation current_animation = animation::NULL_ANIMATION;
-bool animation_changed = false;
-byte animation_speed_value = 250;
-bool animation_speed_changed = false;
+bool animation_changed = true;
+byte animation_speed_value = 200;
+bool animation_speed_changed = true;
 long previous_animation_regex_hash = 0;
 
 // FILTER
 filter::Filter current_filter = filter::NULL_FILTER;
-bool filter_changed = false;
+bool filter_changed = true;
 
 // FREEZE
 bool freeze_animation = false;
