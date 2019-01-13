@@ -19,6 +19,7 @@ int calculateFade(int fade_duration) {
 }
 
 void tick() {
+  color::setAuxColorToBase();
   switch (step) {
     case 1:  // ON
       if (timerLapsed()) {
@@ -60,8 +61,7 @@ void tick() {
   }
 }
 
-void init(String new_on_duration,
-          String new_fade_in_duration,
+void init(String new_on_duration, String new_fade_in_duration,
           String new_off_duration,
           String new_fade_out_duration) {  // TODO: Handle parameters as 0-255
   if (new_on_duration != "") {

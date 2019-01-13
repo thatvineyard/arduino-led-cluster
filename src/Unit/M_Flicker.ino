@@ -55,6 +55,7 @@ void tick() {
       default:
         break;
     }
+    color::setAuxColorToBase();
     color::setAuxBrightnessProcent(procent);
   }
 }
