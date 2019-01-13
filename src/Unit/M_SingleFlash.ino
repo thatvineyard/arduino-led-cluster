@@ -34,8 +34,7 @@ void tick() {
   }
 }
 
-void init(int flash_duration,
-          int new_fade_duration) {  // TODO: Handle parameters as 0-255
+void init(int flash_duration, int new_fade_duration) {
   if (flash_duration == -1) {
     setTimerDelay(100);
   } else {

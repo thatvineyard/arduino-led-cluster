@@ -156,6 +156,9 @@ void tick();
  * candle. Since this macro does not set any colors, the base color should be
  * set to something like (255, 50, 0) for the best candle effect.
  */
+#define M_FLICKER_MIN_DELAY 20
+#define M_FLICKER_MAX_DELAY 100
+#define M_FLICKER_SCALE_TYPE LINEAR
 namespace m_flicker {
 int num_params = 2;
 void init(int flicker_delay, int minimum_procent);

@@ -12,17 +12,17 @@ int changeColor(int delta) {
   procent = constrain(procent + delta, minimum, 100);
 }
 
-void init(int delay,
-          int minimum_procent) {  // TODO: Handle parameters as 0-255
+void init(int delay, int minimum_procent) {
   if (delay == -1) {
     setTimerDelay(30);
   } else {
-    setTimerDelay(delay);
+    setTimerDelay(mapScale(M_FLICKER_SCALE_TYPE, M_FLICKER_MIN_DELAY,
+                           M_FLICKER_MAX_DELAY, 0, 255, delay));
   }
   if (minimum_procent == -1) {
     minimum = 80;
   } else {
-    minimum = constrain(minimum_procent, 0, 100);
+    minimum = mapScale(M_FLICKER_SCALE_TYPE, 0, 100, 0, 255, minimum_procent);
   }
 
   color::setAuxBrightnessProcent(procent);
