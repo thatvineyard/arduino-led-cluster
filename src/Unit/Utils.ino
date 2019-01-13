@@ -51,6 +51,13 @@ int mapScale(Scale scale, int result_minimum, int result_maximum,
     return result_minimum +
            ((long)input * (long)result_difference / input_difference);
   }
+  // if (scale == EXPONENTIAL) {
+  // }
+  if (scale == QUADRATIC) {
+    return result_minimum + (long)input * (long)input /
+                                (((long)input_difference) *
+                                 ((long)input_difference) / result_difference);
+  }
 }
 
 int mapScale(Scale scale, int result_maximum, int input_maximum, int input) {

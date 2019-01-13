@@ -27,9 +27,10 @@ enum Command {
 };
 
 enum Scale {
-  LINEAR
+  LINEAR,
   // LOGARITHMIC,
-  // EXPONENTIAL
+  // EXPONENTIAL,
+  QUADRATIC
 };
 
 /**
@@ -144,7 +145,7 @@ String commandToString(Command command_to_convert) {
  */
 #define M_PULSE_MIN_DURATION 0
 #define M_PULSE_MAX_DURATION 10000
-#define M_PULSE_SCALE_TYPE LINEAR
+#define M_PULSE_SCALE_TYPE QUADRATIC
 namespace m_pulse {
 int num_params = 4;
 void init(int on_duration, int fade_in_duration, int off_duration,
