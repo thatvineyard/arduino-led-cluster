@@ -46,6 +46,8 @@ bool nextFrameReady();
 
 void getNextFrame(char* regex_buffer);
 
+void getPreviousFrame(char* regex_buffer);
+
 void startAnimation(Animation new_animation, bool looping);
 }  // namespace animation
 

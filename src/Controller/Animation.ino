@@ -246,6 +246,8 @@ void getNextFrame(char* regex_buffer) {
   restartTimer();
 }
 
+void getPreviousFrame(char* regex_buffer) { animationToSelector(regex_buffer); }
+
 void startAnimation(Animation new_animation, bool new_looping) {
   current_animation = new_animation;
   looping = new_looping;

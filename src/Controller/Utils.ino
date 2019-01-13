@@ -79,6 +79,30 @@ void orSelector(char* selector_one, char* selector_two) {
   }
 }
 
+void andSelectorCharBuffer(char* selector_one, char* selector_two) {
+  if (strcmp(selector_one, "") == 0) {
+    strcpy(selector_one, selector_two);
+  } else {
+    if (strcmp(selector_two, "") == 0) {
+    } else {
+      sprintf(selector_one + strlen(selector_one), "%c%s", DELIM_SELECTOR_AND,
+              selector_two);
+    }
+  }
+}
+
+void orSelectorCharBuffer(char* selector_one, char* selector_two) {
+  if (strcmp(selector_one, "") == 0) {
+    strcpy(selector_one, selector_two);
+  } else {
+    if (strcmp(selector_two, "") == 0) {
+    } else {
+      sprintf(selector_one + strlen(selector_one), "%c%s", DELIM_SELECTOR_OR,
+              selector_two);
+    }
+  }
+}
+
 long hash(char* str) {
   long hash = 5381;
   int c;

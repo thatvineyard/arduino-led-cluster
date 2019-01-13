@@ -174,17 +174,21 @@ void sendNextFrame() {
   bool send = false;
   if (animation::nextFrameReady() || macro_changed || parameters_changed ||
       filter_changed) {
+    strcpy(regex_string, "");
+    strcpy(parameter_string, "");
     if (animation::nextFrameReady()) {
       animation::getNextFrame(regex_string);
       lcd::requestUpdate();
+    } else {
+      animation::getPreviousFrame(regex_string);
     }
     macro_changed = false;
     parameters_changed = false;
     filter_changed = false;
 
-    andSelector(regex_string, filterToSelector(current_filter));
+    andSelectorCharBuffer(regex_string,
+                          filterToSelector(current_filter).c_str());
 
-    strcpy(parameter_string, "");
     for (int i = 0; i < current_number_of_parameters; i++) {
       sprintf(parameter_string + strlen(parameter_string), "%d", parameters[i]);
       if (i + 1 != current_number_of_parameters) {
