@@ -20,7 +20,7 @@ void log(char* message) {
   }
 }
 
-void setBaseSpeed(int new_base_speed) { base_speed = new_base_speed; }
+void setTimerBaseSpeed(int new_base_speed) { base_speed = new_base_speed; }
 
 bool timerLapsed() {
   bool result = millis() - timer > timer_delay;
@@ -86,4 +86,30 @@ long hash(char* str) {
   while (c = *str++) hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 
   return hash;
+}
+
+int mapScale(Scale scale, int result_minimum, int result_maximum,
+             int input_minimum, int input_maximum, int input) {
+  if (result_minimum >= result_maximum || input_minimum >= input_maximum) {
+    return result_maximum;
+  }
+
+  int result_difference = result_maximum - result_minimum;
+  int input_difference = input_maximum - input_minimum;
+
+  if (scale == LINEAR) {
+    return result_minimum +
+           ((long)input * (long)result_difference / input_difference);
+  }
+  // if (scale == EXPONENTIAL) {
+  // }
+  if (scale == QUADRATIC) {
+    return result_minimum + (long)input * (long)input /
+                                (((long)input_difference) *
+                                 ((long)input_difference) / result_difference);
+  }
+}
+
+int mapScale(Scale scale, int result_maximum, int input_maximum, int input) {
+  return mapScale(scale, 0, result_maximum, 0, input_maximum, input);
 }

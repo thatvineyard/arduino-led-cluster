@@ -1,5 +1,6 @@
 #ifndef COMMANDS_H_DEFINED
 #define COMMANDS_H_DEFINED
+
 #include "Globals.h"
 
 /**
@@ -24,6 +25,49 @@ enum Command {
   M_FLICKER = 3,
   M_SINGLEFLASH = 4
 };
+
+enum Scale {
+  LINEAR,
+  LINEAR_INVERSE,
+  // LOGARITHMIC,
+  // EXPONENTIAL,
+  QUADRATIC,
+  QUADRATIC_INVERSE
+};
+
+/**
+ *
+ */
+void handleNewCommand(Command new_command);
+
+/**
+ * Sets a new macro. This will flag that a new macro is ready to be initialized.
+ */
+void setMacro(Command new_command);
+
+/**
+ * Sets a new setting. This will flag that a new setting is ready to be applied.
+ */
+void setSetting();
+
+/**
+ * Looks at the current macro and performs that macro's init-function.
+ * Should only be called when a new function has been set.
+ */
+void initMacro();
+
+/**
+ * Looks at the current macro and performs that macro's tick-function. These
+ * tick functions are parameter-less and therefore don't have to worry about
+ * keeping track of the global list of parameters.
+ */
+void tickMacro();
+
+/**
+ * looks at the current setting and applies that setting.
+ * Should only be called when a new setting has been set.
+ */
+void applySetting();
 
 Command stringToCommand(String string_to_convert) {
   string_to_convert.toUpperCase();
@@ -101,6 +145,9 @@ String commandToString(Command command_to_convert) {
  * will default to 1000ms. If fade_in_duration is omitted it will default to
  * 500ms.
  */
+#define M_PULSE_MIN_DURATION 0
+#define M_PULSE_MAX_DURATION 10000
+#define M_PULSE_SCALE_TYPE QUADRATIC
 namespace m_pulse {
 int num_params = 4;
 void init(int on_duration, int fade_in_duration, int off_duration,
@@ -115,6 +162,9 @@ void tick();
  * candle. Since this macro does not set any colors, the base color should be
  * set to something like (255, 50, 0) for the best candle effect.
  */
+#define M_FLICKER_MIN_DELAY 20
+#define M_FLICKER_MAX_DELAY 100
+#define M_FLICKER_SCALE_TYPE LINEAR
 namespace m_flicker {
 int num_params = 2;
 void init(int flicker_delay, int minimum_procent);
@@ -138,26 +188,26 @@ void tick();
  * Turns on the LED instantly, waits the given flash_duration, then fades to 0
  * brightness during fade_duration.
  */
+#define M_SINGLEFLASH_MIN_DURATION 0
+#define M_SINGLEFLASH_MAX_DURATION 10000
+#define M_SINGLEFLASH_SCALE_TYPE LINEAR
 namespace m_singleflash {
 int num_params = 2;
-void init(int flash_duration, int fade_duration);
+void init(int flash_duration,
+          int fade_duration);  // TODO: debug with 0-length fade
 void tick();
 }  // namespace m_singleflash
 
 int number_of_parameters(Command macro) {
   switch (macro) {
-    case M_FLICKER:
-      return m_flicker::num_params;
-      break;
-    case M_SOLID:
-      return m_solid::num_params;
-      break;
-    case M_PULSE:
-      return m_pulse::num_params;
-      break;
-    case M_SINGLEFLASH:
-      return m_singleflash::num_params;
-      break;
+  M_FLICKER:
+    return m_flicker::num_params;
+  M_SOLID:
+    return m_solid::num_params;
+  M_PULSE:
+    return m_pulse::num_params;
+  M_SINGLEFLASH:
+    return m_singleflash::num_params;
     default:
       return 0;
       break;
