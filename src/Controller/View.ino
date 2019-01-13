@@ -94,15 +94,15 @@ void changeSelectedControl(int delta) {
 String viewToString(View view_to_convert) {
   switch (view_to_convert) {
     case MACRO:
-      return "MACRO";
+      return F("MACRO");
     case ANIMATION:
-      return "ANIMATION";
+      return F("ANIMATION");
     case FILTER:
-      return "FILTER";
+      return F("FILTER");
     case ANIMATION_SPEED:
-      return "ANIMATION_SPEED";
+      return F("ANIMATION_SPEED");
     default:
-      return "NULL_VIEW";
+      return F("NULL_VIEW");
   }
 }
 

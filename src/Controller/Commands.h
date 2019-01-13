@@ -72,31 +72,31 @@ void applySetting();
 
 Command stringToCommand(String string_to_convert) {
   string_to_convert.toUpperCase();
-  if (string_to_convert == "NULL_COMMAND") {
+  if (string_to_convert == F("NULL_COMMAND")) {
     return NULL_COMMAND;
   }
-  if (string_to_convert == "STOP") {
+  if (string_to_convert == F("STOP")) {
     return STOP;
   }
-  if (string_to_convert == "S_BASECOLOR") {
+  if (string_to_convert == F("S_BASECOLOR")) {
     return S_BASECOLOR;
   }
-  if (string_to_convert == "S_BASEBRIGHTNESS") {
+  if (string_to_convert == F("S_BASEBRIGHTNESS")) {
     return S_BASEBRIGHTNESS;
   }
-  if (string_to_convert == "S_BASESPEED") {
+  if (string_to_convert == F("S_BASESPEED")) {
     return S_BASESPEED;
   }
-  if (string_to_convert == "M_PULSE") {
+  if (string_to_convert == F("M_PULSE")) {
     return M_PULSE;
   }
-  if (string_to_convert == "M_FLICKER") {
+  if (string_to_convert == F("M_FLICKER")) {
     return M_FLICKER;
   }
-  if (string_to_convert == "M_SINGLEFLASH") {
+  if (string_to_convert == F("M_SINGLEFLASH")) {
     return M_SINGLEFLASH;
   }
-  if (string_to_convert == "M_SOLID") {
+  if (string_to_convert == F("M_SOLID")) {
     return M_SOLID;
   }
 
@@ -105,34 +105,34 @@ Command stringToCommand(String string_to_convert) {
 
 String commandToString(Command command_to_convert) {
   if (command_to_convert == NULL_COMMAND) {
-    return "NULL_COMMAND";
+    return F("NULL_COMMAND");
   }
   if (command_to_convert == STOP) {
-    return "STOP";
+    return F("STOP");
   }
   if (command_to_convert == S_BASECOLOR) {
-    return "S_BASECOLOR";
+    return F("S_BASECOLOR");
   }
   if (command_to_convert == S_BASEBRIGHTNESS) {
-    return "S_BASEBRIGHTNESS";
+    return F("S_BASEBRIGHTNESS");
   }
   if (command_to_convert == S_BASESPEED) {
-    return "S_BASESPEED";
+    return F("S_BASESPEED");
   }
   if (command_to_convert == M_PULSE) {
-    return "M_PULSE";
+    return F("M_PULSE");
   }
   if (command_to_convert == M_FLICKER) {
-    return "M_FLICKER";
+    return F("M_FLICKER");
   }
   if (command_to_convert == M_SINGLEFLASH) {
-    return "M_SINGLEFLASH";
+    return F("M_SINGLEFLASH");
   }
   if (command_to_convert == M_SOLID) {
-    return "M_SOLID";
+    return F("M_SOLID");
   }
 
-  return "NULL_COMMAND";
+  return F("NULL_COMMAND");
 }
 
 // MACROES

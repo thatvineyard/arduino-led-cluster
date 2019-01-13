@@ -213,27 +213,27 @@ void animationToSelector(char* regex_buffer) {
 String animationToString(Animation animation_to_convert) {
   switch (animation_to_convert) {
     case NO_ANIMATION:
-      return "NO_ANIMATION";
+      return F("NO_ANIMATION");
     case RANDOM:
-      return "RANDOM";
+      return F("RANDOM");
     case LEFT_TO_RIGHT:
-      return "LEFT_TO_RIGHT";
+      return F("LEFT_TO_RIGHT");
     case RIGHT_TO_LEFT:
-      return "RIGHT_TO_LEFT";
+      return F("RIGHT_TO_LEFT");
     case BACK_TO_FRONT:
-      return "BACK_TO_FRONT";
+      return F("BACK_TO_FRONT");
     case FRONT_TO_BACK:
-      return "FRONT_TO_BACK";
+      return F("FRONT_TO_BACK");
     case OUTWARD:
-      return "OUTWARD";
+      return F("OUTWARD");
     case INWARD:
-      return "INWARD";
+      return F("INWARD");
     case CHEVRON_FTB:
-      return "CHEVRON_FTB";
+      return F("CHEVRON_FTB");
     case CHEVRON_BTF:
-      return "CHEVRON_BTF";
+      return F("CHEVRON_BTF");
     default:
-      return "NULL_ANIMATION";
+      return F("NULL_ANIMATION");
   }
 }
 
