@@ -26,6 +26,12 @@ enum Command {
   M_SINGLEFLASH = 4
 };
 
+enum Scale {
+  LINEAR
+  // LOGARITHMIC,
+  // EXPONENTIAL
+};
+
 /**
  *
  */
@@ -173,6 +179,9 @@ void tick();
  * Turns on the LED instantly, waits the given flash_duration, then fades to 0
  * brightness during fade_duration.
  */
+#define M_SINGLEFLASH_MIN_DURATION 0
+#define M_SINGLEFLASH_MAX_DURATION 10000
+#define M_SINGLEFLASH_SCALE_TYPE LINEAR
 namespace m_singleflash {
 int num_params = 2;
 void init(int flash_duration,

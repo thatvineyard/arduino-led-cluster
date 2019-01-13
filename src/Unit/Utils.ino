@@ -37,3 +37,22 @@ unsigned long hash(unsigned char *str) {
 
   return hash;
 }
+
+int mapScale(Scale scale, int result_minimum, int result_maximum,
+             int input_minimum, int input_maximum, int input) {
+  if (result_minimum >= result_maximum || input_minimum >= input_maximum) {
+    return result_maximum;
+  }
+
+  int result_difference = result_maximum - result_minimum;
+  int input_difference = input_maximum - input_minimum;
+
+  if (scale == LINEAR) {
+    return result_minimum +
+           ((long)input * (long)result_difference / input_difference);
+  }
+}
+
+int mapScale(Scale scale, int result_maximum, int input_maximum, int input) {
+  return mapScale(scale, 0, result_maximum, 0, input_maximum, input);
+}

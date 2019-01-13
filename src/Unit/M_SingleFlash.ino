@@ -39,12 +39,15 @@ void init(int flash_duration,
   if (flash_duration == -1) {
     setTimerDelay(100);
   } else {
-    setTimerDelay(flash_duration);
+    setTimerDelay(mapScale(M_SINGLEFLASH_SCALE_TYPE, M_SINGLEFLASH_MIN_DURATION,
+                           M_SINGLEFLASH_MAX_DURATION, 0, 255, flash_duration));
   }
   if (new_fade_duration == -1) {
     fade_duration = 1000;
   } else {
-    fade_duration = new_fade_duration;
+    fade_duration =
+        mapScale(M_SINGLEFLASH_SCALE_TYPE, M_SINGLEFLASH_MIN_DURATION,
+                 M_SINGLEFLASH_MAX_DURATION, 0, 255, new_fade_duration);
   }
 
   color::setAuxColorToBase();
