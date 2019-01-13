@@ -18,8 +18,6 @@ void setup() {
   led::initLed(LED_TYPE);
 
   log("source string: " + String(messaging::match_state.src));
-  int result = messaging::match_state.Match("A01", 0);
-  log("result =" + String(result));
 }
 
 void loop() {
@@ -43,6 +41,4 @@ void loop() {
   routine is run between each time loop() runs, so using delay inside loop can
   delay response. Multiple bytes of data may be available.
 */
-void serialEvent() {
-  messaging::readSerial();
-}
+void serialEvent() { messaging::readSerial(); }

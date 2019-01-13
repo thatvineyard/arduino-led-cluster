@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <Regexp.h>
 #include "Messaging.h"
 
 namespace messaging {
@@ -26,9 +25,7 @@ void resetMessaging() {
   input_parameter_index = 0;
 }
 
-void addToSelector(char inChar) {
-  input_selector += inChar;
-}
+void addToSelector(char inChar) { input_selector += inChar; }
 
 void addToParameters(char inChar) {
   if (inChar != ' ') {
@@ -46,9 +43,7 @@ void addToCommand(char inChar) {
 
 // MESSAGE PARSING
 
-void setRegexp() {
-  match_state.Target(UNIT_ID);
-}
+void setRegexp() { match_state.Target(UNIT_ID); }
 
 bool parseSelector() {
   String selector_rest = input_selector;
@@ -73,13 +68,9 @@ bool parseSelector() {
   return true;
 }
 
-void parseCommand() {
-  handleNewCommand(stringToCommand(input_command));
-}
+void parseCommand() { handleNewCommand(stringToCommand(input_command)); }
 
-void parseParameters() {
-  setParameters(input_parameters);
-}
+void parseParameters() { setParameters(input_parameters); }
 
 void parseMessage() {
   if (message_state == AWAITING_PARSING) {
