@@ -7,6 +7,7 @@ namespace animation {
 #define MAX_ANIMATION_DELAY 5000
 #define MIDDLE_SHIFT ((NUM_COLUMNS + 1) % 2)
 #define START_CHARACTER 'A'
+#define START_NUMBER 0
 
 Animation current_animation;
 int animation_delay = 1000;
@@ -29,11 +30,11 @@ void lastStepReached() {
 }
 
 void a_random(char* regex_buffer) {
-  strcpy(regex_buffer, "");
-
   if (step > 0) {
     lastStepReached();
   }
+
+  strcpy(regex_buffer, "");
 
   char column_character;
   bool first_column = true;
@@ -74,11 +75,11 @@ void a_random(char* regex_buffer) {
 }
 
 void a_horizontal_sweep(char* regex_buffer, bool left_to_right) {
-  strcpy(regex_buffer, "");
-
   if (step >= NUM_COLUMNS) {
     lastStepReached();
   }
+
+  strcpy(regex_buffer, "");
 
   if (left_to_right) {
     column_character = START_CHARACTER + step;
@@ -91,18 +92,17 @@ void a_horizontal_sweep(char* regex_buffer, bool left_to_right) {
 }
 
 void a_vertical_sweep(char* regex_buffer, bool front_to_back) {
-  strcpy(regex_buffer, "");
-
   if (step >= NUM_ROWS) {
     lastStepReached();
   }
 
-  strcat(column_regex, ".");
+  strcpy(regex_buffer, "");
+  strcpy(column_regex, ".");
 
   if (front_to_back) {
-    sprintf(row_regex, "%02d", NUM_ROWS - step);
+    sprintf(row_regex, "%02d", START_NUMBER + (NUM_ROWS - step - 1));
   } else {
-    sprintf(row_regex, "%02d", (step + 1));
+    sprintf(row_regex, "%02d", (START_NUMBER + step));
   }
 
   strcat(regex_buffer, column_regex);
@@ -157,9 +157,9 @@ void a_chevron(char* regex_buffer, bool front_to_back) {
             column_character_right);
 
     if (front_to_back) {
-      sprintf(row_regex, "%02d", NUM_ROWS - (step - i));
+      sprintf(row_regex, "%02d", START_NUMBER + (NUM_ROWS - (step - i)));
     } else {
-      sprintf(row_regex, "%02d", (step - i));
+      sprintf(row_regex, "%02d", START_NUMBER + (step - i));
     }
 
     if (i == 0) {

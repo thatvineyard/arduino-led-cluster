@@ -2,7 +2,7 @@
 
 namespace composer {
 
-char regex_string[MAX_REGEX_LENGTH];
+char regex_string[MAX_MESSAGE_REGEX_LENTGH];
 char parameter_string[MAX_PARAMETERS * 4];
 
 // DIMMER
@@ -80,9 +80,7 @@ void setMacroSpeed(int value) {
   }
 }
 
-void changeMacroSpeed(int delta) {
-  setMacroSpeed(macro_speed_value + delta);
-}
+void changeMacroSpeed(int delta) { setMacroSpeed(macro_speed_value + delta); }
 
 void setFilter(filter::Filter new_filter) {
   if (current_filter != new_filter) {
@@ -123,9 +121,7 @@ void setDimmer(int value) {
   }
 }
 
-void changeDimmer(int delta) {
-  setDimmer(dimmer_value + delta);
-}
+void changeDimmer(int delta) { setDimmer(dimmer_value + delta); }
 
 void setRed(int value) {
   value = constrain(value, 0, MAX_RED);
@@ -136,9 +132,7 @@ void setRed(int value) {
   }
 }
 
-void changeRed(int delta) {
-  setRed(red_value + delta);
-}
+void changeRed(int delta) { setRed(red_value + delta); }
 
 void setGreen(int value) {
   value = constrain(value, 0, MAX_GREEN);
@@ -148,9 +142,7 @@ void setGreen(int value) {
     log("composer: green set to " + String(green_value));
   }
 }
-void changeGreen(int delta) {
-  setGreen(green_value + delta);
-}
+void changeGreen(int delta) { setGreen(green_value + delta); }
 
 void setBlue(int value) {
   value = constrain(value, 0, MAX_BLUE);
@@ -161,9 +153,7 @@ void setBlue(int value) {
   }
 }
 
-void changeBlue(int delta) {
-  setBlue(blue_value + delta);
-}
+void changeBlue(int delta) { setBlue(blue_value + delta); }
 
 void setColor(int red_value, int green_value, int blue_value) {
   setRed(red_value);
@@ -244,20 +234,12 @@ void update() {
   }
 }
 
-void freezeAnimation() {
-  freeze_animation = true;
-}
+void freezeAnimation() { freeze_animation = true; }
 
-void unfreezeAnimation() {
-  freeze_animation = false;
-}
+void unfreezeAnimation() { freeze_animation = false; }
 
-void freezeSettings() {
-  freeze_settings = true;
-}
+void freezeSettings() { freeze_settings = true; }
 
-void unfreezeSetting() {
-  freeze_settings = false;
-}
+void unfreezeSetting() { freeze_settings = false; }
 
 }  // namespace composer
