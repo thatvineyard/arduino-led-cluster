@@ -201,17 +201,16 @@ void tick();
 
 int number_of_parameters(Command macro) {
   switch (macro) {
-  M_FLICKER:
-    return m_flicker::num_params;
-  M_SOLID:
-    return m_solid::num_params;
-  M_PULSE:
-    return m_pulse::num_params;
-  M_SINGLEFLASH:
-    return m_singleflash::num_params;
+    case M_FLICKER:
+      return m_flicker::num_params;
+    case M_SOLID:
+      return m_solid::num_params;
+    case M_PULSE:
+      return m_pulse::num_params;
+    case M_SINGLEFLASH:
+      return m_singleflash::num_params;
     default:
       return 0;
-      break;
   }
 }
 #endif

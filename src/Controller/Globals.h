@@ -14,7 +14,7 @@
 
 // DEVELOPER SETTINGS
 #define DEBUG_MODE true
-#define MAX_MESSAGE_REGEX_LENTGH 150
+#define MAX_MESSAGE_REGEX_LENTGH 200
 #define MAX_MESSAGE_COMMAND_LENGTH MAX_COMMAND_NAME_LENGTH
 #define MAX_MESSAGE_PARAMETER_LENGTH (4 * MAX_PARAMETERS + 1)
 #define MAX_MESSAGE_LENGTH                                 \
@@ -41,7 +41,7 @@ char temp_number_buffer[3];
 
 // COMMANDS
 #define MAX_COMMAND_NAME_LENGTH 15
-#define MAX_PARAMETERS 4
+#define MAX_PARAMETERS 5
 #define NUMBER_OF_MACROS 4
 // bool isNewMacro;
 // bool isNewSetting;
