@@ -3,6 +3,8 @@
 
 namespace sender {
 
+void initSender();
+
 void createMessage(char* message_buffer, char* selector_string,
                    String command_string, char* parameters);
 

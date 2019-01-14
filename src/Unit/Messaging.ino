@@ -204,7 +204,7 @@ void parseChar(char inChar) {
 // MESSAGE RECEIVING
 
 void readSerial() {
-  while (Serial.available()) {
+  while (Serial.available() && message_state != AWAITING_PARSING) {
     char inChar = (char)Serial.read();
     parseChar(inChar);
     Serial.write(inChar);

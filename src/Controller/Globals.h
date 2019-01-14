@@ -24,7 +24,7 @@ char temp_number_buffer[3];
 #define START_NUMBER 0
 
 // MESSAGING
-#define BAUD_RATE 9600
+#define BAUD_RATE 115200
 #define DELIM_MESSAGE_START '>'
 #define DELIM_SELECTOR_START '{'
 #define DELIM_SELECTOR_AND '&'
