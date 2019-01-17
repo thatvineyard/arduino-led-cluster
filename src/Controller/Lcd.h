@@ -8,6 +8,8 @@ void initLCD();
 void updateDisplay();
 
 void requestUpdate();
+void requestParameterUpdate();
+void requestAnimationUpdate();
 
 }  // namespace lcd
 

@@ -178,7 +178,7 @@ void sendNextFrame() {
     strcpy(parameter_string, "");
     if (animation::nextFrameReady()) {
       animation::getNextFrame(regex_string);
-      lcd::requestUpdate();
+      lcd::requestAnimationUpdate();
     } else {
       animation::getPreviousFrame(regex_string);
     }
