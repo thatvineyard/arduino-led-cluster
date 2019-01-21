@@ -11,11 +11,12 @@
 #include "View.h"
 
 void setup() {
-  // Open serial connection
-  Serial.begin(BAUD_RATE);
+  sender::initSender();
+  initLogging();
   while (!Serial) {
     ;
   }
+  initDmx();
   lcd::initLCD();
   initInput();
 
@@ -23,11 +24,11 @@ void setup() {
 }
 
 void loop() {
-  if (DMX_MODE) {
-    parseDmx();
-  } else {
-    parseInputs();
-  }
+  // if (DMX_MODE) {
+  parseDmx();
+  // } else {
+  parseInputs();
+  // }
   composer::update();
   lcd::updateDisplay();
 }

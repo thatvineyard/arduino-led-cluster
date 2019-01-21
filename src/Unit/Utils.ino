@@ -20,7 +20,9 @@ void log(char* message) {
   }
 }
 
-void setTimerBaseSpeed(int new_base_speed) { base_speed = new_base_speed; }
+void setTimerBaseSpeed(int new_base_speed) {
+  base_speed = constrain(new_base_speed, 0, 255);
+}
 
 bool timerLapsed() {
   bool result = millis() - timer > timer_delay;
@@ -28,9 +30,11 @@ bool timerLapsed() {
 }
 
 void setTimerDelay(long delay) {
-  // log("Timer set: " + String(delay) + "(+" + base_speed + "%)");
-
-  timer_delay = (int)((long)delay * (long)base_speed / 100);
+  if (base_speed == 0) {
+    timer_delay = delay;
+  } else {
+    timer_delay = mapScale(LOGARITHMIC_INVERSE, 0, delay, 0, 255, base_speed);
+  }
 }
 
 void restartTimer() { timer = millis(); }
@@ -93,6 +97,8 @@ int mapScale(Scale scale, int result_minimum, int result_maximum,
   if (result_minimum >= result_maximum || input_minimum >= input_maximum) {
     return result_maximum;
   }
+
+  input = constrain(input, input_minimum, input_maximum);
 
   int result_difference = result_maximum - result_minimum;
   int input_difference = input_maximum - input_minimum;

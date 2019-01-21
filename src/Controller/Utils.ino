@@ -8,15 +8,21 @@ String createId(char column, int row) {
   return id_string;
 }
 
+void initLogging() {
+  if (DEBUG_MODE) {
+    Serial1.begin(BAUD_RATE);
+  }
+}
+
 void log(String message) {
   if (DEBUG_MODE) {
-    Serial.println(message);
+    Serial1.println(message);
   }
 }
 
 void log(char* message) {
   if (DEBUG_MODE) {
-    Serial.println(message);
+    Serial1.println(message);
   }
 }
 

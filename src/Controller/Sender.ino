@@ -5,6 +5,11 @@ namespace sender {
 char message_buffer[MAX_MESSAGE_LENGTH];
 long previous_message_hash = 0;
 
+void initSender() {
+  // Open serial connection
+  Serial1.begin(BAUD_RATE);
+}
+
 void createMessage(char* message_buffer, char* selector, String command,
                    char* parameters) {
   strcpy(message_buffer, "");
@@ -30,7 +35,7 @@ bool sameAsPreviousMessage(char* new_message) {
 
 void sendMessage(char* message) {
   if (!sameAsPreviousMessage(message) && message != "") {
-    Serial.print(message);
+    Serial1.print(message);
     previous_message_hash = hash(message);
   }
 }
@@ -41,22 +46,21 @@ void sendMessage(char* selector, String command, char* parameters) {
 }
 
 void sendDimmer(int dimmer_value) {
-  String parameters = "(" + String(dimmer_value) + ")";
+  String parameters = String(dimmer_value);
   createMessage(message_buffer, ".*", "S_BASEBRIGHTNESS", parameters.c_str());
   sendMessage(message_buffer);
 }
 
 void sendColor(int red_value, int green_value, int blue_value) {
-  String parameters = "(";
-  parameters += String(red_value) + " ";
+  String parameters = String(red_value) + " ";
   parameters += String(green_value) + " ";
-  parameters += String(blue_value) + ")";
+  parameters += String(blue_value);
   createMessage(message_buffer, ".*", "S_BASECOLOR", parameters.c_str());
   sendMessage(message_buffer);
 }
 
 void sendMacroSpeed(int macro_speed_value) {
-  String parameters = "(" + String(macro_speed_value) + ")";
+  String parameters = String(macro_speed_value);
   createMessage(message_buffer, ".*", "S_BASESPEED", parameters.c_str());
   sendMessage(message_buffer);
 }

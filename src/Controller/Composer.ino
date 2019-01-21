@@ -116,7 +116,7 @@ void setDimmer(int value) {
   value = constrain(value, 0, MAX_BRIGHTNESS);
   if (dimmer_value != value) {
     dimmer_value = value;
-    color_changed = true;
+    dimmer_changed = true;
     log("composer: dimmer set to " + String(dimmer_value));
   }
 }
@@ -178,7 +178,7 @@ void sendNextFrame() {
     strcpy(parameter_string, "");
     if (animation::nextFrameReady()) {
       animation::getNextFrame(regex_string);
-      lcd::requestUpdate();
+      lcd::requestAnimationUpdate();
     } else {
       animation::getPreviousFrame(regex_string);
     }
@@ -223,7 +223,11 @@ void update() {
   if (animation_changed) {
     log("composer: starting animation " +
         animation::animationToString(current_animation));
-    animation::startAnimation(current_animation, true);
+    if (current_animation == animation::NO_ANIMATION) {
+      animation::startAnimation(current_animation, false);
+    } else {
+      animation::startAnimation(current_animation, true);
+    }
     animation_changed = false;
   }
   if (animation_speed_changed) {

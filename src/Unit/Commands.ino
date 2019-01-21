@@ -75,7 +75,7 @@ void setBaseColor(int new_red, int new_green, int new_blue) {
 
 void setBaseSpeed(int new_base_speed_string) {
   if (new_base_speed_string == -1) {
-    setTimerBaseSpeed(100);
+    setTimerBaseSpeed(0);
   } else {
     setTimerBaseSpeed(new_base_speed_string);
   }

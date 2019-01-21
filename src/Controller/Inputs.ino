@@ -137,7 +137,7 @@ void parameterScroll() {
 
 void parameterIncrement() {
   view::changeSelectedParameter(ENCODER_DELTA);
-  lcd::requestUpdate();
+  lcd::requestParameterUpdate();
 }
 
 void parameterDecrement() {
