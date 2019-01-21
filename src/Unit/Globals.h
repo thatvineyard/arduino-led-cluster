@@ -24,7 +24,7 @@ char temp_number_buffer[3];
 #define START_NUMBER 0
 
 // MESSAGING
-#define BAUD_RATE 9600
+#define BAUD_RATE 115200
 #define DELIM_MESSAGE_START '>'
 #define DELIM_SELECTOR_START '{'
 #define DELIM_SELECTOR_AND '&'
@@ -38,7 +38,7 @@ char temp_number_buffer[3];
 #define LED_RED_PIN 9
 #define LED_GREEN_PIN 10
 #define LED_BLUE_PIN 11
-#define LED_TYPE led::COMMON_ANODE
+#define LED_TYPE led::COMMON_CATHODE
 
 // COMMANDS
 #define MAX_COMMAND_NAME_LENGTH 15
