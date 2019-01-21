@@ -123,15 +123,21 @@ void updateDisplay() {
       print_parameter_row(2);
     }
     if (LCD_ROWS == 4) {
-      print_millis_row(0);
-      print_millis_row(1);
-      print_millis_row(2);
+      print_control_row(0);
+      print_macro_row(1);
+      print_animation_row(2);
       print_parameter_row(3);
     }
   }
 }
 
-void requestUpdate() { lcd_change = true; }
-void requestParameterUpdate() { lcd_change_parameter = true; }
-void requestAnimationUpdate() { lcd_change_animation = true; }
+void requestUpdate() {
+  lcd_change = true;
+}
+void requestParameterUpdate() {
+  lcd_change_parameter = true;
+}
+void requestAnimationUpdate() {
+  lcd_change_animation = true;
+}
 }  // namespace lcd
