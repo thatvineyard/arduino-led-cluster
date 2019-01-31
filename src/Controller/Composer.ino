@@ -33,6 +33,7 @@ bool animation_changed = true;
 byte animation_speed_value = 200;
 bool animation_speed_changed = true;
 long previous_animation_regex_hash = 0;
+bool animation_loop = false;
 
 // FILTER
 filter::Filter current_filter = filter::NULL_FILTER;
@@ -90,13 +91,25 @@ void setFilter(filter::Filter new_filter) {
   }
 }
 
-void setAnimation(animation::Animation new_animation) {
+void setAnimation(animation::Animation new_animation, bool new_animation_loop) {
   if (current_animation != new_animation) {
     current_animation = new_animation;
     animation_changed = true;
+    animation_loop = new_animation_loop;
     log("composer: animation set to " +
-        animation::animationToString(current_animation));
+        animation::animationToString(current_animation) +
+        " looping: " + String(animation_loop));
   }
+}
+
+void setAnimation(animation::Animation new_animation) {
+  setAnimation(new_animation, true);
+}
+
+void setAnimationForceUpdate(animation::Animation new_animation,
+                             bool new_animation_loop) {
+  current_animation = animation::NULL_ANIMATION;
+  setAnimation(new_animation, new_animation_loop);
 }
 
 void setAnimationSpeed(int value) {
@@ -222,11 +235,12 @@ void sendSettings() {
 void update() {
   if (animation_changed) {
     log("composer: starting animation " +
-        animation::animationToString(current_animation));
+        animation::animationToString(current_animation) +
+        " with looping:" + String(animation_loop));
     if (current_animation == animation::NO_ANIMATION) {
       animation::startAnimation(current_animation, false);
     } else {
-      animation::startAnimation(current_animation, true);
+      animation::startAnimation(current_animation, animation_loop);
     }
     animation_changed = false;
   }
@@ -234,11 +248,11 @@ void update() {
     animation::setAnimationSpeed(animation_speed_value);
     animation_speed_changed = false;
   }
-  if (!freeze_animation) {
-    sendNextFrame();
-  }
   if (!freeze_settings) {
     sendSettings();
+  }
+  if (!freeze_animation) {
+    sendNextFrame();
   }
 }
 

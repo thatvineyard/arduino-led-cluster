@@ -6,6 +6,8 @@
 
 // CONTROLLER
 #define DMX_MODE false
+#define HALVAN_MODE true
+#define REPEATER_MODE false
 
 // PROJECT
 #define NUM_COLUMNS 10

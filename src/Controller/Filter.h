@@ -17,7 +17,8 @@ enum Filter {
   RIGHT_HALF = 7,
   LEFT_THIRD = 8,
   MIDDLE_THIRD = 9,
-  RIGHT_THIRD = 10
+  RIGHT_THIRD = 10,
+  OAAT = 11
 };
 
 String filterToSelector(Filter filter);

@@ -3,6 +3,37 @@
 namespace filter {
 
 Filter current_filter;
+int modifier = 0;
+
+String getOAATRegex(int i) {
+  // switch (i) {
+  //   case 0:
+  //   default:
+  //     return F("");
+  //   case 1:
+  //     return F("[A]00");
+  //   case 2:
+  //     return F("[AB]01");
+  //   case 3:
+  //     return F("[ABC]01");
+  //   case 4:
+  //     return F("[ABCD]01");
+  //   case 5:
+  //     return F("[ABCDE]01");
+  //   case 6:
+  //     return F("[ABCDEF]01");
+  //   case 7:
+  //     return F("[ABCDEFG]01");
+  //   case 8:
+  //     return F("[ABCDEFG]01");
+  //   case 9:
+  //     return F("[ABCDEFGH]01");
+  // }
+
+  char nextChar = 'A' + i;
+
+  return "[" + String(nextChar) + "]" + "00";
+}
 
 String filterToSelector(Filter filter) {
   switch (filter) {
@@ -29,6 +60,8 @@ String filterToSelector(Filter filter) {
       return F("[DEFG]..");
     case RIGHT_THIRD:
       return F("[HIJ]..");
+    case OAAT:
+      return getOAATRegex(modifier);
   }
 }
 
@@ -56,8 +89,16 @@ String filterToString(Filter filter) {
       return F("MIDDLE_THIRD");
     case RIGHT_THIRD:
       return F("RIGHT_THIRD");
+    case OAAT:
+      return F("OAAT");
     default:
       return F("NULL_COMMAND");
   }
 }
+
+void setModifier(int newModifier) {
+  modifier = newModifier;
+  composer::filter_changed = true;
+}
+
 }  // namespace filter

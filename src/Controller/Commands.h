@@ -216,6 +216,10 @@ int number_of_parameters(Command macro) {
       return m_pulse::num_params;
     case M_SINGLEFLASH:
       return m_singleflash::num_params;
+    case S_BASECOLOR:
+      return 3;
+    case S_BASEBRIGHTNESS:
+      return 1;
     default:
       return 0;
   }

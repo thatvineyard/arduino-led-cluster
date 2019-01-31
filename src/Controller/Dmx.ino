@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <Conceptinetics.h>
+// #include <Conceptinetics.h>
 
 #define DMX_CHANNELS 9
 #define DMX_START_ADDRESS 1
@@ -128,15 +128,15 @@
 #define FILTER_ZONE_14 filter::NULL_FILTER
 
 // Configure a DMX slave controller
-DMX_Slave dmx_receiver(DMX_CHANNELS);
+// DMX_Slave dmx_receiver(DMX_CHANNELS);
 
 uint8_t old_state;
 uint8_t state[DMX_CHANNELS];
 bool state_change[DMX_CHANNELS];
 
 void initDmx() {
-  dmx_receiver.enable();
-  dmx_receiver.setStartAddress(DMX_START_ADDRESS);
+  // dmx_receiver.enable();
+  // dmx_receiver.setStartAddress(DMX_START_ADDRESS);
 
   for (int i = 0; i < DMX_CHANNELS; i++) {
     state[i] = 0;
@@ -147,7 +147,7 @@ void initDmx() {
 void parseDmx() {
   for (int i = 0; i < DMX_CHANNELS; i++) {
     old_state = state[i];
-    state[i] = dmx_receiver.getChannelValue(i + 1);
+    // state[i] = dmx_receiver.getChannelValue(i + 1);
     if (state[i] != old_state) {
       state_change[i] = true;
     }
