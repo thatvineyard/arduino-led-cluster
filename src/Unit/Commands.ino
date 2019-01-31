@@ -20,8 +20,10 @@ bool isMacro(Command command_to_check) {
 }
 
 bool isSpecial(Command command_to_check) {
-  return ((command_to_check == STOP));
+  return ((command_to_check == STOP) || (command_to_check == SLEEP));
 }
+
+void sleepCommand() { sleep(); }
 
 void stopCommand() {
   setMacro(NULL_COMMAND);
@@ -42,6 +44,8 @@ void handleNewCommand(Command new_command) {
     setSetting(new_command);
   } else if (new_command == STOP) {
     stopCommand();
+  } else if (new_command == SLEEP) {
+    sleepCommand();
   }
 }
 

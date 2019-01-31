@@ -211,4 +211,6 @@ void readSerial() {
   }
 }
 
+void flush() { Serial.flush(); }
+
 }  // namespace messaging

@@ -37,7 +37,8 @@ enum Animation {
   OUTWARD = 6,
   INWARD = 7,
   CHEVRON_FTB = 8,
-  CHEVRON_BTF = 9
+  CHEVRON_BTF = 9,
+  RANDOM_OAAT = 10
 };
 
 void setAnimationSpeed(int value);

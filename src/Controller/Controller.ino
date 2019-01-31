@@ -7,6 +7,7 @@
 #include "Filter.h"
 #include "Globals.h"
 #include "Lcd.h"
+#include "Repeater.h"
 #include "Sender.h"
 #include "View.h"
 
@@ -21,6 +22,8 @@ void setup() {
   initInput();
 
   view::initView();
+
+  repeater::init();
 }
 
 void loop() {
@@ -29,6 +32,13 @@ void loop() {
   // } else {
   parseInputs();
   // }
+
   composer::update();
   lcd::updateDisplay();
+}
+
+void serialEvent() {
+  if (REPEATER_MODE) {
+    repeater::readSerial();
+  }
 }

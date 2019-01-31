@@ -27,8 +27,16 @@ void lastStepReached() {
   }
 }
 
+void a_no_animation(char* regex_buffer) {
+  if (step >= 0) {
+    lastStepReached();
+  }
+
+  strcpy(regex_buffer, ".*");
+}
+
 void a_random(char* regex_buffer) {
-  if (step > 0) {
+  if (step >= 0) {
     lastStepReached();
   }
 
@@ -70,6 +78,22 @@ void a_random(char* regex_buffer) {
       orSelector(regex_buffer, iteration_regex);
     }
   }
+}
+
+void a_random_oaat(char* regex_buffer) {
+  if (step >= 0) {
+    lastStepReached();
+  }
+
+  strcpy(regex_buffer, "");
+
+  char column_character;
+  bool first_column = true;
+
+  randomSeed(millis());
+
+  column_character = random(NUM_COLUMNS) + 'A';
+  sprintf(regex_buffer, "%c%02d", column_character, random(NUM_ROWS));
 }
 
 void a_horizontal_sweep(char* regex_buffer, bool left_to_right) {
@@ -175,8 +199,7 @@ void animationToSelector(char* regex_buffer) {
   switch (current_animation) {
     case NO_ANIMATION:
     default:
-      strcpy(regex_buffer, ".*");
-      step = 0;
+      a_no_animation(regex_buffer);
       break;
     case RANDOM:
       a_random(regex_buffer);
@@ -205,6 +228,9 @@ void animationToSelector(char* regex_buffer) {
     case CHEVRON_BTF:
       a_chevron(regex_buffer, false);
       break;
+    case RANDOM_OAAT:
+      a_random_oaat(regex_buffer);
+      break;
   }
 }
 
@@ -230,18 +256,29 @@ String animationToString(Animation animation_to_convert) {
       return F("CHEVRON_FTB");
     case CHEVRON_BTF:
       return F("CHEVRON_BTF");
+    case RANDOM_OAAT:
+      return F("RANDOM_OAAT");
     default:
       return F("NULL_ANIMATION");
   }
 }
 
-bool nextFrameReady() { return (timerLapsed() || first); }
+bool nextFrameReady() {
+  if ((timerLapsed() || first) && !finished) {
+    log("next animation ready");
+    return true;
+  } else {
+    return false;
+  }
+}
 
 void getNextFrame(char* regex_buffer) {
-  animationToSelector(regex_buffer);
-  first = false;
-  step++;
-  restartTimer();
+  if (!finished) {
+    animationToSelector(regex_buffer);
+    first = false;
+    step++;
+    restartTimer();
+  }
 }
 
 void getPreviousFrame(char* regex_buffer) { animationToSelector(regex_buffer); }
@@ -256,7 +293,8 @@ void startAnimation(Animation new_animation, bool new_looping) {
   first = true;
 
   log("animation: Animation started: " + animationToString(current_animation) +
-      " (" + String(animation_delay) + "ms)" + ".");
+      " (" + String(animation_delay) + "ms, looping: " + String(looping) +
+      ").");
 }
 
 void setAnimationSpeed(int value) {
