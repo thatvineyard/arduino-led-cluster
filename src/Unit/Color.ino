@@ -157,7 +157,7 @@ void setAuxBrightnessValue(int new_aux_brightness_value) {
 
 void setAuxBrightnessProcent(int new_aux_brightness_procent) {
   brightness_aux_type = PROCENT;
-  aux_brightness_procent = new_aux_brightness_procent;
+  aux_brightness_procent = constrain(new_aux_brightness_procent, 0, 100);
   displayColor();
 }
 
@@ -186,9 +186,9 @@ void setAuxColorProcent(int new_aux_red_procent,
                         int new_aux_green_procent,
                         int new_aux_blue_procent) {
   color_aux_type = PROCENT;
-  aux_red_procent = new_aux_red_procent;
-  aux_green_value = new_aux_green_procent;
-  aux_blue_value = new_aux_blue_procent;
+  aux_red_procent = constrain(new_aux_red_procent, 0, 100);
+  aux_green_value = constrain(new_aux_green_procent, 0, 100);
+  aux_blue_value = constrain(new_aux_blue_procent, 0, 100);
   displayColor();
 }
 
