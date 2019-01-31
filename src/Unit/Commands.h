@@ -13,6 +13,7 @@
  */
 enum Command {
   // SPECIAL COMMANDS
+  SLEEP = -2,
   NULL_COMMAND = -1,
   STOP = 0,
   // SETTINGS
@@ -79,6 +80,9 @@ Command stringToCommand(String string_to_convert) {
   if (string_to_convert == F("STOP")) {
     return STOP;
   }
+  if (string_to_convert == F("SLEEP")) {
+    return SLEEP;
+  }
   if (string_to_convert == F("S_BASECOLOR")) {
     return S_BASECOLOR;
   }
@@ -113,6 +117,9 @@ String commandToString(Command command_to_convert) {
   }
   if (command_to_convert == STOP) {
     return F("STOP");
+  }
+  if (command_to_convert == SLEEP) {
+    return F("SLEEP");
   }
   if (command_to_convert == S_BASECOLOR) {
     return F("S_BASECOLOR");

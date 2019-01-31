@@ -42,6 +42,8 @@ void parseMessage();
  */
 void readSerial();
 
+void flush();
+
 }  // namespace messaging
 
 #endif
