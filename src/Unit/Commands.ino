@@ -15,7 +15,8 @@ bool isSetting(Command command_to_check) {
 bool isMacro(Command command_to_check) {
   return ((command_to_check == M_PULSE) || (command_to_check == M_SOLID) ||
           (command_to_check == M_SINGLEFLASH) ||
-          (command_to_check == M_SOLID) || (command_to_check == M_FLICKER));
+          (command_to_check == M_SOLID) || (command_to_check == M_COLORSHIFT) ||
+          (command_to_check == M_FLICKER));
 }
 
 bool isSpecial(Command command_to_check) {
@@ -81,9 +82,12 @@ void setBaseSpeed(int new_base_speed_string) {
   }
 }
 
-void setBaseColorGradient(int new_red_start, int new_green_start,
-                          int new_blue_start, int new_red_end,
-                          int new_green_end, int new_blue_end) {
+void setBaseColorGradient(int new_red_start,
+                          int new_green_start,
+                          int new_blue_start,
+                          int new_red_end,
+                          int new_green_end,
+                          int new_blue_end) {
   setBaseColor(
       (mapScale(LINEAR, new_red_start, new_red_end, 0, NUM_ROWS, getRow()) +
        mapScale(LINEAR, new_red_start, new_red_end, 0, NUM_COLUMNS,
@@ -100,50 +104,61 @@ void setBaseColorGradient(int new_red_start, int new_green_start,
 }
 
 void applySetting() {
-  log("Applying setting: " + commandToString(current_setting) + ".");
-  switch (current_setting) {
-    case S_BASEBRIGHTNESS:
-      setBaseBrightness(current_parameters[0]);
-      break;
-    case S_BASECOLOR:
-      setBaseColor(current_parameters[0], current_parameters[1],
-                   current_parameters[2]);
-      break;
-    case S_BASESPEED:
-      setBaseSpeed(current_parameters[0]);
-      break;
-    case S_BASECOLORGRADIENT:
-      setBaseColorGradient(current_parameters[0], current_parameters[1],
-                           current_parameters[2], current_parameters[3],
-                           current_parameters[4], current_parameters[5]);
-    case NULL_COMMAND:
-    default:
-      break;
+  if (is_new_setting) {
+    log("Applying setting: " + commandToString(current_setting) + ".");
+    switch (current_setting) {
+      case S_BASEBRIGHTNESS:
+        setBaseBrightness(current_parameters[0]);
+        break;
+      case S_BASECOLOR:
+        setBaseColor(current_parameters[0], current_parameters[1],
+                     current_parameters[2]);
+        break;
+      case S_BASESPEED:
+        setBaseSpeed(current_parameters[0]);
+        break;
+      case S_BASECOLORGRADIENT:
+        setBaseColorGradient(current_parameters[0], current_parameters[1],
+                             current_parameters[2], current_parameters[3],
+                             current_parameters[4], current_parameters[5]);
+        break;
+      case NULL_COMMAND:
+      default:
+        break;
+    }
+    is_new_setting = false;
   }
 }
 
 void initMacro() {
-  log("Initializing macro: " + commandToString(current_macro) + ".");
-  for (int i = 0; i < MAX_PARAMETERS; i++) {
-    // log("parameter " + String(i) + ": " + String(current_parameters[i]));
-  }
-  switch (current_macro) {
-    case M_PULSE:
-      m_pulse::init(current_parameters[0], current_parameters[1],
-                    current_parameters[2], current_parameters[3]);
-      break;
-    case M_FLICKER:
-      m_flicker::init(current_parameters[0], current_parameters[1]);
-      break;
-    case M_SOLID:
-      m_solid::init();
-      break;
-    case M_SINGLEFLASH:
-      m_singleflash::init(current_parameters[0], current_parameters[1]);
-      break;
-    case NULL_COMMAND:
-    default:
-      break;
+  if (is_new_macro) {
+    log("Initializing macro: " + commandToString(current_macro) + ".");
+    for (int i = 0; i < MAX_PARAMETERS; i++) {
+      // log("parameter " + String(i) + ": " + String(current_parameters[i]));
+    }
+    switch (current_macro) {
+      case M_PULSE:
+        m_pulse::init(current_parameters[0], current_parameters[1],
+                      current_parameters[2], current_parameters[3]);
+        break;
+      case M_FLICKER:
+        m_flicker::init(current_parameters[0], current_parameters[1]);
+        break;
+      case M_SOLID:
+        m_solid::init();
+        break;
+      case M_SINGLEFLASH:
+        m_singleflash::init(current_parameters[0], current_parameters[1]);
+        break;
+      case M_COLORSHIFT:
+        m_colorshift::init(current_parameters[0], current_parameters[1],
+                           current_parameters[2]);
+        break;
+      case NULL_COMMAND:
+      default:
+        break;
+    }
+    is_new_macro = false;
   }
 }
 
@@ -160,6 +175,9 @@ void tickMacro() {
       break;
     case M_SINGLEFLASH:
       m_singleflash::tick();
+      break;
+    case M_COLORSHIFT:
+      m_colorshift::tick();
       break;
     case NULL_COMMAND:
     default:

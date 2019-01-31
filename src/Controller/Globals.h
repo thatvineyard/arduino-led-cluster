@@ -2,14 +2,14 @@
 #define GLOBALS_H_INCLUDED
 
 // UNIT ID
-#define UNIT_ID "A01"
+#define UNIT_ID "A00"
 
 // CONTROLLER
 #define DMX_MODE false
 
 // PROJECT
-#define NUM_COLUMNS 10
-#define NUM_ROWS 20
+#define NUM_COLUMNS 7
+#define NUM_ROWS 19
 
 // DEVELOPER SETTINGS
 #define DEBUG_MODE true
@@ -44,8 +44,9 @@ char temp_number_buffer[3];
 #define MAX_COMMAND_NAME_LENGTH 15
 #define MAX_PARAMETERS 6
 #define NUMBER_OF_MACROS 4
-// bool is_new_macro;
-// bool is_new_setting;
+#define MAX_TIME_SHIFT_MS 5000
+bool is_new_macro;
+bool is_new_setting;
 long timer;
 long timer_delay;
 

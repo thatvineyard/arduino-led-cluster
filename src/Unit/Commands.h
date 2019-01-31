@@ -24,7 +24,8 @@ enum Command {
   M_SOLID = 1,
   M_PULSE = 2,
   M_FLICKER = 3,
-  M_SINGLEFLASH = 4
+  M_SINGLEFLASH = 4,
+  M_COLORSHIFT = 5
 };
 
 enum Scale {
@@ -103,6 +104,9 @@ Command stringToCommand(String string_to_convert) {
   if (string_to_convert == F("M_SOLID")) {
     return M_SOLID;
   }
+  if (string_to_convert == F("M_COLORSHIFT")) {
+    return M_COLORSHIFT;
+  }
 
   return NULL_COMMAND;
 }
@@ -138,6 +142,9 @@ String commandToString(Command command_to_convert) {
   if (command_to_convert == M_SOLID) {
     return F("M_SOLID");
   }
+  if (command_to_convert == M_COLORSHIFT) {
+    return F("M_COLORSHIFT");
+  }
 
   return F("NULL_COMMAND");
 }
@@ -158,7 +165,9 @@ String commandToString(Command command_to_convert) {
 #define M_PULSE_SCALE_TYPE QUADRATIC
 namespace m_pulse {
 int num_params = 4;
-void init(int on_duration, int fade_in_duration, int off_duration,
+void init(int on_duration,
+          int fade_in_duration,
+          int off_duration,
           int fade_out_duration);
 void tick();
 }  // namespace m_pulse
@@ -206,6 +215,20 @@ void init(int flash_duration,
 void tick();
 }  // namespace m_singleflash
 
+/**
+ * M_COLORSHIFT
+ *
+ *
+ */
+#define M_COLORSHIFT_MIN_DURATION 0
+#define M_COLORSHIFT_MAX_DURATION 10000
+#define M_COLORSHIFT_SCALE_TYPE LINEAR
+namespace m_colorshift {
+int num_params = 3;
+void init(int delay, int new_step_size, int new_minimum_value);
+void tick();
+}  // namespace m_colorshift
+
 int number_of_parameters(Command macro) {
   switch (macro) {
     case M_FLICKER:
@@ -215,6 +238,8 @@ int number_of_parameters(Command macro) {
     case M_PULSE:
       return m_pulse::num_params;
     case M_SINGLEFLASH:
+      return m_singleflash::num_params;
+    case M_COLORSHIFT:
       return m_singleflash::num_params;
     default:
       return 0;
