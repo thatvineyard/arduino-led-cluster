@@ -177,7 +177,7 @@ void setAuxColorValue(int new_aux_red_value,
                       int new_aux_blue_value) {
   color_aux_type = VALUE;
   aux_red_value = constrain(new_aux_red_value, 0, 255);
-  aux_green_value = constrain(new_aux_blue_value, 0, 255);
+  aux_green_value = constrain(new_aux_green_value, 0, 255);
   aux_blue_value = constrain(new_aux_blue_value, 0, 255);
   displayColor();
 }

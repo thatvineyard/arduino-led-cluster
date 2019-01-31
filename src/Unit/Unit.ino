@@ -27,9 +27,6 @@ void setup() {
   // Interrupt pin
   // pinMode(2, INPUT);
 
-  // Turn off RX/TX LEDs
-  TXLED0;
-  RXLED0;
 }
 
 void loop() {
